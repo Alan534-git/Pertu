@@ -1,0 +1,364 @@
+/* Este archivo usa las variables definidas en style.css */
+
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 30px;
+    background-color: var(--color-bg-container); /* Usa variable */
+    border-radius: 16px;
+    box-shadow: 0 10px 30px var(--color-shadow); /* Usa variable */
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+/* Encabezado */
+header {
+    display: flex; /* Para alinear el título y el botón de tema */
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid var(--color-border); /* Usa variable */
+    padding-bottom: 20px;
+}
+
+header h1 {
+    color: var(--color-accent-dark); /* Usa variable */
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+/* Acciones Superiores */
+.acciones-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.btn-accion {
+    background-color: #6c757d; /* Gris para acciones neutrales */
+    color: white;
+    padding: 10px 15px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.btn-accion:hover {
+    background-color: #5a6268;
+}
+
+.btn-vaciar {
+    background-color: #dc3545; /* Rojo para advertencia/vaciar */
+}
+
+.btn-vaciar:hover {
+    background-color: #c82333;
+}
+
+
+/* Lista de Ítems del Carrito */
+.carrito-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.carrito-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1; /* Permite que la lista crezca */
+}
+
+.carrito-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.carrito-item:last-child {
+    border-bottom: none;
+}
+
+.carrito-item-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-right: 15px;
+}
+
+.carrito-item-details {
+    flex-grow: 1;
+}
+
+.carrito-item-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 1.1em;
+    color: var(--color-text-primary);
+}
+
+.carrito-item-details p {
+    margin: 0;
+    font-size: 0.9em;
+    color: var(--color-text-secondary);
+    
+    /* --- CAMBIO: Añadido para alinear el ícono del refresco --- */
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.carrito-item-price {
+    font-weight: 700;
+    font-size: 1.2em;
+    color: var(--color-accent-main);
+    margin-right: 20px;
+}
+
+.btn-eliminar {
+    color: #dc3545;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em;
+    transition: color 0.2s;
+}
+
+.btn-eliminar:hover {
+    color: #c82333;
+}
+
+/* --- NUEVO: Estilo para el ícono del refresco en el carrito --- */
+.refresco-icon-carrito {
+    width: 20px;
+    height: 20px;
+    object-fit: cover;
+    border-radius: 4px;
+    vertical-align: middle;
+    border: 1px solid var(--color-border);
+}
+
+/* Resumen y Botón de Pago */
+.carrito-summary {
+    background-color: var(--color-card-bg);
+    border-top: 2px solid var(--color-accent-main);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px var(--color-shadow);
+}
+
+.carrito-summary h3 {
+    margin-top: 0;
+    color: var(--color-accent-dark);
+}
+
+.carrito-total {
+    font-size: 1.5em;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-top: 1px solid var(--color-border);
+    margin-top: 10px;
+}
+
+.carrito-total span {
+    color: var(--color-accent-main);
+}
+
+.btn-pagar {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background-color: var(--color-accent-main);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-pagar:hover {
+    background-color: #8c674e;
+}
+
+.btn-pagar:active {
+    transform: translateY(1px);
+}
+
+/* Mensaje de Carrito Vacío */
+.carrito-vacio-msg {
+    text-align: center;
+    padding: 50px;
+    font-size: 1.2em;
+    color: var(--color-text-secondary);
+    border: 1px dashed var(--color-border);
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+/* Estilos del Modal (Mismos que antes) */
+.modal {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: var(--color-bg-container);
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 500px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    position: relative;
+    color: var(--color-text-primary);
+}
+
+.btn-cerrar-modal {
+    color: var(--color-text-secondary);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.btn-cerrar-modal:hover,
+.btn-cerrar-modal:focus {
+    color: var(--color-accent-dark);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: var(--color-accent-main);
+}
+
+/* Formulario */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--color-border); /* Usa variable */
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background-color: var(--color-bg-container);
+    color: var(--color-text-primary);
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--color-accent-main); /* Uso el color principal de la tienda */
+    box-shadow: 0 0 0 3px rgba(166, 123, 91, 0.2);
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+}
+
+.form-row > * {
+    flex: 1;
+}
+
+/* Mensajes dentro del modal */
+.success-message, .error-message {
+    text-align: center;
+    padding: 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    display: none;
+    margin-top: 20px;
+}
+
+.success-message {
+    /* Mantenemos el mensaje de éxito dentro del modal para la transición */
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* ---------------------------------- */
+/* NUEVO ESTILO: Diálogo de Compra Realizada (Flotante) */
+/* ---------------------------------- */
+.floating-success-dialog {
+    position: fixed;
+    top: -100px; /* Inicialmente fuera de la pantalla */
+    left: 0;
+    width: 100%;
+    background-color: #28a745; /* Verde fuerte */
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-size: 1.2em;
+    font-weight: 700;
+    z-index: 1100; /* Más alto que el modal */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: top 0.5s ease-out; /* Transición suave */
+}
+
+.floating-success-dialog.show {
+    top: 0; /* Deslizar hacia abajo */
+}
+
+/* Media Queries */
+@media (max-width: 600px) {
+    .container {
+        margin: 10px;
+        padding: 15px;
+    }
+    .carrito-item {
+        flex-wrap: wrap;
+        text-align: center;
+        justify-content: center;
+    }
+    .carrito-item-details {
+        margin-top: 10px;
+        order: 1; /* Poner detalles debajo de la imagen */
+        flex-basis: 100%;
+    }
+    .carrito-item-price {
+        order: 2;
+        margin-right: 10px;
+    }
+    .btn-eliminar {
+        order: 3;
+    }
+    .modal-content {
+        margin: 5% 5%;
+        max-width: 90%;
+    }
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+}

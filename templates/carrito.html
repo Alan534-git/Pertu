@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+    <!-- Importa el nuevo archivo base de estilos (incluye Font Awesome y dark mode) -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/carrito.css') }}">
+    <!-- Font Awesome para los íconos (necesario para el sol/luna y otros) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛒 Tu Carrito de Compras</h1>
+            <!-- Botón de Claro/Oscuro -->
+            <button id="theme-toggle" aria-label="Cambiar tema">
+                <i class="fas fa-sun"></i>
+                <i class="fas fa-moon"></i>
+            </button>
+        </header>
+
+        <div class="acciones-top">
+            <a href="/" class="btn-accion">Seguir Comprando</a>
+            {% if carrito %}
+                <a href="/vaciar" class="btn-accion btn-vaciar">Vaciar Carrito</a>
+            {% endif %}
+        </div>
+
+        <div class="carrito-container">
+            {% if carrito %}
+                <ul class="carrito-items">
+                    {% for item in carrito %}
+                        <li class="carrito-item">
+                            <!-- Corregida la ruta de la imagen de la milanesa -->
+                            <img src="{{ url_for('static', filename='img/' + item.imagen) }}" 
+                                 alt="{{ item.nombre }}" 
+                                 class="carrito-item-img"
+                                 onerror="this.onerror=null; this.src='https://placehold.co/60x60/1e3a47/ffffff?text=M';">
+                            
+                            <div class="carrito-item-details">
+                                <!-- CAMBIO: Mostrar cantidad de milanesas -->
+                                <h4>{{ item.nombre }} (x{{ item.cantidad_milanesa }})</h4>
+                                
+                                <p>
+                                    <!-- CAMBIO: Mostrar cantidad de refrescos -->
+                                    Refresco: {{ item.refresco_nombre }} 
+                                    {% if item.cantidad_refresco > 0 %}(x{{ item.cantidad_refresco }}){% endif %}
+                                    
+                                    {% if item.imagen_refresco %}
+                                        <img src="{{ url_for('static', filename='img/' + item.imagen_refresco) }}" 
+                                             alt="{{ item.refresco_nombre }}" 
+                                             class="refresco-icon-carrito"
+                                             onerror="this.style.display='none'">
+                                    {% endif %}
+                                </p>
+                            </div>
+                            <span class="carrito-item-price">${{ "%.2f"|format(item.precio_total) }}</span>
+                            <a href="/eliminar/{{ item.item_key }}" class="btn-eliminar" aria-label="Eliminar ítem">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+
+                <div class="carrito-summary">
+                    <h3>Resumen del Pedido</h3>
+                    <div class="carrito-total">
+                        Total a pagar: <span>${{ "%.2f"|format(total) }}</span>
+                    </div>
+                    <button id="btn-iniciar-pago" class="btn-pagar">
+                        Proceder al Pago
+                    </button>
+                </div>
+            {% else %}
+                <div class="carrito-vacio-msg">
+                    Tu carrito está vacío. ¡Añade unas milanesas!
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- ===== INICIO: MODAL DE PAGO ===== -->
+    <div id="modal-pago" class="modal">
+        <div class="modal-content">
+            <span class="btn-cerrar-modal">&times;</span>
+            <h2>Detalles de Pago</h2>
+            
+            <div id="payment-form">
+                <form id="form-pago">
+                    <div class="form-group">
+                        <label for="card-name">Nombre en la Tarjeta</label>
+                        <input type="text" id="card-name" class="form-control" placeholder="Jane Doe" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="card-number">Número de Tarjeta</label>
+                        <!-- Simulación: requerimos 16 dígitos para pasar la validación simple del JS -->
+                        <input type="text" id="card-number" class="form-control" placeholder="1111222233334444" required minlength="16" maxlength="16">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="card-expiry">Vencimiento (MM/AA)</label>
+                            <input type="text" id="card-expiry" class="form-control" placeholder="12/26" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="card-cvc">CVC</label>
+                            <input type="text" id="card-cvc" class="form-control" placeholder="123" required>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" id="btn-submit-pago" class="btn-pagar">
+                        Pagar ${{ "%.2f"|format(total) }}
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Mensaje de error para el usuario (si falla la validación) -->
+            <div id="error-message" class="error-message">
+                ❌ Error al procesar el pago. Por favor, intente de nuevo.
+            </div>
+            
+            <!-- NOTA: El mensaje de éxito dentro del modal es ahora redundante, ya que usamos el flotante. 
+                 Lo mantengo oculto para evitar errores de referencia en el JS. -->
+            <div id="success-message" class="success-message" style="display: none;">
+                ✅ ¡Pago procesado con éxito! Redirigiendo...
+            </div>
+        </div>
+    </div>
+    <!-- ===== FIN: MODAL DE PAGO ===== -->
+
+    <!-- ===== INICIO: DIÁLOGO DE COMPRA REALIZADA (FLOTANTE) ===== -->
+    <div id="floating-success-dialog" class="floating-success-dialog">
+        ✅ ¡Compra realizada con éxito! ¡Disfrute su pedido!
+    </div>
+    <!-- ===== FIN: DIÁLOGO DE COMPRA REALIZADA (FLOTANTE) ===== -->
+
+
+    <!-- ===== INICIO: SCRIPT DEL MODAL Y TEMA ===== -->
+    <script src="{{ url_for('static', filename='js/carrito.js') }}"></script>
+    <!-- ===== FIN: SCRIPT DEL MODAL ===== -->
+</body>
+</html>
