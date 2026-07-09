@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, session, jsonify, request
+from flask import Flask, render_template, redirect, url_for, session, jsonify, request, Response
 import os
 import uuid # Necesario para generar item_key únicas
 
@@ -84,6 +84,16 @@ def index():
     """Ruta de la página principal (tienda)."""
     cart_count = get_cart_count(session.get("carrito", []))
     return render_template("index.html", productos=productos, cart_count=cart_count)
+
+
+@app.route("/favicon.ico")
+def favicon():
+        """Sirve un favicon embebido para evitar el 404 del navegador."""
+        favicon_svg = """<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'>
+    <rect width='64' height='64' rx='14' fill='#d6451e'/>
+    <path d='M18 20h28c2 0 4 2 4 4v2c0 4-3 7-7 7h-4l7 11h-10l-6-10h-6v10H18V20zm10 14h10c3 0 5-2 5-5s-2-5-5-5H28v10z' fill='#ffffff'/>
+</svg>"""
+        return Response(favicon_svg, mimetype="image/svg+xml")
 
 @app.route("/carrito")
 def carrito():
