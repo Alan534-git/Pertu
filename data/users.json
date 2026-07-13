@@ -1,0 +1,25 @@
+{
+  "users": [
+    {
+      "username": "admin",
+      "password_hash": "scrypt:32768:8:1$bvU4lnxFSzAUrVao$8e7caf192bc794d505500bd8d1fb2c7b23c5be833180ca5b02a50a3e3cc2d4a3fcc4f976008bda7e4fa66dee9426f7127c3fa59f923122c86b6662ce6378a6ee",
+      "role": "admin",
+      "sector": "admin",
+      "display_name": "Administrador"
+    },
+    {
+      "username": "cliente_delivery",
+      "password_hash": "scrypt:32768:8:1$GdV9odNbbSoKoEAI$fc04dd7359a79c84394cf21089d2b5e8e1f83a9662aac82633706781989e69663798425fbce9d17046ecd6f2668d09efa6cb35daa13c5c30389670205e018f8e",
+      "role": "cliente",
+      "sector": "delivery",
+      "display_name": "Cliente Delivery"
+    },
+    {
+      "username": "cliente_gestoria",
+      "password_hash": "scrypt:32768:8:1$6pPKB5hBrrP5niAl$b67d5f50883e5021e4b5b1837f04b095b7e87cc3f68ae094c8eeb88e71672b0a3a6a60b384b3bd20a2a9dc908ca89e26da2a5bbf5935989dfa618d7e8544c464",
+      "role": "cliente",
+      "sector": "gestoria",
+      "display_name": "Cliente Gestoría"
+    }
+  ]
+}

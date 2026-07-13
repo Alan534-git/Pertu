@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda de Milanesas - Sabores Clásicos</title>
+    <title>{% if page_title %}{{ page_title }}{% else %}Delivery{% endif %} - Sistema multi-sector</title>
     <!-- Carga la fuente Inter de Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Importa el nuevo archivo base de estilos (incluye Font Awesome y dark mode) -->
@@ -14,26 +14,57 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+    <div class="page-shell">
     <div class="container">
-        <header>
-            <h1><i class="fas fa-store"></i> Tienda de Milanesas</h1>
-            <div class="header-right">
-                <!-- Botón de Claro/Oscuro -->
+        <div class="topbar">
+            <div class="brand-block">
+                <h1><i class="fas fa-truck-fast"></i> {{ sector_title or 'Delivery' }}</h1>
+                <p>{{ section_description or 'Pedidos rápidos y seguimiento centralizado.' }}</p>
+            </div>
+            <div class="top-actions">
+                {% if current_user %}
+                    <span class="user-chip"><i class="fas fa-user"></i> {{ current_user.display_name }}</span>
+                    <span class="sector-chip"><i class="fas fa-layer-group"></i> {{ current_user.sector }}</span>
+                {% endif %}
                 <button id="theme-toggle" aria-label="Cambiar tema">
                     <i class="fas fa-sun"></i>
                     <i class="fas fa-moon"></i>
                 </button>
-                <!-- Botón del Carrito -->
                 <a href="{{ url_for('carrito') }}" class="btn-carrito" aria-label="Ir al carrito de compras">
                     <i class="fas fa-shopping-cart"></i>
-                    <!-- Contador del Carrito -->
                    <span id="cart-count" class="cart-count {{ 'flex' if cart_count > 0 else 'hidden' }}">
                     {{ cart_count }}
                 </span>
-
                 </a>
             </div>
-        </header>
+        </div>
+
+        <div class="section-intro">
+            <div class="hero-card">
+                <h2>Delivery reutilizado como módulo de ventas</h2>
+                <p>Esta pantalla conserva el flujo de catálogo, selección de cantidades y carrito, pero ya está enmarcada dentro del sistema multi-sector del trabajo práctico.</p>
+                <div class="sector-links">
+                    <a href="{{ url_for('delivery') }}" class="sector-link primary"><i class="fas fa-truck"></i> Delivery</a>
+                    <a href="{{ url_for('gestoria') }}" class="sector-link secondary"><i class="fas fa-car-side"></i> Gestoría</a>
+                    <a href="{{ url_for('admin_dashboard') }}" class="sector-link secondary"><i class="fas fa-shield-halved"></i> Admin</a>
+                </div>
+            </div>
+            <div class="side-card">
+                <p><strong>Usuario actual:</strong> {{ current_user.display_name if current_user else 'No autenticado' }}</p>
+                <p><strong>Rol:</strong> {{ current_user.role if current_user else '-' }}</p>
+                <p><strong>Sector:</strong> {{ current_user.sector if current_user else '-' }}</p>
+                <div class="sector-grid">
+                    <div class="mini-card">
+                        <h3>UX simple</h3>
+                        <p>Botones consistentes, jerarquía visual clara y acciones visibles.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h3>JSON</h3>
+                        <p>Usuarios y solicitudes se guardan en archivos para el prototipo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Contenedor de Productos -->
         <div class="productos-container">
@@ -131,6 +162,7 @@
                 </div>
             {% endfor %}
         </div>
+    </div>
     </div>
 
     <!-- ===== INICIO: DIÁLOGO FLOTANTE DE MENSAJES (Advertencias, Errores) ===== -->

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if page_title %}{{ page_title }}{% else %}Panel admin{% endif %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('favicon') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="page-shell">
+    <div class="container">
+        <div class="topbar">
+            <div class="brand-block">
+                <h1><i class="fas fa-shield-halved"></i> Panel administrativo</h1>
+                <p>Control de usuarios, pedidos de Delivery y solicitudes de Gestoría.</p>
+            </div>
+            <div class="top-actions">
+                {% if current_user %}
+                    <span class="user-chip"><i class="fas fa-user"></i> {{ current_user.display_name }}</span>
+                {% endif %}
+                <button id="theme-toggle" aria-label="Cambiar tema">
+                    <i class="fas fa-sun"></i>
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="sector-links" style="margin-bottom: 18px;">
+            <a href="{{ url_for('delivery') }}" class="sector-link secondary"><i class="fas fa-truck"></i> Delivery</a>
+            <a href="{{ url_for('gestoria') }}" class="sector-link secondary"><i class="fas fa-car-side"></i> Gestoría</a>
+            <a href="{{ url_for('logout') }}" class="sector-link primary"><i class="fas fa-right-from-bracket"></i> Salir</a>
+        </div>
+
+        <div class="grid-2">
+            <section class="panel-card">
+                <h2>Usuarios</h2>
+                <div class="table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Usuario</th>
+                                <th>Rol</th>
+                                <th>Sector</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                                <tr>
+                                    <td>{{ user.display_name or user.username }}</td>
+                                    <td>{{ user.role }}</td>
+                                    <td>{{ user.sector }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="panel-card">
+                <h2>Estado del sistema</h2>
+                <div class="sector-grid">
+                    <div class="mini-card">
+                        <h3>Delivery</h3>
+                        <p>{{ delivery_orders | length }} pedidos registrados.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h3>Gestoría</h3>
+                        <p>{{ gestoria_requests | length }} trámites registrados.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <section class="panel-card" style="margin-top: 18px;">
+            <h2>Pedidos de Delivery</h2>
+            {% if delivery_orders %}
+                <div class="table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Total</th>
+                                <th>Estado</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in delivery_orders %}
+                                <tr>
+                                    <td>{{ item.display_name or item.username }}</td>
+                                    <td>${{ "%.2f"|format(item.total) }}</td>
+                                    <td><span class="status-pill status-{{ item.status }}">{{ item.status }}</span></td>
+                                    <td>
+                                        <button class="btn-accion admin-status-btn" data-collection="delivery_orders" data-request-id="{{ item.id }}" data-status="aprobado">Aprobar</button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="notice">No hay pedidos de Delivery todavía.</div>
+            {% endif %}
+        </section>
+
+        <section class="panel-card" style="margin-top: 18px;">
+            <h2>Trámites de Gestoría</h2>
+            {% if gestoria_requests %}
+                <div class="table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Servicio</th>
+                                <th>Estado</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in gestoria_requests %}
+                                <tr>
+                                    <td>{{ item.display_name or item.username }}</td>
+                                    <td>{{ item.servicio }}</td>
+                                    <td><span class="status-pill status-{{ item.status }}">{{ item.status }}</span></td>
+                                    <td>
+                                        <button class="btn-accion admin-status-btn" data-collection="gestoria_requests" data-request-id="{{ item.id }}" data-status="aprobado">Aprobar</button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="notice">No hay trámites de Gestoría todavía.</div>
+            {% endif %}
+        </section>
+
+        <div id="admin-feedback" class="notice" style="display:none; margin-top: 18px;"></div>
+    </div>
+    </div>
++
++    <script src="{{ url_for('static', filename='js/carrito.js') }}"></script>
++    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
++</body>
++</html>

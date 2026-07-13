@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if page_title %}{{ page_title }}{% else %}Gestoría del automotor{% endif %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('favicon') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="page-shell">
+    <div class="container">
+        <div class="topbar">
+            <div class="brand-block">
+                <h1><i class="fas fa-car-side"></i> {{ sector_title }}</h1>
+                <p>Gestión de trámites, seguimiento y carga de datos básicos.</p>
+            </div>
+            <div class="top-actions">
+                {% if current_user %}
+                    <span class="user-chip"><i class="fas fa-user"></i> {{ current_user.display_name }}</span>
+                    <span class="sector-chip"><i class="fas fa-layer-group"></i> {{ current_user.sector }}</span>
+                {% endif %}
+                <button id="theme-toggle" aria-label="Cambiar tema">
+                    <i class="fas fa-sun"></i>
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="section-intro">
+            <div class="hero-card">
+                <h2>Gestoría como módulo independiente</h2>
+                <p>Este sector mantiene la lógica del sistema único, pero cambia el contenido, la jerarquía y el tipo de interacción.</p>
+                <div class="sector-links">
+                    <a href="{{ url_for('delivery') }}" class="sector-link secondary"><i class="fas fa-truck"></i> Delivery</a>
+                    <a href="{{ url_for('gestoria') }}" class="sector-link primary"><i class="fas fa-car-side"></i> Gestoría</a>
+                    {% if is_admin %}
+                    <a href="{{ url_for('admin_dashboard') }}" class="sector-link secondary"><i class="fas fa-shield-halved"></i> Admin</a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="side-card">
+                <p><strong>Objetivo:</strong> registrar trámites de automotor y seguimiento simple.</p>
+                <div class="sector-grid">
+                    <div class="mini-card">
+                        <h3>Datos mínimos</h3>
+                        <p>Nombre, DNI, servicio y detalle para el prototipo.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h3>Estado</h3>
+                        <p>Los trámites quedan guardados con estado pendiente en JSON.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <section class="panel-card">
+                <h2>Servicios</h2>
+                <div class="sector-grid">
+                    {% for service in services %}
+                        <div class="mini-card">
+                            <h3>{{ service.titulo }}</h3>
+                            <p>{{ service.descripcion }}</p>
+                            <div class="notice" style="margin-top: 12px;">Costo orientativo: ${{ "%.2f"|format(service.precio) }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section class="panel-card">
+                <h2>Nuevo trámite</h2>
+                <form id="gestoria-form">
+                    <div class="form-group">
+                        <label for="nombre">Nombre y apellido</label>
+                        <input type="text" id="nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dni">DNI</label>
+                        <input type="text" id="dni" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="servicio_id">Servicio</label>
+                        <select id="servicio_id" required>
+                            {% for service in services %}
+                                <option value="{{ service.id }}">{{ service.titulo }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="detalle">Detalle</label>
+                        <textarea id="detalle" rows="4" placeholder="Agregar observaciones..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-pagar">Registrar trámite</button>
+                </form>
+                <div id="gestoria-feedback" class="notice" style="margin-top: 16px; display: none;"></div>
+            </section>
+        </div>
+
+        <section class="panel-card" style="margin-top: 18px;">
+            <h2>Solicitudes registradas</h2>
+            {% if requests %}
+                <div class="table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Servicio</th>
+                                <th>Estado</th>
+                                <th>Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in requests %}
+                                <tr>
+                                    <td>{{ item.display_name or item.username }}</td>
+                                    <td>{{ item.servicio }}</td>
+                                    <td><span class="status-pill status-{{ item.status }}">{{ item.status }}</span></td>
+                                    <td>{{ item.created_at }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="notice">Todavía no hay solicitudes cargadas.</div>
+            {% endif %}
+        </section>
+    </div>
+    </div>
++
++    <script src="{{ url_for('static', filename='js/carrito.js') }}"></script>
++    <script src="{{ url_for('static', filename='js/gestoria.js') }}"></script>
++</body>
++</html>
