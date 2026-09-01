@@ -1,0 +1,75 @@
+{% extends "dual_base.html" %}
+{% block title %}DUAL — Indumentaria femenina y deportiva{% endblock %}
+
+{% block content %}
+
+<div class="dual-hero">
+  <div class="dual-hero-banner dual-hero--home" style="display:grid; grid-template-columns:1fr 1fr; padding:0; min-height:340px; overflow:hidden;">
+    <div style="padding:48px; display:flex; flex-direction:column; justify-content:center; gap:14px;">
+      <div class="dual-hero-eyebrow">INDUMENTARIA</div>
+      <h1 class="dual-hero-title">FEMENINA</h1>
+      <p class="dual-hero-copy">Estilo que te representa.</p>
+      <a href="{{ url_for('dual_categoria', categoria='mujer') }}" class="dual-hero-cta">VER COLECCIÓN</a>
+    </div>
+    <div style="padding:48px; display:flex; flex-direction:column; justify-content:center; gap:14px; background:var(--dual-deportivo-bg); color:#fff;">
+      <div class="dual-hero-eyebrow">ROPA</div>
+      <h1 class="dual-hero-title">DEPORTIVA</h1>
+      <p class="dual-hero-copy">Rendí al máximo, siempre.</p>
+      <a href="{{ url_for('dual_categoria', categoria='deportivo') }}" class="dual-hero-cta light">VER COLECCIÓN</a>
+    </div>
+  </div>
+</div>
+
+<div class="dual-benefits">
+  <div class="dual-benefit">🚚 <div><strong>Envíos a todo el país</strong>Rápidos y seguros</div></div>
+  <div class="dual-benefit">🔁 <div><strong>Cambios fáciles</strong>Hasta 30 días</div></div>
+  <div class="dual-benefit">🛡 <div><strong>Compra protegida</strong>100% segura</div></div>
+  <div class="dual-benefit">💳 <div><strong>3 cuotas sin interés</strong>Con todas las tarjetas</div></div>
+</div>
+
+<div class="dual-section">
+  <h2 class="dual-section-title">Categorías destacadas</h2>
+  <div class="dual-cat-grid">
+    {% for cat in categorias_destacadas %}
+    <a href="{{ url_for('dual_categoria', categoria=cat.seccion) }}" class="dual-cat-card">{{ cat.nombre }}</a>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="dual-section" style="padding-top:0;">
+  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px;">
+    <div style="background:var(--dual-black); color:#fff; border-radius:2px; padding:26px;">
+      <div style="font-size:20px; font-weight:800; margin-bottom:6px;">10% OFF</div>
+      <div style="font-size:12.5px; opacity:0.8; margin-bottom:14px;">En tu primera compra</div>
+      <div style="display:flex; gap:8px;">
+        <input placeholder="Ingresá tu email" style="flex:1; border:none; border-radius:2px; padding:9px 10px; font-size:12.5px;">
+        <button class="dual-hero-cta light" style="padding:9px 16px;">SUSCRIBIRME</button>
+      </div>
+    </div>
+    <div style="border:1px solid var(--dual-line); border-radius:2px; padding:26px;">
+      <div style="font-weight:700; margin-bottom:6px;">Recibí novedades y promociones</div>
+      <div style="font-size:12.5px; color:var(--dual-muted);">Enterate primero de los lanzamientos DUAL.</div>
+    </div>
+    <div style="border:1px solid var(--dual-line); border-radius:2px; padding:26px;">
+      <div style="font-weight:700; margin-bottom:10px;">Calculá tu envío</div>
+      <div style="display:flex; gap:8px;">
+        <input placeholder="Ingresá tu código postal" style="flex:1; border:1px solid var(--dual-line); border-radius:2px; padding:9px 10px; font-size:12.5px;">
+        <button class="dual-outline-btn">CALCULAR</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="dual-section" style="border-top:1px solid var(--dual-line);">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:22px;">
+    <h2 class="dual-section-title" style="margin:0;">Lo nuevo en DUAL</h2>
+    <a href="{{ url_for('dual_categoria', categoria='novedades') }}" class="dual-outline-btn">VER TODO</a>
+  </div>
+  <div class="dual-grid">
+    {% for p in destacados %}
+    {% include "dual_product_card.html" %}
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

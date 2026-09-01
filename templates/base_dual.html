@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}DUAL{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dual.css') }}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="dual-scope">
+
+  <div class="dual-topbar">
+    Envíos a todo el país &nbsp;·&nbsp; Cambios fáciles hasta 30 días &nbsp;·&nbsp; 3 cuotas sin interés &nbsp;·&nbsp; Pagos 100% seguros
+  </div>
+
+  <header class="dual-header">
+    <div class="dual-header-inner">
+      <a href="{{ url_for('dual_home') }}" class="dual-logo">
+        <span class="dual-logo-mark">D</span> DUAL
+      </a>
+
+      <nav class="dual-nav">
+        <a href="{{ url_for('dual_home') }}" class="{{ 'active' if active_nav == 'inicio' else '' }}">Inicio</a>
+        <a href="{{ url_for('dual_categoria', categoria='mujer') }}" class="{{ 'active' if active_nav == 'mujer' else '' }}">Mujer</a>
+        <a href="{{ url_for('dual_categoria', categoria='deportivo') }}" class="{{ 'active' if active_nav == 'deportivo' else '' }}">Deportivo</a>
+        <a href="{{ url_for('dual_categoria', categoria='ofertas') }}" class="{{ 'active' if active_nav == 'ofertas' else '' }}">Ofertas</a>
+        <a href="{{ url_for('dual_categoria', categoria='novedades') }}" class="{{ 'active' if active_nav == 'novedades' else '' }}">Novedades</a>
+      </nav>
+
+      <div class="dual-search">
+        🔍 <span>Buscar productos...</span>
+      </div>
+
+      <div class="dual-header-icons">
+        <a class="dual-icon-btn" href="{{ url_for('dual_categoria', categoria='ofertas') }}" title="Favoritos">♡</a>
+        <a class="dual-icon-btn" href="{{ url_for('dual_pedidos') }}" title="Mi cuenta / Mis pedidos">☺</a>
+        <a class="dual-icon-btn" href="{{ url_for('dual_pedidos') }}" title="Carrito">
+          🛍
+          {% if dual_cart_count and dual_cart_count > 0 %}
+            <span class="dual-cart-count">{{ dual_cart_count }}</span>
+          {% endif %}
+        </a>
+      </div>
+    </div>
+  </header>
+
+  {% block content %}{% endblock %}
+
+  <footer class="dual-footer">
+    <div class="dual-footer-inner">
+      <div style="max-width:280px;">
+        <div class="dual-logo" style="color:#fff; margin-bottom:10px;">
+          <span class="dual-logo-mark" style="background:#fff; color:#15161a;">D</span> DUAL
+        </div>
+        <p style="opacity:0.7; line-height:1.5;">DUAL nace de la unión de dos mundos: indumentaria femenina y ropa deportiva. Versatilidad, equilibrio y la posibilidad de elegir entre dos estilos con una misma esencia: vos.</p>
+      </div>
+      <div class="dual-footer-cols">
+        <div class="dual-footer-col">
+          <h4>Categorías</h4>
+          <a href="{{ url_for('dual_categoria', categoria='mujer') }}">Mujer</a>
+          <a href="{{ url_for('dual_categoria', categoria='deportivo') }}">Deportivo</a>
+          <a href="{{ url_for('dual_categoria', categoria='ofertas') }}">Ofertas</a>
+          <a href="{{ url_for('dual_categoria', categoria='novedades') }}">Novedades</a>
+        </div>
+        <div class="dual-footer-col">
+          <h4>Mi cuenta</h4>
+          <a href="{{ url_for('dual_pedidos') }}">Mis pedidos</a>
+          <a href="{{ url_for('dual_home') }}">Cambios y devoluciones</a>
+          <a href="{{ url_for('dual_home') }}">Medios de pago</a>
+        </div>
+        <div class="dual-footer-col">
+          <h4>Ayuda</h4>
+          <div>Atención personalizada</div>
+          <div>Seguimiento de envíos</div>
+          <div>Locales</div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

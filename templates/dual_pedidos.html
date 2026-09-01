@@ -1,0 +1,39 @@
+{% extends "dual_base.html" %}
+{% block title %}DUAL — Mis pedidos{% endblock %}
+
+{% block content %}
+<div class="dual-wizard">
+  <h1 style="font-size:22px; margin-bottom:18px;">Mis pedidos</h1>
+
+  <div class="dual-order-tabs">
+    <button class="dual-order-tab {{ 'active' if filtro == 'todos' else '' }}" onclick="location.href='{{ url_for('dual_pedidos') }}?estado=todos'">Todos</button>
+    <button class="dual-order-tab {{ 'active' if filtro == 'en_camino' else '' }}" onclick="location.href='{{ url_for('dual_pedidos') }}?estado=en_camino'">En camino</button>
+    <button class="dual-order-tab {{ 'active' if filtro == 'entregado' else '' }}" onclick="location.href='{{ url_for('dual_pedidos') }}?estado=entregado'">Entregados</button>
+    <button class="dual-order-tab {{ 'active' if filtro == 'cancelado' else '' }}" onclick="location.href='{{ url_for('dual_pedidos') }}?estado=cancelado'">Cancelados</button>
+  </div>
+
+  {% if pedidos %}
+    {% for pedido in pedidos %}
+    <div class="dual-order-card">
+      <div class="dual-order-left">
+        <div class="dual-confirm-thumb" style="background:{{ pedido.item.color_media }};">{{ pedido.item.nombre }}</div>
+        <div style="font-size:13px;">
+          <div style="font-weight:700;">Pedido #{{ pedido.numero }}</div>
+          <div style="color:var(--dual-muted);">{{ pedido.fecha_corta }} · ${{ "{:,.0f}".format(pedido.total).replace(",", ".") }}</div>
+          <div style="color:var(--dual-muted);">{{ pedido.item.nombre }} · Talle: {{ pedido.item.talla }} · Color: {{ pedido.item.color }}</div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:14px;">
+        <span class="dual-status-pill {{ pedido.estado_clase }}">{{ pedido.estado_label }}</span>
+        <a href="{{ url_for('dual_pedido_detalle', order_id=pedido.id) }}" class="dual-outline-btn">VER DETALLE</a>
+      </div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <div class="dual-empty">
+      Todavía no tenés pedidos {{ '' if filtro == 'todos' else 'en este estado' }}.<br>
+      <a href="{{ url_for('dual_home') }}" class="dual-outline-btn" style="display:inline-block; margin-top:14px;">IR A COMPRAR</a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

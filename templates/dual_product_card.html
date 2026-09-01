@@ -1,0 +1,14 @@
+<div class="dual-card">
+  <a href="{{ url_for('dual_producto', product_id=p.id) }}" class="dual-card-media" style="background:{{ p.color_media }};">
+    {% if p.descuento %}<span class="dual-card-badge">-{{ p.descuento }}%</span>{% endif %}
+    {{ p.nombre }}
+  </a>
+  <div class="dual-card-name">{{ p.nombre }}</div>
+  <div class="dual-card-price">
+    {% if p.descuento %}
+      <span class="dual-card-price-old">${{ "{:,.0f}".format(p.precio_original).replace(",", ".") }}</span>
+    {% endif %}
+    ${{ "{:,.0f}".format(p.precio).replace(",", ".") }}
+  </div>
+  <a href="{{ url_for('dual_producto', product_id=p.id) }}" class="dual-card-btn" style="text-align:center;">VER PRODUCTO</a>
+</div>

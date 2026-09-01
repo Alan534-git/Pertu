@@ -1,0 +1,41 @@
+{% extends "dual_base.html" %}
+{% block title %}DUAL — Seguimiento de envío{% endblock %}
+
+{% block content %}
+<div class="dual-wizard">
+  <h1 style="font-size:22px; margin-bottom:4px;">Seguimiento de envío</h1>
+  <p style="color:var(--dual-muted); font-size:13.5px; margin-bottom:6px;">Pedido N° #{{ pedido.numero }}</p>
+
+  <div class="dual-track-timeline">
+    {% for paso in pasos %}
+      <div class="dual-track-step {{ 'active-label' if loop.index0 == pedido.paso_actual else '' }}">
+        <div class="dual-track-dot {{ 'done' if loop.index0 < pedido.paso_actual else ('current' if loop.index0 == pedido.paso_actual else '') }}">
+          {% if loop.index0 < pedido.paso_actual %}✓{% else %}{{ loop.index }}{% endif %}
+        </div>
+        <span>{{ paso.nombre }}</span>
+        <span style="opacity:0.7;">{{ paso.fecha }}</span>
+      </div>
+      {% if not loop.last %}
+      <div class="dual-track-line {{ 'done' if loop.index0 < pedido.paso_actual else '' }}"></div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="dual-panel">
+    <h3>Detalle del envío</h3>
+    <div class="dual-summary-row"><span>Transportista</span><span>{{ pedido.transportista }}</span></div>
+    <div class="dual-summary-row"><span>Código de seguimiento</span><span>{{ pedido.codigo_seguimiento }}</span></div>
+    <div style="background:var(--dual-cream); border-radius:2px; padding:14px; margin:14px 0;">
+      <div style="font-size:12px; color:var(--dual-muted); margin-bottom:4px;">FECHA ESTIMADA DE ENTREGA</div>
+      <div style="font-weight:700; font-size:15px;">{{ pedido.fecha_estimada }}</div>
+      <div style="font-size:12.5px; color:var(--dual-muted);">Entre las {{ pedido.horario_desde }} y las {{ pedido.horario_hasta }}</div>
+    </div>
+    <div class="dual-summary-row"><span>Dirección de entrega</span><span style="text-align:right;">{{ pedido.direccion }}</span></div>
+    <button class="dual-btn-primary">VER EN MAPA</button>
+  </div>
+
+  <div style="text-align:center; margin-top:18px;">
+    <a href="{{ url_for('dual_pedidos') }}" class="dual-outline-btn">VOLVER A MIS PEDIDOS</a>
+  </div>
+</div>
+{% endblock %}

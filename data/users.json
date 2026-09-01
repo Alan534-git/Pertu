@@ -20,6 +20,13 @@
       "role": "cliente",
       "sector": "gestoria",
       "display_name": "Cliente Gestoría"
+    },
+    {
+      "username": "cliente_dual",
+      "password_hash": "scrypt:32768:8:1$gCSn1zj80Fo4gcC0$6e4590ef4d58502a449e510c114e21ee61855c29eeb27f715624e74b90be40aedc5fd50582ccd2e4366690fe61b543fbe2ef2e7694da43411e6b2002073dcea0",
+      "role": "cliente",
+      "sector": "dual",
+      "display_name": "Cliente DUAL"
     }
   ]
 }

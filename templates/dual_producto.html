@@ -1,0 +1,53 @@
+{% extends "dual_base.html" %}
+{% block title %}DUAL — {{ producto.nombre }}{% endblock %}
+
+{% block content %}
+<nav style="max-width:1240px; margin:18px auto 0; padding:0 24px; font-size:12px; color:var(--dual-muted);">
+  <a href="{{ url_for('dual_home') }}">Inicio</a> ›
+  <a href="{{ url_for('dual_categoria', categoria=producto.seccion) }}">{{ producto.seccion|capitalize }}</a> ›
+  {{ producto.nombre }}
+</nav>
+
+<div style="max-width:1240px; margin:0 auto; padding:24px; display:grid; grid-template-columns:1fr 1fr; gap:40px;">
+  <div class="dual-card-media" style="background:{{ producto.color_media }}; border-radius:2px; aspect-ratio:4/5; font-size:22px;">
+    {% if producto.descuento %}<span class="dual-card-badge">-{{ producto.descuento }}%</span>{% endif %}
+    {{ producto.nombre }}
+  </div>
+
+  <div>
+    <h1 style="font-size:26px; margin-bottom:8px;">{{ producto.nombre }}</h1>
+    <div style="font-size:20px; font-weight:700; margin-bottom:16px;">
+      {% if producto.descuento %}
+        <span class="dual-card-price-old">${{ "{:,.0f}".format(producto.precio_original).replace(",", ".") }}</span>
+      {% endif %}
+      ${{ "{:,.0f}".format(producto.precio).replace(",", ".") }}
+    </div>
+    <p style="color:var(--dual-muted); font-size:14px; line-height:1.6; margin-bottom:24px;">{{ producto.descripcion }}</p>
+
+    <form method="get" action="{{ url_for('dual_comprar', product_id=producto.id) }}">
+      <div class="dual-field">
+        <label>TALLE</label>
+        <select name="talla" required>
+          {% for t in producto.talles %}<option value="{{ t }}">{{ t }}</option>{% endfor %}
+        </select>
+      </div>
+      <div class="dual-field">
+        <label>COLOR</label>
+        <select name="color" required>
+          {% for c in producto.colores_nombre %}<option value="{{ c }}">{{ c }}</option>{% endfor %}
+        </select>
+      </div>
+      <div class="dual-field" style="max-width:120px;">
+        <label>CANTIDAD</label>
+        <input type="number" name="cantidad" value="1" min="1" max="10">
+      </div>
+      <button type="submit" class="dual-btn-primary">COMPRAR</button>
+    </form>
+
+    <div class="dual-benefits" style="grid-template-columns:1fr 1fr; padding:20px 0; border:none;">
+      <div class="dual-benefit">🚚 <div><strong>Envío</strong>2 a 5 días hábiles</div></div>
+      <div class="dual-benefit">🔁 <div><strong>Cambios</strong>Hasta 30 días</div></div>
+    </div>
+  </div>
+</div>
+{% endblock %}

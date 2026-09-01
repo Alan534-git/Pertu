@@ -1,0 +1,127 @@
+{% extends "dual_base.html" %}
+{% block title %}DUAL — Finalizar compra{% endblock %}
+
+{% block content %}
+<div class="dual-wizard" data-dual-wizard
+     data-order-payload='{{ order_payload_json }}'
+     data-total-label="${{ "{:,.0f}".format(total).replace(",", ".") }}">
+
+  <div class="dual-steps">
+    <div class="dual-step" data-step="envio"><span class="dual-step-num">1</span> Envío</div>
+    <div class="dual-step" data-step="pago"><span class="dual-step-num">2</span> Pago</div>
+    <div class="dual-step" data-step="confirmacion"><span class="dual-step-num">3</span> Confirmación</div>
+  </div>
+
+  <!-- ===================== PASO 1: FORMULARIO DE COMPRA ===================== -->
+  <div data-panel="envio">
+    <div class="dual-wizard-grid">
+      <div class="dual-panel">
+        <h3>Datos de contacto y entrega</h3>
+        <form id="dual-form-envio">
+          <div class="dual-field-row">
+            <div class="dual-field"><label>Nombre y apellido</label><input name="nombre" required></div>
+            <div class="dual-field"><label>Email</label><input type="email" name="email" required></div>
+          </div>
+          <div class="dual-field"><label>Teléfono</label><input name="telefono" required></div>
+
+          <h3 style="margin-top:22px;">Dirección de entrega</h3>
+          <div class="dual-field-row">
+            <div class="dual-field"><label>Código postal</label><input name="codigo_postal" required></div>
+            <div class="dual-field"><label>Provincia</label><input name="provincia" required></div>
+          </div>
+          <div class="dual-field"><label>Localidad</label><input name="localidad" required></div>
+          <div class="dual-field"><label>Calle</label><input name="calle" required></div>
+          <div class="dual-field-row">
+            <div class="dual-field"><label>Número</label><input name="numero" required></div>
+            <div class="dual-field"><label>Piso / depto (opcional)</label><input name="piso"></div>
+          </div>
+          <button type="submit" class="dual-btn-primary">CONTINUAR</button>
+        </form>
+      </div>
+
+      <div class="dual-panel">
+        <h3>Resumen de compra</h3>
+        <div class="dual-confirm-item" style="border-top:none; padding-top:0;">
+          <div class="dual-confirm-thumb" style="background:{{ item.color_media }};">{{ item.nombre }}</div>
+          <div style="flex:1; font-size:13px;">
+            <div style="font-weight:700;">{{ item.nombre }}</div>
+            <div style="color:var(--dual-muted);">Color: {{ item.color }} · Talle: {{ item.talla }}</div>
+            <div style="color:var(--dual-muted);">Cantidad: {{ item.cantidad }}</div>
+          </div>
+          <div style="font-weight:700;">${{ "{:,.0f}".format(item.subtotal).replace(",", ".") }}</div>
+        </div>
+        <div class="dual-summary-row"><span>Subtotal</span><span>${{ "{:,.0f}".format(item.subtotal).replace(",", ".") }}</span></div>
+        <div class="dual-summary-row"><span>Envío</span><span>${{ "{:,.0f}".format(envio_costo).replace(",", ".") }}</span></div>
+        <div class="dual-summary-row dual-summary-total"><span>Total</span><span>${{ "{:,.0f}".format(total).replace(",", ".") }}</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== PASO 2: MÉTODOS DE PAGO ===================== -->
+  <div data-panel="pago" style="display:none;">
+    <div class="dual-wizard-grid">
+      <div class="dual-panel">
+        <h3>Elegí tu método de pago</h3>
+        <form id="dual-form-pago">
+          <div class="dual-pay-option selected" data-pay-option="tarjeta">💳 Tarjeta de crédito / débito</div>
+          <div id="dual-card-fields">
+            <div class="dual-field"><label>Número de tarjeta</label><input name="numero_tarjeta" placeholder="1234 5678 9012 3456" pattern="[0-9 ]{13,19}" required></div>
+            <div class="dual-field"><label>Nombre en la tarjeta</label><input name="nombre_tarjeta" required></div>
+            <div class="dual-field-row">
+              <div class="dual-field"><label>Vencimiento</label><input name="vencimiento" placeholder="MM/AA" required></div>
+              <div class="dual-field"><label>Código de seguridad</label><input name="cvv" placeholder="123" required></div>
+            </div>
+          </div>
+          <div class="dual-pay-option" data-pay-option="mercadopago">🅿️ Mercado Pago</div>
+          <div class="dual-pay-option" data-pay-option="transferencia">🏦 Transferencia bancaria</div>
+          <div class="dual-pay-option" data-pay-option="efectivo">💵 Efectivo (Pago Fácil / Rapipago)</div>
+
+          <button type="button" id="dual-btn-volver-envio" class="dual-btn-secondary">VOLVER</button>
+          <button type="submit" id="dual-btn-pagar" class="dual-btn-primary">PAGAR ${{ "{:,.0f}".format(total).replace(",", ".") }}</button>
+        </form>
+      </div>
+
+      <div class="dual-panel">
+        <h3>Resumen de compra</h3>
+        <div class="dual-summary-row"><span>Subtotal</span><span>${{ "{:,.0f}".format(item.subtotal).replace(",", ".") }}</span></div>
+        <div class="dual-summary-row"><span>Envío</span><span>${{ "{:,.0f}".format(envio_costo).replace(",", ".") }}</span></div>
+        <div class="dual-summary-row dual-summary-total"><span>Total</span><span>${{ "{:,.0f}".format(total).replace(",", ".") }}</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== PASO 3: COMPROBANTE DE VENTA ===================== -->
+  <div data-panel="confirmacion" style="display:none;">
+    <div class="dual-panel" style="max-width:480px; margin:0 auto; text-align:center;">
+      <div class="dual-confirm-icon">✓</div>
+      <h3 style="font-size:19px;">¡Gracias por tu compra!</h3>
+      <p style="color:var(--dual-muted); font-size:13px; margin-top:6px;">Tu pedido fue recibido correctamente.</p>
+
+      <div style="text-align:left; margin-top:20px; font-size:13px;">
+        <div class="dual-summary-row"><span>Pedido N°</span><span id="dual-confirm-order-id" style="font-weight:700;"></span></div>
+        <div class="dual-summary-row"><span>Cliente</span><span>{{ item.nombre }}</span></div>
+      </div>
+
+      <div class="dual-confirm-item">
+        <div class="dual-confirm-thumb" style="background:{{ item.color_media }};">{{ item.nombre }}</div>
+        <div style="flex:1; font-size:13px; text-align:left;">
+          <div style="font-weight:700;">{{ item.nombre }}</div>
+          <div style="color:var(--dual-muted);">Color: {{ item.color }} · Talle: {{ item.talla }}</div>
+        </div>
+        <div style="font-weight:700;">${{ "{:,.0f}".format(item.subtotal).replace(",", ".") }}</div>
+      </div>
+
+      <div class="dual-summary-row dual-summary-total"><span>Total</span><span id="dual-confirm-total"></span></div>
+      <p style="font-size:12px; color:var(--dual-muted); margin-top:10px;">Te enviamos el comprobante a <span id="dual-confirm-email"></span></p>
+
+      <a id="dual-link-seguimiento" href="#" class="dual-btn-primary" style="display:block; text-decoration:none;">VER SEGUIMIENTO DEL ENVÍO</a>
+      <a id="dual-link-pedidos" href="#" class="dual-btn-secondary" style="display:block; text-decoration:none;">IR A MIS PEDIDOS</a>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/dual.js') }}"></script>
+{% endblock %}

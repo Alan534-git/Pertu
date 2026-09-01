@@ -1,4 +1,76 @@
 {
   "delivery_orders": [],
-  "gestoria_requests": []
+  "gestoria_requests": [],
+  "dual_orders": [
+    {
+      "id": "b6513f6f-2c13-49b0-aa98-2762a4d0ccbb",
+      "numero": "DUAL-B6513F",
+      "username": "cliente_dual",
+      "display_name": "Cliente DUAL",
+      "item": {
+        "product_id": 208,
+        "nombre": "Mochila Sport",
+        "color_media": "#4a5670",
+        "talla": "Único",
+        "color": "Negro",
+        "cantidad": 4,
+        "precio_unitario": 18990,
+        "subtotal": 75960
+      },
+      "envio_costo": 1990,
+      "total": 77950,
+      "envio": {
+        "nombre": "bel tam",
+        "email": "beltamburrino@gmail.com",
+        "telefono": "2544",
+        "codigo_postal": "256",
+        "provincia": "BS.AS",
+        "localidad": "SS",
+        "calle": "SS",
+        "numero": "94",
+        "piso": "515"
+      },
+      "metodo_pago": "tarjeta",
+      "estado": "en_camino",
+      "paso_actual": 1,
+      "transportista": "Andreani",
+      "codigo_seguimiento": "ARDB6513F6F-",
+      "created_at": "2026-09-01T00:09:24.952083Z"
+    },
+    {
+      "id": "1c594b1d-0b58-4406-9fd0-c1497acf2cb6",
+      "numero": "DUAL-1C594B",
+      "username": "cliente_dual",
+      "display_name": "Cliente DUAL",
+      "item": {
+        "product_id": 102,
+        "nombre": "Top Morley",
+        "color_media": "#d9b8a8",
+        "talla": "M",
+        "color": "Terracota",
+        "cantidad": 7,
+        "precio_unitario": 9990,
+        "subtotal": 69930
+      },
+      "envio_costo": 1990,
+      "total": 71920,
+      "envio": {
+        "nombre": "IJJI",
+        "email": "beltamburrino@gmail.com",
+        "telefono": "2544",
+        "codigo_postal": "256",
+        "provincia": "BS.AS",
+        "localidad": "SS",
+        "calle": "SS",
+        "numero": "94",
+        "piso": "515"
+      },
+      "metodo_pago": "tarjeta",
+      "estado": "en_camino",
+      "paso_actual": 1,
+      "transportista": "Andreani",
+      "codigo_seguimiento": "ARD1C594B1D-",
+      "created_at": "2026-09-01T00:16:07.557509Z"
+    }
+  ]
 }
