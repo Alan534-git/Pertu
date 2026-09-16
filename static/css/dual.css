@@ -248,6 +248,8 @@
 }
 
 .dual-benefit strong { display: block; color: var(--dual-text); font-size: 13px; }
+.dual-shipping-result { display: none; margin-top: 10px; color: #1c6b3f; font-size: 12px; line-height: 1.4; }
+.dual-shipping-result.is-visible { display: block; }
 
 /* ---------- category chips (home) ---------- */
 .dual-section {
@@ -303,6 +305,11 @@
 
 .dual-swatches { display: flex; gap: 8px; flex-wrap: wrap; }
 .dual-swatch { width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--dual-line); }
+.dual-swatch-option { display: inline-flex; position: relative; cursor: pointer; }
+.dual-swatch-option input { position: absolute; opacity: 0; }
+.dual-swatch-option input:checked + .dual-swatch { outline: 2px solid var(--dual-black); outline-offset: 2px; }
+.dual-filter-submit { width: 100%; border: 0; background: var(--dual-black); color: #fff; padding: 10px; font: 700 12px inherit; cursor: pointer; }
+.dual-filter-clear { display: block; margin-top: 10px; text-align: center; font-size: 12px; color: var(--dual-muted); text-decoration: underline !important; }
 
 .dual-toolbar {
   display: flex;
@@ -344,6 +351,22 @@
   overflow: hidden;
 }
 
+.dual-card-media img,
+.dual-confirm-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+}
+
+.dual-card-media-label,
+.dual-confirm-thumb span {
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+}
+
 .dual-card-badge {
   position: absolute;
   top: 10px;
@@ -357,6 +380,8 @@
 }
 
 .dual-card-name { font-size: 13.5px; font-weight: 600; margin-top: 2px; }
+.dual-card-colors { display: flex; align-items: center; gap: 5px; color: var(--dual-muted); font-size: 11px; }
+.dual-card-colors .dual-swatch { width: 13px; height: 13px; }
 .dual-card-price { font-size: 14px; font-weight: 700; }
 .dual-card-price-old { font-size: 12px; color: var(--dual-muted); text-decoration: line-through; margin-right: 6px; }
 
@@ -372,6 +397,19 @@
 }
 
 .dual-card-btn:hover { background: var(--dual-black); color: #fff; }
+.dual-card-buy-btn,
+.dual-buy-action { background: #fff; color: var(--dual-black); border: 1px solid var(--dual-black); }
+.dual-card-buy-btn:hover,
+.dual-buy-action:hover { background: var(--dual-black); color: #fff; }
+
+.dual-product-image { width: 100%; }
+.dual-product-swatches { display: flex; gap: 9px; margin: -4px 0 14px; }
+.dual-product-swatch { width: 23px; height: 23px; border: 1px solid var(--dual-line); border-radius: 50%; cursor: pointer; }
+.dual-product-swatch.active { outline: 2px solid var(--dual-black); outline-offset: 2px; }
+.dual-image-modal { position: fixed; inset: 0; z-index: 100; display: none; align-items: center; justify-content: center; padding: 30px; background: rgba(10, 10, 12, 0.86); }
+.dual-image-modal.is-open { display: flex; }
+.dual-image-modal img { max-width: min(900px, 92vw); max-height: 88vh; object-fit: contain; box-shadow: 0 20px 50px rgba(0, 0, 0, .35); }
+.dual-image-modal-close { position: absolute; top: 18px; right: 24px; border: 0; background: transparent; color: #fff; font-size: 38px; line-height: 1; cursor: pointer; }
 
 /* ---------- footer ---------- */
 .dual-footer {
@@ -457,6 +495,8 @@
   font-size: 13.5px;
   font-family: inherit;
 }
+.dual-stock-status { color: #1c6b3f; font-size: 12px; margin-top: -7px; margin-bottom: 12px; }
+.dual-stock-status.is-out { color: #a32121; font-weight: 700; }
 .dual-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
 .dual-summary-row { display: flex; justify-content: space-between; font-size: 13.5px; padding: 6px 0; }
@@ -522,6 +562,9 @@
   width: 56px; height: 56px; border-radius: var(--dual-radius);
   display: flex; align-items: center; justify-content: center;
   color: #fff; font-size: 11px; font-weight: 700; text-align: center;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 /* ---------- tracking ---------- */

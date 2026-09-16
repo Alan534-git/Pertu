@@ -1,0 +1,117 @@
+{% extends "inmo_base.html" %}
+{% block title %}InmoControl — Mi cuenta{% endblock %}
+
+{% block content %}
+<div class="inmo-section-inner inmo-cuenta-layout">
+  <aside class="inmo-cuenta-sidebar">
+    <div class="inmo-cuenta-user">
+      <i class="far fa-circle-user"></i>
+      <div>
+        <div class="inmo-cuenta-user-name">{{ current_user.display_name if current_user else '' }}</div>
+        <div class="inmo-cuenta-user-mail">{{ current_user.username if current_user else '' }}@inmocontrol.com</div>
+      </div>
+    </div>
+    <nav class="inmo-cuenta-nav">
+      <a href="{{ url_for('inmo_cuenta') }}" class="active"><i class="fas fa-gauge"></i> Dashboard</a>
+      <a href="{{ url_for('inmo_listado', operacion='comprar') }}"><i class="fas fa-house"></i> Mis propiedades</a>
+      <a href="{{ url_for('inmo_cuenta') }}#favoritos"><i class="fas fa-heart"></i> Mis favoritos</a>
+      <a href="{{ url_for('inmo_cuenta') }}#consultas"><i class="fas fa-comments"></i> Consultas</a>
+      <a href="{{ url_for('inmo_cuenta') }}#tasaciones"><i class="fas fa-magnifying-glass-dollar"></i> Tasaciones</a>
+      <a href="{{ url_for('inmo_cuenta') }}#compras"><i class="fas fa-file-invoice-dollar"></i> Mis compras</a>
+      <a href="{{ url_for('inmo_cuenta') }}"><i class="fas fa-id-card"></i> Datos personales</a>
+      <a href="{{ url_for('inmo_cuenta') }}"><i class="far fa-bell"></i> Notificaciones</a>
+      <a href="{{ url_for('logout') }}"><i class="fas fa-right-from-bracket"></i> Cerrar sesión</a>
+    </nav>
+  </aside>
+
+  <div class="inmo-cuenta-main">
+    <h1>Resumen de actividad</h1>
+    <div class="inmo-stats-grid">
+      <div class="inmo-stat-card"><i class="fas fa-heart"></i><div><strong>{{ propiedades_guardadas|length }}</strong>Propiedades guardadas</div></div>
+      <div class="inmo-stat-card"><i class="fas fa-comments"></i><div><strong>{{ consultas|length }}</strong>Consultas realizadas</div></div>
+      <div class="inmo-stat-card"><i class="fas fa-magnifying-glass-dollar"></i><div><strong>{{ tasaciones|length }}</strong>Tasaciones solicitadas</div></div>
+      <div class="inmo-stat-card"><i class="fas fa-calendar-check"></i><div><strong>{{ visitas|length }}</strong>Visitas agendadas</div></div>
+      <div class="inmo-stat-card"><i class="fas fa-file-invoice-dollar"></i><div><strong>{{ compras|length }}</strong>Compras realizadas</div></div>
+    </div>
+
+    <div class="inmo-cuenta-section" id="favoritos">
+      <div class="inmo-section-head">
+        <h2>Propiedades guardadas</h2>
+        <a href="{{ url_for('inmo_listado', operacion='comprar') }}">Ver todas</a>
+      </div>
+      {% if propiedades_guardadas %}
+      <div class="inmo-grid">
+        {% for p in propiedades_guardadas %}
+          {% include "inmo_property_card.html" %}
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="inmo-empty">Todavía no guardaste propiedades. Tocá el corazón en cualquier propiedad para guardarla acá.</div>
+      {% endif %}
+    </div>
+
+    <div class="inmo-cuenta-section" id="consultas">
+      <div class="inmo-section-head"><h2>Mis consultas</h2></div>
+      {% if consultas %}
+      <div class="inmo-table-wrap">
+        <table class="inmo-table">
+          <thead><tr><th>Nombre</th><th>Mensaje</th><th>Estado</th></tr></thead>
+          <tbody>
+            {% for c in consultas %}
+            <tr><td>{{ c.nombre }}</td><td>{{ c.mensaje or '-' }}</td><td><span class="inmo-status-pill inmo-status-{{ c.status }}">{{ c.status }}</span></td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="inmo-empty">Todavía no enviaste consultas.</div>
+      {% endif %}
+    </div>
+
+    <div class="inmo-cuenta-section" id="tasaciones">
+      <div class="inmo-section-head"><h2>Mis tasaciones</h2></div>
+      {% if tasaciones %}
+      <div class="inmo-table-wrap">
+        <table class="inmo-table">
+          <thead><tr><th>Dirección</th><th>Tipo</th><th>Valor estimado</th></tr></thead>
+          <tbody>
+            {% for t in tasaciones %}
+            <tr><td>{{ t.direccion }}</td><td>{{ t.tipo }}</td><td>USD {{ "{:,.0f}".format(t.valor_estimado).replace(",", ".") }}</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="inmo-empty">Todavía no solicitaste tasaciones.</div>
+      {% endif %}
+    </div>
+
+    <div class="inmo-cuenta-section" id="compras">
+      <div class="inmo-section-head"><h2>Mis compras</h2></div>
+      {% if compras %}
+      <div class="inmo-table-wrap">
+        <table class="inmo-table">
+          <thead><tr><th>N° operación</th><th>Propiedad</th><th>Precio</th><th>Estado</th></tr></thead>
+          <tbody>
+            {% for c in compras %}
+            <tr>
+              <td>{{ c.numero }}</td>
+              <td>{{ c.propiedad_nombre }}</td>
+              <td>USD {{ "{:,.0f}".format(c.precio).replace(",", ".") }}</td>
+              <td><span class="inmo-status-pill inmo-status-{{ c.status }}">{{ c.status }}</span></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="inmo-empty">Todavía no realizaste ninguna compra.</div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/inmo.js') }}"></script>
+{% endblock %}

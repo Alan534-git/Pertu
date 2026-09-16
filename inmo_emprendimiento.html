@@ -1,0 +1,27 @@
+{% extends "inmo_base.html" %}
+{% block title %}InmoControl — Emprendimientos{% endblock %}
+
+{% block content %}
+<section class="inmo-listado-header">
+  <div class="inmo-section-inner">
+    <h1>Invertí hoy en el futuro</h1>
+    <p>Desarrollos inmobiliarios únicos, en pozo y a estrenar.</p>
+  </div>
+</section>
+
+<div class="inmo-section-inner">
+  <div class="inmo-emprendimientos-grid inmo-emprendimientos-grid-full">
+    {% for e in emprendimientos %}
+    <div class="inmo-emprendimiento-card">
+      <div class="inmo-emprendimiento-media" style="background:{{ e.color_media }};">{{ e.nombre }}</div>
+      <div class="inmo-emprendimiento-info">
+        <div class="inmo-emprendimiento-name">{{ e.nombre }}</div>
+        <div class="inmo-emprendimiento-loc"><i class="fas fa-location-dot"></i> {{ e.ubicacion }}</div>
+        <div class="inmo-emprendimiento-price">Desde<br>USD {{ "{:,.0f}".format(e.desde).replace(",", ".") }}</div>
+        <a href="{{ url_for('inmo_contacto') }}" class="inmo-outline-btn" style="margin-top:12px; display:block; text-align:center;">Consultar</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

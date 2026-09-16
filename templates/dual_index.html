@@ -50,12 +50,13 @@
       <div style="font-weight:700; margin-bottom:6px;">Recibí novedades y promociones</div>
       <div style="font-size:12.5px; color:var(--dual-muted);">Enterate primero de los lanzamientos DUAL.</div>
     </div>
-    <div style="border:1px solid var(--dual-line); border-radius:2px; padding:26px;">
+    <div class="dual-shipping-box">
       <div style="font-weight:700; margin-bottom:10px;">Calculá tu envío</div>
-      <div style="display:flex; gap:8px;">
-        <input placeholder="Ingresá tu código postal" style="flex:1; border:1px solid var(--dual-line); border-radius:2px; padding:9px 10px; font-size:12.5px;">
-        <button class="dual-outline-btn">CALCULAR</button>
-      </div>
+      <form id="dual-shipping-form" style="display:flex; gap:8px;">
+        <input id="dual-shipping-postal" inputmode="numeric" pattern="[0-9]{4,8}" required placeholder="Ingresá tu código postal" aria-label="Código postal" style="flex:1; border:1px solid var(--dual-line); border-radius:2px; padding:9px 10px; font-size:12.5px;">
+        <button type="submit" class="dual-outline-btn">CALCULAR</button>
+      </form>
+      <div id="dual-shipping-result" class="dual-shipping-result" aria-live="polite"></div>
     </div>
   </div>
 </div>
@@ -72,4 +73,8 @@
   </div>
 </div>
 
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/dual-shipping.js') }}"></script>
 {% endblock %}

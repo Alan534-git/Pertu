@@ -1,0 +1,219 @@
+{% extends "inmo_base.html" %}
+{% block title %}InmoControl — Comprar {{ propiedad.nombre }}{% endblock %}
+
+{% block content %}
+<div class="inmo-section-inner inmo-wizard" data-inmo-compra-wizard data-property-id="{{ propiedad.id }}">
+
+  <div class="inmo-tasacion-intro">
+    <h1>Comprar {{ propiedad.nombre }}</h1>
+    <p>{{ propiedad.ubicacion }} · USD {{ "{:,.0f}".format(propiedad.precio).replace(",", ".") }}</p>
+  </div>
+
+  <div class="inmo-steps">
+    <div class="inmo-step active" data-compra-step="datos"><span class="inmo-step-num">1</span> Datos</div>
+    <div class="inmo-step" data-compra-step="resumen"><span class="inmo-step-num">2</span> Resumen</div>
+    <div class="inmo-step" data-compra-step="comprobante"><span class="inmo-step-num">3</span> Comprobante</div>
+  </div>
+
+  <!-- PASO 1: DATOS -->
+  <div class="inmo-wizard-panel" data-compra-panel="datos">
+    <div class="inmo-panel-card">
+      <h3>Contanos quién va a comprar</h3>
+      <form id="inmo-form-compra-datos">
+        <div class="inmo-field">
+          <label>Nombre completo</label>
+          <input type="text" name="nombre" required>
+        </div>
+        <div class="inmo-field-row">
+          <div class="inmo-field"><label>Email</label><input type="email" name="email" required></div>
+          <div class="inmo-field"><label>Teléfono</label><input type="tel" name="telefono"></div>
+        </div>
+        <div class="inmo-field-row">
+          <div class="inmo-field"><label>DNI</label><input type="text" name="dni" required></div>
+          <div class="inmo-field">
+            <label>Forma de pago</label>
+            <select name="forma_pago">
+              <option value="Contado">Contado</option>
+              <option value="Crédito hipotecario">Crédito hipotecario</option>
+              <option value="Financiación propia">Financiación propia</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="inmo-btn-primary">Continuar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- PASO 2: RESUMEN -->
+  <div class="inmo-wizard-panel" data-compra-panel="resumen" style="display:none;">
+    <div class="inmo-panel-card">
+      <h3>Revisá los datos antes de confirmar</h3>
+      <div class="inmo-stats-grid">
+        <div class="inmo-stat-card"><i class="fas {{ 'fa-key' if propiedad.operacion == 'alquiler' else 'fa-house' }}"></i><div><strong>{{ propiedad.nombre }}</strong>{{ propiedad.ubicacion }}</div></div>
+        <div class="inmo-stat-card"><i class="fas fa-sack-dollar"></i><div><strong>USD {{ "{:,.0f}".format(propiedad.precio).replace(",", ".") }}</strong>Precio</div></div>
+        <div class="inmo-stat-card"><i class="fas fa-user"></i><div><strong id="inmo-resumen-nombre">-</strong>Comprador</div></div>
+        <div class="inmo-stat-card"><i class="fas fa-credit-card"></i><div><strong id="inmo-resumen-pago">-</strong>Forma de pago</div></div>
+      </div>
+      <ul class="inmo-check-list" style="margin-top:16px;">
+        <li><i class="fas fa-envelope"></i> <span id="inmo-resumen-email">-</span></li>
+        <li><i class="fas fa-phone"></i> <span id="inmo-resumen-telefono">-</span></li>
+        <li><i class="fas fa-id-card"></i> DNI <span id="inmo-resumen-dni">-</span></li>
+      </ul>
+      <div style="display:flex; gap:10px; margin-top:18px;">
+        <button type="button" class="inmo-outline-btn" data-compra-volver="datos">Volver</button>
+        <button type="button" id="inmo-btn-confirmar-compra" class="inmo-btn-primary">Confirmar compra</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PASO 3: COMPROBANTE -->
+  <div class="inmo-wizard-panel" data-compra-panel="comprobante" style="display:none;">
+    <div class="inmo-panel-card inmo-resultado-card">
+      <i class="fas fa-circle-check"></i>
+      <h3>¡Compra confirmada!</h3>
+      <p class="inmo-resultado-nota">Guardá tu comprobante, también vas a poder verlo en <strong>Mi cuenta → Mis compras</strong>.</p>
+
+      <div class="inmo-table-wrap" style="margin-top:18px; text-align:left;">
+        <table class="inmo-table">
+          <tbody>
+            <tr><td>N° de operación</td><td id="inmo-comp-numero">-</td></tr>
+            <tr><td>Fecha</td><td id="inmo-comp-fecha">-</td></tr>
+            <tr><td>Propiedad</td><td id="inmo-comp-propiedad">-</td></tr>
+            <tr><td>Comprador</td><td id="inmo-comp-comprador">-</td></tr>
+            <tr><td>Forma de pago</td><td id="inmo-comp-pago">-</td></tr>
+            <tr><td>Precio total</td><td id="inmo-comp-precio">-</td></tr>
+            <tr><td>Estado</td><td><span class="inmo-status-pill inmo-status-confirmada">Confirmada</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="display:flex; gap:10px; justify-content:center; margin-top:18px;">
+        <button type="button" class="inmo-outline-btn" onclick="window.print()"><i class="fas fa-print"></i> Imprimir comprobante</button>
+        <a href="{{ url_for('inmo_cuenta') }}" class="inmo-btn-primary" style="text-decoration:none;">Ver en mi cuenta</a>
+      </div>
+    </div>
+
+    <div class="inmo-novedades-grid" style="margin-top:24px;">
+      <div class="inmo-novedad-card">
+        <div class="inmo-novedad-media" style="background:linear-gradient(135deg, #d8e7ff, #b7c8f6);"><i class="fas fa-user-tie"></i></div>
+        <div class="inmo-novedad-body">
+          <div class="inmo-novedad-title">Un asesor te va a contactar</div>
+          <div class="inmo-novedad-resumen">En las próximas 24 hs para coordinar los siguientes pasos.</div>
+        </div>
+      </div>
+      <div class="inmo-novedad-card">
+        <div class="inmo-novedad-media" style="background:linear-gradient(135deg, #d5f0df, #bfe5c7);"><i class="fas fa-file-signature"></i></div>
+        <div class="inmo-novedad-body">
+          <div class="inmo-novedad-title">Firmá la reserva</div>
+          <div class="inmo-novedad-resumen">Vamos a enviarte la documentación para reservar la propiedad.</div>
+        </div>
+      </div>
+      <div class="inmo-novedad-card">
+        <div class="inmo-novedad-media" style="background:linear-gradient(135deg, #f9e7d1, #efd0a3);"><i class="fas fa-stamp"></i></div>
+        <div class="inmo-novedad-body">
+          <div class="inmo-novedad-title">Escrituración</div>
+          <div class="inmo-novedad-resumen">Te acompañamos hasta el cierre definitivo de la operación.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="inmo-compra-error" class="inmo-notice" style="display:none;"></div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/inmo.js') }}"></script>
+<script>
+(function () {
+  const wizard = document.querySelector('[data-inmo-compra-wizard]');
+  if (!wizard) return;
+
+  const propertyId = Number(wizard.dataset.propertyId);
+  const steps = wizard.querySelectorAll('[data-compra-step]');
+  const panels = wizard.querySelectorAll('[data-compra-panel]');
+  const errorBox = document.getElementById('inmo-compra-error');
+  let datosComprador = null;
+
+  function showError(msg) {
+    errorBox.textContent = msg;
+    errorBox.style.display = 'block';
+  }
+
+  function hideError() {
+    errorBox.style.display = 'none';
+  }
+
+  function goToStep(stepName) {
+    steps.forEach((s) => s.classList.toggle('active', s.dataset.compraStep === stepName));
+    panels.forEach((p) => {
+      p.style.display = p.dataset.compraPanel === stepName ? '' : 'none';
+    });
+    hideError();
+  }
+
+  wizard.querySelectorAll('[data-compra-volver]').forEach((btn) => {
+    btn.addEventListener('click', () => goToStep(btn.dataset.compraVolver));
+  });
+
+  const formDatos = document.getElementById('inmo-form-compra-datos');
+  formDatos.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const data = new FormData(formDatos);
+    datosComprador = {
+      nombre: (data.get('nombre') || '').trim(),
+      email: (data.get('email') || '').trim(),
+      telefono: (data.get('telefono') || '').trim(),
+      dni: (data.get('dni') || '').trim(),
+      forma_pago: data.get('forma_pago') || 'Contado',
+    };
+    if (!datosComprador.nombre || !datosComprador.email || !datosComprador.dni) {
+      showError('Completá nombre, email y DNI para continuar.');
+      return;
+    }
+
+    document.getElementById('inmo-resumen-nombre').textContent = datosComprador.nombre;
+    document.getElementById('inmo-resumen-pago').textContent = datosComprador.forma_pago;
+    document.getElementById('inmo-resumen-email').textContent = datosComprador.email;
+    document.getElementById('inmo-resumen-telefono').textContent = datosComprador.telefono || 'No informado';
+    document.getElementById('inmo-resumen-dni').textContent = datosComprador.dni;
+
+    goToStep('resumen');
+  });
+
+  document.getElementById('inmo-btn-confirmar-compra').addEventListener('click', async () => {
+    if (!datosComprador) {
+      goToStep('datos');
+      return;
+    }
+    hideError();
+
+    try {
+      const response = await fetch('/api/inmo/compra', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ property_id: propertyId, ...datosComprador }),
+      });
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        showError(result.message || 'No pudimos confirmar la compra. Probá de nuevo.');
+        return;
+      }
+
+      const compra = result.compra;
+      document.getElementById('inmo-comp-numero').textContent = compra.numero;
+      document.getElementById('inmo-comp-fecha').textContent = new Date(compra.created_at).toLocaleDateString('es-AR');
+      document.getElementById('inmo-comp-propiedad').textContent = compra.propiedad_nombre + ' — ' + compra.propiedad_ubicacion;
+      document.getElementById('inmo-comp-comprador').textContent = compra.comprador.nombre + ' (DNI ' + compra.comprador.dni + ')';
+      document.getElementById('inmo-comp-pago').textContent = compra.forma_pago;
+      document.getElementById('inmo-comp-precio').textContent = result.precio_formateado;
+
+      goToStep('comprobante');
+    } catch (err) {
+      showError('Ocurrió un error de conexión. Probá de nuevo.');
+    }
+  });
+})();
+</script>
+{% endblock %}

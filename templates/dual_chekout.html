@@ -42,7 +42,7 @@
       <div class="dual-panel">
         <h3>Resumen de compra</h3>
         <div class="dual-confirm-item" style="border-top:none; padding-top:0;">
-          <div class="dual-confirm-thumb" style="background:{{ item.color_media }};">{{ item.nombre }}</div>
+          <div class="dual-confirm-thumb" style="background:{{ item.color_media }};">{% if item.imagen %}<img src="{{ item.imagen }}" alt="{{ item.nombre }}">{% endif %}<span>{{ item.nombre }}</span></div>
           <div style="flex:1; font-size:13px;">
             <div style="font-weight:700;">{{ item.nombre }}</div>
             <div style="color:var(--dual-muted);">Color: {{ item.color }} · Talle: {{ item.talla }}</div>
@@ -103,7 +103,7 @@
       </div>
 
       <div class="dual-confirm-item">
-        <div class="dual-confirm-thumb" style="background:{{ item.color_media }};">{{ item.nombre }}</div>
+        <div class="dual-confirm-thumb" style="background:{{ item.color_media }};">{% if item.imagen %}<img src="{{ item.imagen }}" alt="{{ item.nombre }}">{% endif %}<span>{{ item.nombre }}</span></div>
         <div style="flex:1; font-size:13px; text-align:left;">
           <div style="font-weight:700;">{{ item.nombre }}</div>
           <div style="color:var(--dual-muted);">Color: {{ item.color }} · Talle: {{ item.talla }}</div>

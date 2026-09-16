@@ -71,6 +71,264 @@
       "transportista": "Andreani",
       "codigo_seguimiento": "ARD1C594B1D-",
       "created_at": "2026-09-01T00:16:07.557509Z"
+    },
+    {
+      "id": "fec5afbc-470f-40c0-87ae-61208df36b83",
+      "numero": "DUAL-FEC5AF",
+      "username": "cliente_dual",
+      "display_name": "Cliente DUAL",
+      "item": {
+        "product_id": 103,
+        "nombre": "Jean Wide Leg",
+        "color_media": "#7c8ba3",
+        "talla": "36",
+        "color": "Azul",
+        "cantidad": 1,
+        "precio_unitario": 25990,
+        "subtotal": 25990
+      },
+      "envio_costo": 1990,
+      "total": 27980,
+      "envio": {
+        "nombre": "IJJI",
+        "email": "beltamburrino@gmail.com",
+        "telefono": "2544",
+        "codigo_postal": "256",
+        "provincia": "BS.AS",
+        "localidad": "SS",
+        "calle": "SS",
+        "numero": "94",
+        "piso": "515"
+      },
+      "metodo_pago": "mercadopago",
+      "estado": "en_camino",
+      "paso_actual": 1,
+      "transportista": "Andreani",
+      "codigo_seguimiento": "ARDFEC5AFBC-",
+      "created_at": "2026-09-05T00:19:41.324516Z"
+    },
+    {
+      "id": "03fbc8a6-80d2-4636-8251-b22960ac7178",
+      "numero": "DUAL-03FBC8",
+      "username": "cliente_dual",
+      "display_name": "Cliente DUAL",
+      "item": {
+        "product_id": 106,
+        "nombre": "Campera Liviana",
+        "color_media": "#b7a99c",
+        "imagen": "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&w=800&q=85",
+        "talla": "S",
+        "color": "Camel",
+        "cantidad": 1,
+        "precio_unitario": 34990,
+        "subtotal": 34990
+      },
+      "envio_costo": 1990,
+      "total": 36980,
+      "envio": {
+        "nombre": "cd",
+        "email": "beltamburrino@gmail.com",
+        "telefono": "585",
+        "codigo_postal": "256",
+        "provincia": "BS.AS",
+        "localidad": "SS",
+        "calle": "SS",
+        "numero": "94",
+        "piso": "515"
+      },
+      "metodo_pago": "mercadopago",
+      "estado": "en_camino",
+      "paso_actual": 1,
+      "transportista": "Andreani",
+      "codigo_seguimiento": "ARD03FBC8A6-",
+      "created_at": "2026-09-15T23:37:11.093830Z"
+    },
+    {
+      "id": "6d1a1512-6598-4f4c-8f33-21bf12a1ba91",
+      "numero": "DUAL-6D1A15",
+      "username": "cliente_dual",
+      "display_name": "Cliente DUAL",
+      "item": {
+        "product_id": 106,
+        "nombre": "Campera Liviana",
+        "color_media": "#b7a99c",
+        "imagen": "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&w=800&q=85",
+        "talla": "L",
+        "color": "Camel",
+        "cantidad": 1,
+        "precio_unitario": 34990,
+        "subtotal": 34990
+      },
+      "envio_costo": 1990,
+      "total": 36980,
+      "envio": {
+        "nombre": "cd",
+        "email": "beltamburrino@gmail.com",
+        "telefono": "585",
+        "codigo_postal": "256",
+        "provincia": "BS.AS",
+        "localidad": "SS",
+        "calle": "SS",
+        "numero": "94",
+        "piso": "515"
+      },
+      "metodo_pago": "tarjeta",
+      "estado": "en_camino",
+      "paso_actual": 1,
+      "transportista": "Andreani",
+      "codigo_seguimiento": "ARD6D1A1512-",
+      "created_at": "2026-09-15T23:42:55.438490Z"
+    },
+    {
+      "id": "f76472d3-3f74-41f2-92d7-185c016afdb4",
+      "numero": "DUAL-F76472",
+      "username": "cliente_dual",
+      "display_name": "Cliente DUAL",
+      "item": {
+        "product_id": 104,
+        "nombre": "Conjunto Rib",
+        "color_media": "#c9a6a1",
+        "imagen": "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=800&q=85",
+        "talla": "L",
+        "color": "Rosa viejo",
+        "cantidad": 5,
+        "precio_unitario": 24990,
+        "subtotal": 124950
+      },
+      "envio_costo": 1990,
+      "total": 126940,
+      "envio": {
+        "nombre": "ee",
+        "email": "beltamburrino@gmail.com",
+        "telefono": "585",
+        "codigo_postal": "256",
+        "provincia": "BS.AS",
+        "localidad": "SS",
+        "calle": "SS",
+        "numero": "94",
+        "piso": "515"
+      },
+      "metodo_pago": "mercadopago",
+      "estado": "en_camino",
+      "paso_actual": 1,
+      "transportista": "Andreani",
+      "codigo_seguimiento": "ARDF76472D3-",
+      "created_at": "2026-09-16T00:25:27.184410Z"
+    }
+  ],
+  "inmo_contacts": [
+    {
+      "id": "16401ddf-f70d-4ef7-820d-a019131b7d56",
+      "username": "cliente_inmo",
+      "nombre": "nuh",
+      "email": "beltamburrino@gmail.com",
+      "telefono": "585",
+      "mensaje": "",
+      "property_id": "3",
+      "status": "nuevo",
+      "created_at": "2026-09-01T01:43:23.294671Z"
+    },
+    {
+      "id": "5763d057-8c94-44a0-8907-0531460fae25",
+      "username": "cliente_inmo",
+      "nombre": "ddw",
+      "email": "dwwd@dd",
+      "telefono": "dwd",
+      "mensaje": "",
+      "property_id": "1",
+      "status": "nuevo",
+      "created_at": "2026-09-01T02:13:14.914310Z"
+    }
+  ],
+  "inmo_tasaciones": [],
+  "inmo_visitas": [
+    {
+      "id": "2d9a9e96-bcfd-4e62-a9eb-ca7b3f986dc1",
+      "username": "cliente_inmo",
+      "property_id": "3",
+      "status": "programada",
+      "created_at": "2026-09-01T01:43:27.292702Z"
+    },
+    {
+      "id": "ca348b38-32e5-4ca8-87d0-9412bd3f4234",
+      "username": "cliente_inmo",
+      "property_id": "3",
+      "status": "programada",
+      "created_at": "2026-09-01T02:04:37.217020Z"
+    }
+  ],
+  "inmo_compras": [
+    {
+      "id": "e9a04687-90ec-45f3-bc50-4e8bad646a44",
+      "numero": "INM-1001",
+      "username": "cliente_inmo",
+      "property_id": 6,
+      "propiedad_nombre": "Terreno en Lanús",
+      "propiedad_ubicacion": "Lanús",
+      "precio": 190000,
+      "comprador": {
+        "nombre": "f rff",
+        "email": "dwwd@dd",
+        "telefono": "dwd",
+        "dni": "33"
+      },
+      "forma_pago": "Crédito hipotecario",
+      "status": "confirmada",
+      "created_at": "2026-09-01T17:37:56.136387Z"
+    },
+    {
+      "id": "493b6e5c-6693-419f-b871-83f2e04f6ec5",
+      "numero": "INM-1002",
+      "username": "cliente_inmo",
+      "property_id": 1,
+      "propiedad_nombre": "Departamento en Palermo",
+      "propiedad_ubicacion": "Palermo",
+      "precio": 420000,
+      "comprador": {
+        "nombre": "gg",
+        "email": "beltamburrino@gmail.com",
+        "telefono": "2544",
+        "dni": "33"
+      },
+      "forma_pago": "Crédito hipotecario",
+      "status": "confirmada",
+      "created_at": "2026-09-05T00:18:22.517399Z"
+    },
+    {
+      "id": "8f920cce-27a6-4aa0-ac63-0d3e1669768f",
+      "numero": "INM-1003",
+      "username": "cliente_inmo",
+      "property_id": 1,
+      "propiedad_nombre": "Departamento en Palermo",
+      "propiedad_ubicacion": "Palermo",
+      "precio": 420000,
+      "comprador": {
+        "nombre": "gg",
+        "email": "dwwd@dd",
+        "telefono": "dwd",
+        "dni": "33"
+      },
+      "forma_pago": "Contado",
+      "status": "confirmada",
+      "created_at": "2026-09-16T00:22:04.623453Z"
+    },
+    {
+      "id": "71400710-ec65-4f6d-b9c4-e46731f321ed",
+      "numero": "INM-1004",
+      "username": "cliente_inmo",
+      "property_id": 3,
+      "propiedad_nombre": "PH en Villa Crespo",
+      "propiedad_ubicacion": "Villa Crespo",
+      "precio": 1650,
+      "comprador": {
+        "nombre": "vvv",
+        "email": "dwwd@dd",
+        "telefono": "dwd",
+        "dni": "33"
+      },
+      "forma_pago": "Contado",
+      "status": "confirmada",
+      "created_at": "2026-09-16T00:22:30.007420Z"
     }
   ]
 }

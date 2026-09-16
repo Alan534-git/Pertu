@@ -1,0 +1,38 @@
+{% extends "dual_base.html" %}
+{% block title %}DUAL — Comprobante de compra{% endblock %}
+
+{% block content %}
+<div class="dual-wizard">
+  <div class="dual-panel" style="max-width:560px; margin:0 auto;">
+    <div style="text-align:center;">
+      <div class="dual-confirm-icon">✓</div>
+      <h1 style="font-size:22px; margin-bottom:4px;">Comprobante de compra</h1>
+      <p style="color:var(--dual-muted); font-size:13px;">Pedido N° {{ pedido.numero }}</p>
+    </div>
+
+    <div style="margin-top:22px;">
+      <div class="dual-summary-row"><span>Cliente</span><span>{{ pedido.display_name }}</span></div>
+      <div class="dual-summary-row"><span>Medio de pago</span><span>{{ pedido.metodo_pago|replace('_', ' ')|title }}</span></div>
+      <div class="dual-summary-row"><span>Estado</span><span>{{ 'Pago confirmado' if pedido.estado != 'cancelado' else 'Cancelado' }}</span></div>
+      <div class="dual-confirm-item">
+        <div class="dual-confirm-thumb" style="background:{{ pedido.item.color_media }};">
+          {% if pedido.item.imagen %}<img src="{{ pedido.item.imagen }}" alt="{{ pedido.item.nombre }}">{% endif %}
+          <span>{{ pedido.item.nombre }}</span>
+        </div>
+        <div style="flex:1; font-size:13px;">
+          <div style="font-weight:700;">{{ pedido.item.nombre }}</div>
+          <div style="color:var(--dual-muted);">{{ pedido.item.cantidad }} unidad(es) · Talle: {{ pedido.item.talla }} · Color: {{ pedido.item.color }}</div>
+        </div>
+        <div style="font-weight:700;">${{ "{:,.0f}".format(pedido.item.subtotal).replace(",", ".") }}</div>
+      </div>
+      <div class="dual-summary-row"><span>Envío</span><span>${{ "{:,.0f}".format(pedido.envio_costo).replace(",", ".") }}</span></div>
+      <div class="dual-summary-row dual-summary-total"><span>Total</span><span>${{ "{:,.0f}".format(pedido.total).replace(",", ".") }}</span></div>
+    </div>
+
+    <div style="text-align:center; margin-top:22px;">
+      <a href="{{ url_for('dual_pedido_detalle', order_id=pedido.id) }}" class="dual-btn-primary" style="display:block; text-decoration:none;">VER SEGUIMIENTO</a>
+      <a href="{{ url_for('dual_pedidos') }}" class="dual-btn-secondary" style="display:block; text-decoration:none;">IR A MIS PEDIDOS</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

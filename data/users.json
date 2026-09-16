@@ -27,6 +27,13 @@
       "role": "cliente",
       "sector": "dual",
       "display_name": "Cliente DUAL"
+    },
+    {
+      "username": "cliente_inmo",
+      "password_hash": "scrypt:32768:8:1$9lpuPxkv3QzX61jw$849f7c52719a14deb43ca826e5827e1d7c7ea5fa846787673035c4d17b3b62282a8579586e0933e071f3844c7a1513bb1821597fe295ca2f18f065d81d138126",
+      "role": "cliente",
+      "sector": "inmo",
+      "display_name": "Juan Pérez"
     }
   ]
 }

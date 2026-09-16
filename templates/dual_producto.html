@@ -9,9 +9,10 @@
 </nav>
 
 <div style="max-width:1240px; margin:0 auto; padding:24px; display:grid; grid-template-columns:1fr 1fr; gap:40px;">
-  <div class="dual-card-media" style="background:{{ producto.color_media }}; border-radius:2px; aspect-ratio:4/5; font-size:22px;">
+  <div class="dual-card-media dual-product-image" style="background:{{ producto.color_media }}; border-radius:2px; aspect-ratio:4/5; font-size:22px;">
     {% if producto.descuento %}<span class="dual-card-badge">-{{ producto.descuento }}%</span>{% endif %}
-    {{ producto.nombre }}
+    {% if producto.imagen %}<img src="{{ producto.imagen }}" alt="{{ producto.nombre }}" id="dual-product-image-source">{% endif %}
+    <span class="dual-card-media-label">{{ producto.nombre }}</span>
   </div>
 
   <div>
@@ -24,24 +25,28 @@
     </div>
     <p style="color:var(--dual-muted); font-size:14px; line-height:1.6; margin-bottom:24px;">{{ producto.descripcion }}</p>
 
-    <form method="get" action="{{ url_for('dual_comprar', product_id=producto.id) }}">
+    <form method="get" action="{{ url_for('dual_comprar', product_id=producto.id) }}" data-dual-product data-stock='{{ stock_json }}'>
       <div class="dual-field">
         <label>TALLE</label>
-        <select name="talla" required>
+        <select name="talla" id="dual-size-select" required>
           {% for t in producto.talles %}<option value="{{ t }}">{{ t }}</option>{% endfor %}
         </select>
+        <div id="dual-stock-status" class="dual-stock-status" aria-live="polite"></div>
       </div>
       <div class="dual-field">
         <label>COLOR</label>
-        <select name="color" required>
+        <select name="color" id="dual-color-select" required>
           {% for c in producto.colores_nombre %}<option value="{{ c }}">{{ c }}</option>{% endfor %}
         </select>
+      </div>
+      <div class="dual-product-swatches" aria-label="Elegí un color">
+        {% for c in producto.colores_nombre %}<button type="button" class="dual-product-swatch{% if loop.first %} active{% endif %}" data-color="{{ c }}" data-color-media="{{ color_hex.get(c, producto.color_media) }}" style="background:{{ color_hex.get(c, producto.color_media) }};" title="{{ c }}"></button>{% endfor %}
       </div>
       <div class="dual-field" style="max-width:120px;">
         <label>CANTIDAD</label>
         <input type="number" name="cantidad" value="1" min="1" max="10">
       </div>
-      <button type="submit" class="dual-btn-primary">COMPRAR</button>
+      <button type="submit" class="dual-btn-primary dual-buy-action" id="dual-btn-comprar">COMPRAR</button>
     </form>
 
     <div class="dual-benefits" style="grid-template-columns:1fr 1fr; padding:20px 0; border:none;">
@@ -50,4 +55,9 @@
     </div>
   </div>
 </div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/dual-product.js') }}"></script>
 {% endblock %}

@@ -1,14 +1,22 @@
 <div class="dual-card">
   <a href="{{ url_for('dual_producto', product_id=p.id) }}" class="dual-card-media" style="background:{{ p.color_media }};">
     {% if p.descuento %}<span class="dual-card-badge">-{{ p.descuento }}%</span>{% endif %}
-    {{ p.nombre }}
+    {% if p.imagen %}<img src="{{ p.imagen }}" alt="{{ p.nombre }}" loading="lazy">{% endif %}
+    <span class="dual-card-media-label">{{ p.nombre }}</span>
   </a>
   <div class="dual-card-name">{{ p.nombre }}</div>
+  <div class="dual-card-colors" aria-label="Colores disponibles">
+    {% for color in p.colores_nombre %}<span class="dual-swatch" title="{{ color }}" style="background:{{ color_hex.get(color, '#ccc') }};"></span>{% endfor %}
+    <span>{{ p.colores_nombre|length }} color{{ 'es' if p.colores_nombre|length != 1 else '' }}</span>
+  </div>
   <div class="dual-card-price">
     {% if p.descuento %}
       <span class="dual-card-price-old">${{ "{:,.0f}".format(p.precio_original).replace(",", ".") }}</span>
     {% endif %}
     ${{ "{:,.0f}".format(p.precio).replace(",", ".") }}
   </div>
-  <a href="{{ url_for('dual_producto', product_id=p.id) }}" class="dual-card-btn" style="text-align:center;">VER PRODUCTO</a>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px;">
+    <a href="{{ url_for('dual_producto', product_id=p.id) }}" class="dual-card-btn" style="text-align:center;">VER PRODUCTO</a>
+    <a href="{{ url_for('dual_comprar', product_id=p.id) }}" class="dual-card-btn dual-card-buy-btn" style="text-align:center;">COMPRAR</a>
+  </div>
 </div>

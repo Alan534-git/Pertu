@@ -1,0 +1,25 @@
+{% extends "inmo_base.html" %}
+{% block title %}InmoControl — Novedades{% endblock %}
+
+{% block content %}
+<section class="inmo-listado-header">
+  <div class="inmo-section-inner">
+    <h1>Novedades del mercado inmobiliario</h1>
+    <p>Tendencias, guías y análisis para comprar, vender o invertir mejor.</p>
+  </div>
+</section>
+
+<div class="inmo-section-inner">
+  <div class="inmo-novedades-grid inmo-novedades-grid-full">
+    {% for n in novedades %}
+    <a href="{{ url_for('inmo_novedades_view') }}" class="inmo-novedad-card">
+      <div class="inmo-novedad-media" style="background:{{ n.color_media }};"><i class="fas fa-newspaper"></i></div>
+      <div class="inmo-novedad-body">
+        <div class="inmo-novedad-title">{{ n.titulo }}</div>
+        <div class="inmo-novedad-resumen">{{ n.resumen }}</div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acceso al sistema</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}">
     <link rel="icon" type="image/svg+xml" href="{{ url_for('favicon') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <main class="auth-shell">
@@ -55,7 +55,12 @@
                     <strong>Usuarios de prueba:</strong><br>
                     admin / admin123<br>
                     cliente_delivery / delivery123<br>
-                    cliente_gestoria / gestoria123
+                    cliente_gestoria / gestoria123<br>
+                    cliente_dual / dual123<br>
+                    cliente_inmo / inmo123
+                </div>
+                <div class="notice" style="margin-top: 12px;">
+                    Usá alguno de los usuarios de prueba listados arriba para entrar al sector asignado.
                 </div>
             </div>
         </section>

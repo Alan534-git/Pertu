@@ -1,0 +1,76 @@
+{% extends "inmo_base.html" %}
+{% block title %}InmoControl — Tasación online{% endblock %}
+
+{% block content %}
+<div class="inmo-section-inner inmo-wizard" data-inmo-tasacion-wizard>
+
+  <div class="inmo-tasacion-intro">
+    <h1>Conocé el valor de tu propiedad</h1>
+    <p>Rápido, gratuito y online</p>
+  </div>
+
+  <div class="inmo-steps">
+    <div class="inmo-step active" data-step="direccion"><span class="inmo-step-num">1</span> Dirección</div>
+    <div class="inmo-step" data-step="detalles"><span class="inmo-step-num">2</span> Detalles</div>
+    <div class="inmo-step" data-step="resultado"><span class="inmo-step-num">3</span> Resultado</div>
+  </div>
+
+  <div class="inmo-wizard-panel" data-panel="direccion">
+    <div class="inmo-panel-card">
+      <h3>Ingresá la dirección de tu propiedad</h3>
+      <form id="inmo-form-direccion">
+        <div class="inmo-field">
+          <label>Dirección</label>
+          <input type="text" name="direccion" placeholder="Ej: Av. del Libertador 1234, CABA" required>
+        </div>
+        <button type="submit" class="inmo-btn-primary">Continuar</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="inmo-wizard-panel" data-panel="detalles" style="display:none;">
+    <div class="inmo-panel-card">
+      <h3>Contanos un poco más</h3>
+      <form id="inmo-form-detalles">
+        <div class="inmo-field">
+          <label>Tipo de propiedad</label>
+          <select name="tipo" required>
+            {% for t in ['Departamento', 'Casa', 'PH', 'Oficina', 'Terreno', 'Local'] %}
+              <option value="{{ t }}">{{ t }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="inmo-field">
+          <label>Superficie (m²)</label>
+          <input type="number" name="superficie" min="10" required>
+        </div>
+        <div class="inmo-field">
+          <label>Ambientes</label>
+          <select name="ambientes">
+            <option>1</option><option>2</option><option>3</option><option>4</option><option>5+</option>
+          </select>
+        </div>
+        <button type="button" class="inmo-outline-btn" data-inmo-volver="direccion">Volver</button>
+        <button type="submit" class="inmo-btn-primary">Ver resultado</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="inmo-wizard-panel" data-panel="resultado" style="display:none;">
+    <div class="inmo-panel-card inmo-resultado-card">
+      <i class="fas fa-house-circle-check"></i>
+      <h3>Valor estimado de tu propiedad</h3>
+      <div class="inmo-resultado-valor" id="inmo-resultado-valor">USD 0</div>
+      <p class="inmo-resultado-nota">Esta es una estimación automática. Un asesor puede afinar la tasación con una visita presencial.</p>
+      <a href="{{ url_for('inmo_contacto') }}" class="inmo-btn-primary" style="display:inline-block; text-decoration:none;">Hablar con un asesor</a>
+      <a href="{{ url_for('inmo_cuenta') }}" class="inmo-outline-btn" style="display:inline-block; text-decoration:none;">Ver en mi cuenta</a>
+    </div>
+  </div>
+
+  <div id="inmo-tasacion-error" class="inmo-notice" style="display:none;"></div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/inmo.js') }}"></script>
+{% endblock %}

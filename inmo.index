@@ -1,0 +1,208 @@
+{% extends "inmo_base.html" %}
+{% block title %}InmoControl — Encontrá el hogar o la inversión perfecta{% endblock %}
+
+{% block content %}
+
+<section class="inmo-hero">
+  <div class="inmo-hero-inner">
+    <div class="inmo-hero-copy">
+      <h1>Encontrá el hogar<br>o la inversión perfecta</h1>
+      <p>Casas, departamentos, terrenos y locales en los mejores lugares.</p>
+
+      <div class="inmo-search-card">
+        <div class="inmo-search-tabs">
+          <a href="{{ url_for('inmo_listado', operacion='comprar') }}" class="inmo-search-tab active">Comprar</a>
+          <a href="{{ url_for('inmo_listado', operacion='alquilar') }}" class="inmo-search-tab">Alquilar</a>
+          <a href="{{ url_for('inmo_emprendimientos') }}" class="inmo-search-tab">Emprendimientos</a>
+        </div>
+        <form class="inmo-search-form" method="get" action="{{ url_for('inmo_listado', operacion='comprar') }}">
+          <div class="inmo-search-field">
+            <label>Tipo de propiedad</label>
+            <select name="tipo">
+              <option value="">Casa, Departamento, PH...</option>
+              {% for t in ['Casa', 'Departamento', 'PH', 'Oficina', 'Terreno', 'Local'] %}
+                <option value="{{ t }}">{{ t }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="inmo-search-field">
+            <label>Ubicación</label>
+            <select name="ubicacion">
+              <option value="">Buenos Aires, Palermo...</option>
+              {% for z in zonas %}
+                <option value="{{ z.nombre }}">{{ z.nombre }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="inmo-search-field inmo-search-field-price">
+            <label>Precio</label>
+            <select disabled><option>Min - Max</option></select>
+          </div>
+          <button type="submit" class="inmo-btn-primary inmo-search-btn"><i class="fas fa-magnifying-glass"></i> Buscar</button>
+        </form>
+        <a href="{{ url_for('inmo_listado', operacion='comprar') }}" class="inmo-search-advanced">Búsqueda avanzada</a>
+      </div>
+    </div>
+
+    <div class="inmo-hero-visual" aria-label="Imagen destacada de la propiedad">
+      <div class="inmo-hero-image"></div>
+    </div>
+  </div>
+</section>
+
+<section class="inmo-benefits-strip">
+  <div class="inmo-benefit-item"><i class="fas fa-truck-fast"></i><div><strong>Envíos a todo el país</strong>Rápidos y seguros</div></div>
+  <div class="inmo-benefit-item"><i class="fas fa-user-check"></i><div><strong>Asesoramiento</strong>Personalizado</div></div>
+  <div class="inmo-benefit-item"><i class="fas fa-circle-check"></i><div><strong>Propiedades verificadas</strong>100% confiables</div></div>
+  <div class="inmo-benefit-item"><i class="fas fa-video"></i><div><strong>Visitas virtuales</strong>Ahorra tu tiempo</div></div>
+  <div class="inmo-benefit-item"><i class="fas fa-calendar-check"></i><div><strong>Visitas online</strong>Gratuita y rápida</div></div>
+</section>
+
+<!-- 5. EMPRENDIMIENTOS -->
+<section class="inmo-section inmo-section-dark">
+  <div class="inmo-section-inner">
+    <div class="inmo-section-head">
+      <div>
+        <h2>Invertí hoy en el futuro</h2>
+        <p>Desarrollos inmobiliarios únicos</p>
+      </div>
+      <a href="{{ url_for('inmo_emprendimientos') }}" class="inmo-outline-btn inmo-outline-btn-light">Ver todos los emprendimientos</a>
+    </div>
+    <div class="inmo-emprendimientos-grid">
+      {% for e in emprendimientos %}
+      <a href="{{ url_for('inmo_emprendimientos') }}" class="inmo-emprendimiento-card">
+        <div class="inmo-emprendimiento-media" style="background:{{ e.color_media }};">
+          {% if e.imagen %}<img src="{{ url_for('static', filename='img/' + e.imagen) }}" alt="{{ e.nombre }}">{% endif %}
+          <span>{{ e.nombre }}</span>
+        </div>
+        <div class="inmo-emprendimiento-info">
+          <div class="inmo-emprendimiento-name">{{ e.nombre }}</div>
+          <div class="inmo-emprendimiento-loc">{{ e.ubicacion }}</div>
+          <div class="inmo-emprendimiento-price">Desde<br>USD {{ "{:,.0f}".format(e.desde).replace(",", ".") }}</div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- 6. MAPA Y ZONA -->
+<section class="inmo-section">
+  <div class="inmo-section-inner">
+    <div class="inmo-section-head">
+      <div>
+        <h2>Explorá propiedades por zona</h2>
+        <p>Encontrá el barrio que mejor se adapta a vos</p>
+      </div>
+      <a href="{{ url_for('inmo_mapa') }}" class="inmo-outline-btn">Ver mapa completo</a>
+    </div>
+    <div class="inmo-map-preview">
+      <div class="inmo-map-placeholder">
+        {% for z in zonas %}
+          <span class="inmo-map-pin" style="left:{{ (loop.index0 * 18) % 90 }}%; top:{{ (loop.index0 * 27) % 70 }}%;">USD {{ (z.precio_prom / 1000)|round|int }}k</span>
+        {% endfor %}
+      </div>
+      <div class="inmo-map-zonas">
+        {% for z in zonas %}
+        <a href="{{ url_for('inmo_listado', operacion='comprar', ubicacion=z.nombre) }}" class="inmo-zone-chip">{{ z.nombre }}</a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. TASACIÓN ONLINE -->
+<section class="inmo-section inmo-section-tint">
+  <div class="inmo-section-inner inmo-tasacion-teaser">
+    <div>
+      <h2>Conocé el valor de tu propiedad</h2>
+      <p>Rápido, gratuito y online</p>
+      <div class="inmo-tasacion-steps">
+        <span><i class="fas fa-1"></i> Dirección</span>
+        <span><i class="fas fa-2"></i> Detalles</span>
+        <span><i class="fas fa-3"></i> Resultado</span>
+      </div>
+      <a href="{{ url_for('inmo_tasacion') }}" class="inmo-btn-primary">Continuar</a>
+      <ul class="inmo-tasacion-checks">
+        <li><i class="fas fa-check"></i> Tasación 100% online</li>
+        <li><i class="fas fa-check"></i> Resultados en minutos</li>
+        <li><i class="fas fa-check"></i> Sin compromiso</li>
+      </ul>
+    </div>
+    <div class="inmo-tasacion-art"><i class="fas fa-house-circle-check"></i></div>
+  </div>
+</section>
+
+<!-- 8. SERVICIOS -->
+<section class="inmo-section">
+  <div class="inmo-section-inner">
+    <div class="inmo-section-head">
+      <div>
+        <h2>Te acompañamos en todo el proceso</h2>
+      </div>
+    </div>
+    <div class="inmo-servicios-grid">
+      {% for s in servicios %}
+      <div class="inmo-servicio-card">
+        <i class="fas {{ s.icono }}"></i>
+        <h3>{{ s.titulo }}</h3>
+        <p>{{ s.descripcion }}</p>
+      </div>
+      {% endfor %}
+    </div>
+    <div style="text-align:center; margin-top:20px;">
+      <a href="{{ url_for('inmo_servicios_view') }}" class="inmo-outline-btn">Ver todos los servicios</a>
+    </div>
+  </div>
+</section>
+
+<!-- 9. NOVEDADES -->
+<section class="inmo-section inmo-section-tint">
+  <div class="inmo-section-inner">
+    <div class="inmo-section-head">
+      <div><h2>Novedades del mercado inmobiliario</h2></div>
+      <a href="{{ url_for('inmo_novedades_view') }}" class="inmo-outline-btn">Ver todas</a>
+    </div>
+    <div class="inmo-novedades-grid">
+      {% for n in novedades %}
+      <a href="{{ url_for('inmo_novedades_view') }}" class="inmo-novedad-card">
+        <div class="inmo-novedad-media" style="background:{{ n.color_media }};"><i class="fas fa-newspaper"></i></div>
+        <div class="inmo-novedad-body">
+          <div class="inmo-novedad-title">{{ n.titulo }}</div>
+          <div class="inmo-novedad-resumen">{{ n.resumen }}</div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Propiedades destacadas -->
+<section class="inmo-section">
+  <div class="inmo-section-inner">
+    <div class="inmo-section-head">
+      <div><h2>Propiedades destacadas</h2></div>
+    </div>
+    <div class="inmo-grid">
+      {% for p in propiedades %}
+        {% include "inmo_property_card.html" %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Por qué elegirnos -->
+<section class="inmo-section inmo-why-us">
+  <div class="inmo-section-inner inmo-why-grid">
+    <div><i class="fas fa-magnifying-glass"></i><h4>Búsqueda inteligente</h4><p>Encontrá lo que buscás con filtros avanzados.</p></div>
+    <div><i class="fas fa-shield-halved"></i><h4>Información confiable</h4><p>Datos verificados y actualizados en tiempo real.</p></div>
+    <div><i class="fas fa-headset"></i><h4>Atención personalizada</h4><p>Asesores expertos siempre a tu disposición.</p></div>
+    <div><i class="fas fa-layer-group"></i><h4>Gestión integral</h4><p>Compra, venta, alquiler y tasación en un solo lugar.</p></div>
+    <div><i class="fas fa-lock"></i><h4>Seguridad</h4><p>Operaciones seguras y protección de datos.</p></div>
+    <div><i class="fas fa-award"></i><h4>Experiencia</h4><p>Más de 15 años en el mercado inmobiliario.</p></div>
+    <div><i class="fas fa-lightbulb"></i><h4>Innovación</h4><p>Tecnología para mejorar tu experiencia.</p></div>
+    <div><i class="fas fa-handshake"></i><h4>Compromiso</h4><p>Te acompañamos en cada paso del proceso.</p></div>
+  </div>
+</section>
+
+{% endblock %}

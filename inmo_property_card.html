@@ -1,0 +1,19 @@
+{% set media_url = p.imagen if p.imagen and p.imagen.startswith('http') else url_for('static', filename='img/' + p.imagen) if p.imagen else None %}
+<div class="inmo-card">
+  <a href="{{ url_for('inmo_propiedad', property_id=p.id) }}" class="inmo-card-media" style="{% if media_url %}background-image: linear-gradient(135deg, rgba(15, 32, 68, 0.15), rgba(15, 32, 68, 0.15)), url('{{ media_url }}'); background-size: cover; background-position: center; background-repeat: no-repeat;{% else %}background:{{ p.color_media }};{% endif %}">
+    {% if p.es_nuevo %}<span class="inmo-card-badge">Nuevo</span>{% endif %}
+    {% if not media_url %}<i class="fas {{ 'fa-key' if p.operacion == 'alquiler' else 'fa-house' }}"></i>{% endif %}
+  </a>
+  <div class="inmo-card-body">
+    <div class="inmo-card-name">{{ p.nombre }}</div>
+    <div class="inmo-card-loc"><i class="fas fa-location-dot"></i> {{ p.ubicacion }}</div>
+    <div class="inmo-card-specs">
+      {% if p.dormitorios %}<span><i class="fas fa-bed"></i> {{ p.dormitorios }}</span>{% endif %}
+      <span><i class="fas fa-bath"></i> {{ p.banos }}</span>
+      <span><i class="fas fa-ruler-combined"></i> {{ p.superficie }} m²</span>
+    </div>
+    <div class="inmo-card-price">
+      USD {{ "{:,.0f}".format(p.precio).replace(",", ".") }}{% if p.operacion == 'alquiler' %} / mes{% endif %}
+    </div>
+  </div>
+</div>

@@ -19,18 +19,18 @@
 </nav>
 
 <div class="dual-layout" id="catalogo">
-  <aside class="dual-filters">
+  <form class="dual-filters" method="get">
     <div class="dual-filter-block">
       <div class="dual-filter-title">FILTRAR POR</div>
       {% for sub in subcategorias %}
-      <label class="dual-filter-option"><input type="checkbox"> {{ sub }}</label>
+      <label class="dual-filter-option"><input type="checkbox" name="subcategoria" value="{{ sub }}" {% if sub in filtros.subcategoria %}checked{% endif %}> {{ sub }}</label>
       {% endfor %}
     </div>
 
     <div class="dual-filter-block">
       <div class="dual-filter-title">TALLES</div>
       {% for t in talles %}
-      <label class="dual-filter-option"><input type="checkbox"> {{ t }}</label>
+      <label class="dual-filter-option"><input type="checkbox" name="talle" value="{{ t }}" {% if t in filtros.talle %}checked{% endif %}> {{ t }}</label>
       {% endfor %}
     </div>
 
@@ -38,19 +38,21 @@
       <div class="dual-filter-title">COLORES</div>
       <div class="dual-swatches">
         {% for c in colores %}
-        <span class="dual-swatch" style="background:{{ c }};"></span>
+        <label class="dual-swatch-option" title="{{ c }}"><input type="checkbox" name="color" value="{{ c }}" {% if c in filtros.color %}checked{% endif %}><span class="dual-swatch" style="background:{{ color_hex.get(c, '#ccc') }};"></span></label>
         {% endfor %}
       </div>
     </div>
 
     <div class="dual-filter-block">
       <div class="dual-filter-title">PRECIO</div>
-      <input type="range" style="width:100%;">
+      <input type="range" name="precio_max" min="0" max="100000" step="1000" value="{{ filtros.precio_max }}" style="width:100%;">
       <div style="display:flex; justify-content:space-between; font-size:11.5px; color:var(--dual-muted);">
-        <span>$0</span><span>$100.000</span>
+        <span>$0</span><span id="dual-price-value">Hasta ${{ "{:,.0f}".format(filtros.precio_max).replace(",", ".") }}</span>
       </div>
     </div>
-  </aside>
+    <button type="submit" class="dual-filter-submit">APLICAR FILTROS</button>
+    <a class="dual-filter-clear" href="{{ url_for('dual_categoria', categoria=categoria) }}">LIMPIAR</a>
+  </form>
 
   <div>
     <div class="dual-toolbar">

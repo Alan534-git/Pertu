@@ -1,0 +1,112 @@
+{% extends "inmo_base.html" %}
+{% block title %}InmoControl — {{ propiedad.nombre }}{% endblock %}
+
+{% block content %}
+<nav class="inmo-breadcrumb">
+  <a href="{{ url_for('inmo_home') }}">Inicio</a> ›
+  <a href="{{ url_for('inmo_listado', operacion='comprar' if propiedad.operacion == 'venta' else 'alquilar') }}">{{ "Comprar" if propiedad.operacion == "venta" else "Alquilar" }}</a> ›
+  {{ propiedad.nombre }}
+</nav>
+
+<div class="inmo-section-inner inmo-detalle-layout">
+  {% set gallery = propiedad.get('imagenes') or [propiedad.imagen] %}
+  {% set main_media = gallery[0] if gallery else None %}
+  {% set main_url = main_media if main_media and main_media.startswith('http') else url_for('static', filename='img/' + main_media) if main_media else None %}
+  <div class="inmo-detalle-media">
+    <div class="inmo-gallery">
+      <div class="inmo-gallery-main">
+        <img id="inmo-gallery-main-image" src="{{ main_url }}" alt="{{ propiedad.nombre }}" {% if not main_url %}style="display:none;"{% endif %}>
+        {% if not main_url %}<div class="inmo-gallery-placeholder" style="background:{{ propiedad.color_media }};"> <i class="fas {{ 'fa-key' if propiedad.operacion == 'alquiler' else 'fa-house' }}"></i> </div>{% endif %}
+        <button type="button" class="inmo-card-fav inmo-detalle-fav {{ 'active' if propiedad.id in (inmo_favoritos or []) }}" data-inmo-fav="{{ propiedad.id }}" aria-label="Guardar en favoritos">
+          <i class="{{ 'fas' if propiedad.id in (inmo_favoritos or []) else 'far' }} fa-heart"></i>
+        </button>
+        <button type="button" class="inmo-gallery-expand" aria-label="Ampliar imagen" title="Ampliar foto">
+          <i class="fas fa-expand"></i>
+        </button>
+        <span class="inmo-detalle-media-count" id="inmo-gallery-count">1 / {{ gallery|length }}</span>
+      </div>
+      <div class="inmo-gallery-thumbs" aria-label="Galería de fotos">
+        {% for image in gallery %}
+          {% set image_url = image if image.startswith('http') else url_for('static', filename='img/' + image) %}
+          <button type="button" class="inmo-gallery-thumb {% if loop.first %}active{% endif %}" data-image="{{ image_url }}" data-index="{{ loop.index0 }}" aria-label="Ver foto {{ loop.index }}">
+            <img src="{{ image_url }}" alt="{{ propiedad.nombre }} {{ loop.index }}" loading="lazy">
+          </button>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="inmo-detalle-info">
+    <div class="inmo-detalle-title-row">
+      <div>
+        <h1>{{ propiedad.nombre }}</h1>
+        <div class="inmo-detalle-loc"><i class="fas fa-location-dot"></i> {{ propiedad.ubicacion }}</div>
+      </div>
+      <div class="inmo-detalle-price">USD {{ "{:,.0f}".format(propiedad.precio).replace(",", ".") }}{% if propiedad.operacion == 'alquiler' %} / mes{% endif %}</div>
+    </div>
+
+    <div class="inmo-detalle-specs">
+      {% if propiedad.dormitorios %}<div><i class="fas fa-bed"></i><span>{{ propiedad.dormitorios }}</span>Dormitorios</div>{% endif %}
+      <div><i class="fas fa-bath"></i><span>{{ propiedad.banos }}</span>Baños</div>
+      <div><i class="fas fa-ruler-combined"></i><span>{{ propiedad.superficie }} m²</span>Superficie</div>
+      {% if propiedad.cocheras %}<div><i class="fas fa-square-parking"></i><span>{{ propiedad.cocheras }}</span>Cocheras</div>{% endif %}
+    </div>
+
+    <div class="inmo-tabs">
+      <span class="inmo-tab active" data-inmo-tab="descripcion">Descripción</span>
+      <span class="inmo-tab" data-inmo-tab="caracteristicas">Características</span>
+      <span class="inmo-tab" data-inmo-tab="ubicacion">Ubicación</span>
+      <span class="inmo-tab" data-inmo-tab="planos">Planos</span>
+      <span class="inmo-tab" data-inmo-tab="video">Video</span>
+    </div>
+
+    <div class="inmo-tab-panel" data-inmo-panel="descripcion">
+      <p>{{ propiedad.descripcion }}</p>
+      <ul class="inmo-check-list">
+        {% for c in propiedad.caracteristicas %}<li><i class="fas fa-check"></i> {{ c }}</li>{% endfor %}
+        {% if propiedad.get('garantia') %}<li><i class="fas fa-check"></i> Garantía: {{ propiedad.garantia }}</li>{% endif %}
+      </ul>
+    </div>
+    <div class="inmo-tab-panel" data-inmo-panel="caracteristicas" style="display:none;">
+      <ul class="inmo-check-list">
+        {% for c in propiedad.caracteristicas %}<li><i class="fas fa-check"></i> {{ c }}</li>{% endfor %}
+      </ul>
+    </div>
+    <div class="inmo-tab-panel" data-inmo-panel="ubicacion" style="display:none;">
+      <div class="inmo-map-placeholder inmo-map-placeholder-sm"><span class="inmo-map-pin" style="left:45%; top:40%;">{{ propiedad.zona }}</span></div>
+    </div>
+    <div class="inmo-tab-panel" data-inmo-panel="planos" style="display:none;"><p>Los planos de esta propiedad están disponibles a pedido. Contactanos para recibirlos.</p></div>
+    <div class="inmo-tab-panel" data-inmo-panel="video" style="display:none;"><p>Todavía no hay un video cargado para esta propiedad.</p></div>
+  </div>
+
+  <aside class="inmo-contacto-card">
+    <h3>¿Qué querés hacer?</h3>
+    <a href="{{ url_for('inmo_contacto') }}" class="inmo-outline-btn inmo-property-action">Contactar</a>
+    <a href="{{ url_for('inmo_comprar', property_id=propiedad.id) }}" class="inmo-outline-btn inmo-property-action">
+      {{ 'Comprar esta propiedad' if propiedad.operacion == 'venta' else 'Quiero alquilar esta propiedad' }}
+    </a>
+    <button type="button" id="inmo-btn-agendar-visita" class="inmo-outline-btn inmo-property-action" data-property-id="{{ propiedad.id }}">Agendar visita</button>
+    <div id="inmo-contacto-feedback" class="inmo-notice" style="display:none;"></div>
+  </aside>
+</div>
+
+<div class="inmo-gallery-modal" id="inmo-gallery-modal" aria-hidden="true">
+  <div class="inmo-gallery-modal-backdrop" data-close-gallery="true"></div>
+  <div class="inmo-gallery-modal-dialog">
+    <button type="button" class="inmo-gallery-modal-close" aria-label="Cerrar galería">
+      <i class="fas fa-xmark"></i>
+    </button>
+    <button type="button" class="inmo-gallery-modal-nav inmo-gallery-modal-prev" aria-label="Anterior">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <img id="inmo-gallery-modal-image" src="{{ main_url }}" alt="{{ propiedad.nombre }}">
+    <button type="button" class="inmo-gallery-modal-nav inmo-gallery-modal-next" aria-label="Siguiente">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/inmo.js') }}"></script>
+{% endblock %}

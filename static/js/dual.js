@@ -22,6 +22,15 @@
   let currentStep = "envio";
   let selectedPayment = "tarjeta";
 
+  function updateCardFields() {
+    const cardFields = document.querySelector("#dual-card-fields");
+    if (!cardFields) return;
+    cardFields.style.display = selectedPayment === "tarjeta" ? "block" : "none";
+    cardFields.querySelectorAll("input").forEach((input) => {
+      input.required = selectedPayment === "tarjeta";
+    });
+  }
+
   function goTo(step) {
     currentStep = step;
     steps.forEach((s) => {
@@ -50,8 +59,7 @@
       document.querySelectorAll("[data-pay-option]").forEach((o) => o.classList.remove("selected"));
       el.classList.add("selected");
       selectedPayment = el.getAttribute("data-pay-option");
-      const cardFields = document.querySelector("#dual-card-fields");
-      if (cardFields) cardFields.style.display = selectedPayment === "tarjeta" ? "block" : "none";
+      updateCardFields();
     });
   });
 
@@ -102,12 +110,14 @@
         const confirmEmail = document.querySelector("#dual-confirm-email");
         const linkSeguimiento = document.querySelector("#dual-link-seguimiento");
         const linkPedidos = document.querySelector("#dual-link-pedidos");
+        const linkComprobante = document.querySelector("#dual-link-comprobante");
 
         if (confirmOrderId) confirmOrderId.textContent = data.order.numero;
         if (confirmTotal) confirmTotal.textContent = data.order.total_formateado;
         if (confirmEmail) confirmEmail.textContent = payload.envio.email || "";
         if (linkSeguimiento) linkSeguimiento.href = "/dual/pedido/" + data.order.id;
         if (linkPedidos) linkPedidos.href = "/dual/pedidos";
+        if (linkComprobante) linkComprobante.href = data.order.receipt_url;
 
         goTo("confirmacion");
       } catch (err) {
@@ -120,5 +130,6 @@
     });
   }
 
+  updateCardFields();
   goTo("envio");
 })();

@@ -1,0 +1,409 @@
+/* ============================================================
+   INMOCONTROL — estilos del sector Inmobiliaria
+   ============================================================ */
+
+.inmo-scope {
+  --inmo-navy: #0f2044;
+  --inmo-navy-2: #16294f;
+  --inmo-blue: #173a68;
+  --inmo-blue-light: #e8edf6;
+  --inmo-accent: #2f6fed;
+  --inmo-bg: #f5f6f9;
+  --inmo-card: #ffffff;
+  --inmo-line: #e4e7ee;
+  --inmo-muted: #6b7280;
+  --inmo-text: #1a2233;
+  --inmo-green: #1c9e63;
+  --inmo-radius: 10px;
+
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--inmo-bg);
+  color: var(--inmo-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+.inmo-scope a { text-decoration: none; color: inherit; }
+.inmo-scope ul { list-style: none; margin: 0; padding: 0; }
+.inmo-scope button { font-family: inherit; cursor: pointer; }
+.inmo-scope input, .inmo-scope select, .inmo-scope textarea {
+  font-family: inherit; font-size: 13.5px; padding: 10px 12px;
+  border: 1px solid var(--inmo-line); border-radius: 6px; background: #fff; color: var(--inmo-text);
+  width: 100%; box-sizing: border-box;
+}
+.inmo-scope input:focus, .inmo-scope select:focus, .inmo-scope textarea:focus {
+  outline: none; border-color: var(--inmo-accent);
+}
+
+.inmo-section-inner { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+
+/* ---- Topbar ---- */
+.inmo-topbar { background: var(--inmo-navy); color: rgba(255,255,255,0.85); font-size: 12.5px; }
+.inmo-topbar-inner { max-width: 1240px; margin: 0 auto; padding: 7px 24px; display: flex; justify-content: space-between; align-items: center; }
+.inmo-topbar-left span, .inmo-topbar-right a { margin-right: 16px; }
+.inmo-topbar-left span:last-child { margin-right: 0; }
+.inmo-topbar-right { display: flex; align-items: center; }
+.inmo-topbar-right a { color: rgba(255,255,255,0.85); margin-right: 12px; }
+.inmo-topbar-right a:last-child { margin-right: 0; }
+.inmo-topbar-right span { margin-right: 12px; }
+.inmo-topbar i { margin-right: 4px; }
+
+/* ---- Header ---- */
+.inmo-header { background: #fff; border-bottom: 1px solid var(--inmo-line); position: sticky; top: 0; z-index: 50; }
+.inmo-header-inner { max-width: 1240px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; gap: 28px; }
+.inmo-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 17px; color: var(--inmo-navy); flex-shrink: 0; }
+.inmo-logo-mark { width: 34px; height: 34px; border-radius: 8px; background: var(--inmo-navy); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+.inmo-logo-text { display: flex; flex-direction: column; line-height: 1.15; }
+.inmo-logo-text small { font-weight: 500; font-size: 10.5px; color: var(--inmo-muted); }
+
+.inmo-nav { display: flex; gap: 20px; flex: 1; }
+.inmo-nav a { font-size: 13.5px; font-weight: 600; color: var(--inmo-text); padding: 6px 0; border-bottom: 2px solid transparent; }
+.inmo-nav a:hover, .inmo-nav a.active { color: var(--inmo-accent); border-bottom-color: var(--inmo-accent); }
+
+.inmo-header-icons { display: flex; align-items: center; gap: 6px; }
+.inmo-icon-btn { position: relative; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--inmo-text); font-size: 15px; }
+.inmo-icon-btn:hover { background: var(--inmo-blue-light); }
+.inmo-count { position: absolute; top: -2px; right: -2px; background: var(--inmo-accent); color: #fff; font-size: 10px; font-weight: 700; border-radius: 50%; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; }
+
+.inmo-account-menu { position: relative; }
+.inmo-account-btn { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; padding: 8px 12px; border-radius: 8px; }
+.inmo-account-btn:hover { background: var(--inmo-blue-light); }
+.inmo-account-dropdown { display: none; position: absolute; right: 0; top: 42px; background: #fff; border: 1px solid var(--inmo-line); border-radius: var(--inmo-radius); box-shadow: 0 10px 30px rgba(15,32,68,0.14); min-width: 180px; padding: 6px; z-index: 60; }
+.inmo-account-menu:hover .inmo-account-dropdown { display: block; }
+.inmo-account-dropdown a { display: flex; align-items: center; gap: 8px; padding: 9px 10px; font-size: 13px; border-radius: 6px; }
+.inmo-account-dropdown a:hover { background: var(--inmo-blue-light); }
+
+/* ---- Buttons ---- */
+.inmo-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: var(--inmo-navy); color: #fff; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 700; font-size: 13.5px; }
+.inmo-btn-primary:hover { background: var(--inmo-blue); }
+.inmo-buy-action { background: #fff; color: #000; border: 1px solid #000; }
+.inmo-buy-action:hover { background: #000; color: #fff; }
+.inmo-outline-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: #fff; color: var(--inmo-navy); border: 1.5px solid var(--inmo-navy); padding: 10px 18px; border-radius: 8px; font-weight: 700; font-size: 12.5px; }
+.inmo-outline-btn:hover { background: var(--inmo-blue-light); }
+.inmo-property-action { width: 100%; margin-top: 0; box-sizing: border-box; text-align: center; text-decoration: none; }
+.inmo-outline-btn-light { background: transparent; color: #fff; border-color: rgba(255,255,255,0.5); }
+.inmo-outline-btn-light:hover { background: rgba(255,255,255,0.1); }
+
+/* ---- Hero / search ---- */
+.inmo-hero { background: linear-gradient(120deg, var(--inmo-navy) 0%, #1c3a6b 100%); color: #fff; padding: 46px 0 80px; }
+.inmo-hero-inner { max-width: 1240px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: 1.05fr 1.2fr; align-items: center; gap: 30px; }
+.inmo-hero-copy { max-width: 520px; }
+.inmo-hero-copy h1 { font-size: 42px; margin: 0 0 14px; line-height: 1.08; letter-spacing: -0.04em; }
+.inmo-hero-copy p { font-size: 15px; color: rgba(255,255,255,0.8); margin: 0 0 22px; }
+
+.inmo-hero-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 360px;
+}
+
+.inmo-hero-image {
+  width: 100%;
+  max-width: 620px;
+  height: 360px;
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(10, 24, 42, 0.12), rgba(10, 24, 42, 0.35)),
+    url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.28);
+}
+
+.inmo-search-card { background: #fff; border-radius: var(--inmo-radius); padding: 18px; max-width: 760px; box-shadow: 0 20px 40px rgba(0,0,0,0.18); color: var(--inmo-text); margin: 0; }
+.inmo-search-tabs { display: flex; gap: 6px; margin-bottom: 14px; }
+.inmo-search-tab { padding: 8px 16px; border-radius: 7px; font-size: 13px; font-weight: 700; color: var(--inmo-muted); }
+.inmo-search-tab.active { background: var(--inmo-navy); color: #fff; }
+.inmo-search-form { display: grid; grid-template-columns: 1.3fr 1.3fr 1fr auto; gap: 10px; align-items: end; }
+.inmo-search-field label { display: block; font-size: 11.5px; font-weight: 700; color: var(--inmo-muted); margin-bottom: 5px; }
+.inmo-search-btn { height: 42px; white-space: nowrap; }
+.inmo-search-advanced { display: block; margin-top: 10px; font-size: 12.5px; color: var(--inmo-accent); font-weight: 600; }
+
+.inmo-benefits-strip { max-width: 1240px; margin: 0 auto; padding: 90px 24px 30px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.inmo-benefit-item, .inmo-benefit { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--inmo-muted); }
+.inmo-benefit-item i, .inmo-benefit i { font-size: 20px; color: var(--inmo-accent); flex-shrink: 0; }
+.inmo-benefit-item strong, .inmo-benefit strong { display: block; color: var(--inmo-text); font-size: 13px; }
+
+/* ---- Generic sections ---- */
+.inmo-section { padding: 40px 0; }
+.inmo-section-tint { background: var(--inmo-blue-light); }
+.inmo-section-dark { background: var(--inmo-navy); color: #fff; }
+.inmo-section-dark .inmo-emprendimiento-loc { color: rgba(255,255,255,0.65); }
+.inmo-section-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 22px; gap: 16px; }
+.inmo-section-head h2 { font-size: 22px; margin: 0 0 4px; }
+.inmo-section-head p { margin: 0; color: var(--inmo-muted); font-size: 13px; }
+.inmo-section-dark .inmo-section-head p { color: rgba(255,255,255,0.7); }
+
+/* ---- Cards / grid ---- */
+.inmo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.inmo-card { background: var(--inmo-card); border: 1px solid var(--inmo-line); border-radius: var(--inmo-radius); overflow: hidden; transition: box-shadow .15s, transform .15s; }
+.inmo-card:hover { box-shadow: 0 14px 28px rgba(15,32,68,0.12); transform: translateY(-2px); }
+.inmo-card-media { display: block; position: relative; aspect-ratio: 4/3; color: #fff; font-size: 26px; display: flex; align-items: center; justify-content: center; opacity: 0.9; }
+.inmo-card-badge { position: absolute; top: 10px; left: 10px; background: var(--inmo-green); color: #fff; font-size: 10.5px; font-weight: 800; padding: 4px 8px; border-radius: 5px; }
+.inmo-card-fav { position: absolute; top: 8px; right: 8px; width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.92); border: none; color: var(--inmo-navy); display: flex; align-items: center; justify-content: center; font-size: 14px; }
+.inmo-card-fav.active { color: #e0455a; }
+.inmo-card-body { padding: 14px; }
+.inmo-card-name { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+.inmo-card-loc { font-size: 12px; color: var(--inmo-muted); margin-bottom: 8px; }
+.inmo-card-specs { display: flex; gap: 12px; font-size: 12px; color: var(--inmo-muted); margin-bottom: 10px; }
+.inmo-card-price { font-weight: 800; font-size: 15px; color: var(--inmo-navy); }
+
+/* ---- Listado / filtros ---- */
+.inmo-listado-header { background: #fff; border-bottom: 1px solid var(--inmo-line); padding: 26px 0; }
+.inmo-listado-header h1 { margin: 0 0 4px; font-size: 22px; }
+.inmo-listado-header p { margin: 0; color: var(--inmo-muted); font-size: 13px; }
+
+.inmo-layout { display: grid; grid-template-columns: 250px 1fr; gap: 26px; padding: 26px 24px 50px; }
+.inmo-filters { background: #fff; border: 1px solid var(--inmo-line); border-radius: var(--inmo-radius); padding: 16px; align-self: start; }
+.inmo-filters-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.inmo-filters-head h3 { margin: 0; font-size: 14.5px; }
+.inmo-filters-clear { font-size: 12px; color: var(--inmo-accent); font-weight: 600; }
+.inmo-filter-block { margin-bottom: 16px; }
+.inmo-filter-block label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 6px; color: var(--inmo-text); }
+.inmo-checkbox { display: flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 500; margin-bottom: 4px; }
+.inmo-checkbox input { width: auto; }
+.inmo-price-range { display: flex; justify-content: space-between; font-size: 11px; color: var(--inmo-muted); margin-bottom: 4px; }
+.inmo-ambientes-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.inmo-pill { border: 1px solid var(--inmo-line); border-radius: 6px; padding: 5px 10px; font-size: 12px; }
+
+.inmo-toolbar { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--inmo-muted); margin-bottom: 14px; }
+.inmo-pagination { display: flex; gap: 8px; justify-content: center; margin-top: 26px; font-size: 12.5px; color: var(--inmo-muted); }
+.inmo-pagination span { padding: 6px 10px; border-radius: 6px; }
+.inmo-pagination span.active { background: var(--inmo-navy); color: #fff; }
+.inmo-empty { background: #fff; border: 1px dashed var(--inmo-line); border-radius: var(--inmo-radius); padding: 30px; text-align: center; color: var(--inmo-muted); font-size: 13px; }
+
+/* ---- Emprendimientos ---- */
+.inmo-emprendimientos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.inmo-emprendimientos-grid-full { margin: 26px 0 50px; }
+.inmo-emprendimiento-card { display: block; background: #fff; border-radius: var(--inmo-radius); overflow: hidden; color: var(--inmo-text); }
+.inmo-section-dark .inmo-emprendimiento-card { background: rgba(255,255,255,0.06); color: #fff; }
+.inmo-emprendimiento-media { aspect-ratio: 16/10; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; color: #fff; font-weight: 700; }
+.inmo-emprendimiento-media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15, 32, 68, 0.08), rgba(15, 32, 68, 0.42)); }
+.inmo-emprendimiento-media img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+.inmo-emprendimiento-media span { position: relative; z-index: 1; }
+.inmo-emprendimiento-info { padding: 14px; }
+.inmo-emprendimiento-name { font-weight: 700; font-size: 14px; }
+.inmo-emprendimiento-loc { font-size: 12px; color: var(--inmo-muted); margin: 4px 0 8px; }
+.inmo-emprendimiento-price { font-size: 12.5px; font-weight: 700; color: var(--inmo-accent); }
+
+/* ---- Mapa ---- */
+.inmo-map-preview { display: flex; flex-direction: column; gap: 14px; }
+.inmo-map-preview-full { margin: 26px 0 20px; }
+.inmo-map-placeholder { position: relative; background: linear-gradient(135deg, #dbe6f6, #eef2f8); border-radius: var(--inmo-radius); height: 220px; overflow: hidden; }
+.inmo-map-placeholder-sm { height: 160px; }
+.inmo-map-placeholder-lg { height: 340px; }
+.inmo-map-pin { position: absolute; background: var(--inmo-navy); color: #fff; font-size: 11px; font-weight: 700; padding: 5px 9px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.18); }
+.inmo-map-zonas { display: flex; gap: 8px; flex-wrap: wrap; }
+.inmo-zone-chip { border: 1px solid var(--inmo-line); background: #fff; padding: 8px 14px; border-radius: 20px; font-size: 12.5px; font-weight: 600; }
+.inmo-zone-chip:hover { border-color: var(--inmo-accent); color: var(--inmo-accent); }
+.inmo-zonas-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 50px; }
+.inmo-zona-card { display: block; background: #fff; border: 1px solid var(--inmo-line); border-radius: var(--inmo-radius); padding: 18px; }
+.inmo-zona-nombre { font-weight: 700; font-size: 15px; margin-bottom: 8px; }
+.inmo-zona-precio { font-size: 12.5px; color: var(--inmo-muted); }
+.inmo-zona-precio strong { color: var(--inmo-navy); font-size: 15px; }
+
+/* ---- Tasación teaser + wizard ---- */
+.inmo-tasacion-teaser { display: grid; grid-template-columns: 1.4fr 1fr; align-items: center; gap: 30px; }
+.inmo-tasacion-steps { display: flex; gap: 16px; font-size: 12.5px; font-weight: 700; color: var(--inmo-navy); margin: 16px 0; }
+.inmo-tasacion-checks { list-style: none; padding: 0; margin: 16px 0 0; font-size: 12.5px; color: var(--inmo-green); display: flex; flex-direction: column; gap: 6px; }
+.inmo-tasacion-art { font-size: 90px; color: var(--inmo-accent); text-align: center; opacity: 0.85; }
+
+.inmo-wizard { padding: 30px 24px 60px; max-width: 640px; }
+.inmo-tasacion-intro { text-align: center; margin-bottom: 26px; }
+.inmo-tasacion-intro h1 { font-size: 24px; margin: 0 0 6px; }
+.inmo-tasacion-intro p { color: var(--inmo-muted); margin: 0; }
+.inmo-steps { display: flex; justify-content: center; gap: 26px; margin-bottom: 26px; }
+.inmo-step { display: flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 700; color: var(--inmo-muted); }
+.inmo-step.active, .inmo-step.done { color: var(--inmo-navy); }
+.inmo-step-num { width: 24px; height: 24px; border-radius: 50%; background: var(--inmo-line); color: var(--inmo-muted); display: flex; align-items: center; justify-content: center; font-size: 11.5px; }
+.inmo-step.active .inmo-step-num, .inmo-step.done .inmo-step-num { background: var(--inmo-navy); color: #fff; }
+
+.inmo-panel-card { background: #fff; border: 1px solid var(--inmo-line); border-radius: var(--inmo-radius); padding: 24px; }
+.inmo-panel-card h3 { margin-top: 0; font-size: 16px; }
+.inmo-panel-card form { display: flex; flex-direction: column; gap: 14px; }
+.inmo-panel-card .inmo-outline-btn { margin-right: 8px; }
+
+.inmo-resultado-card { text-align: center; }
+.inmo-resultado-card i { font-size: 44px; color: var(--inmo-green); margin-bottom: 10px; }
+.inmo-resultado-valor { font-size: 32px; font-weight: 800; color: var(--inmo-navy); margin: 8px 0; }
+.inmo-resultado-nota { font-size: 12.5px; color: var(--inmo-muted); margin-bottom: 18px; }
+.inmo-resultado-card .inmo-btn-primary, .inmo-resultado-card .inmo-outline-btn { margin: 4px 6px 0; }
+
+/* ---- Servicios ---- */
+.inmo-servicios-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.inmo-servicios-grid-full { margin: 26px 0 50px; }
+.inmo-servicio-card { background: #fff; border: 1px solid var(--inmo-line); border-radius: var(--inmo-radius); padding: 20px; text-align: center; }
+.inmo-servicio-card i { font-size: 26px; color: var(--inmo-accent); margin-bottom: 10px; }
+.inmo-servicio-card h3 { font-size: 14.5px; margin: 6px 0; }
+.inmo-servicio-card p { font-size: 12.5px; color: var(--inmo-muted); margin: 0 0 12px; }
+
+/* ---- Novedades ---- */
+.inmo-novedades-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; max-width: 1150px; margin: 0 auto; }
+.inmo-novedades-grid-full { margin: 26px 0 50px; }
+.inmo-novedad-card { display: block; background: #fff; border: 1px solid var(--inmo-line); border-radius: var(--inmo-radius); overflow: hidden; color: var(--inmo-text); }
+.inmo-novedad-media { aspect-ratio: 16/10; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 22px; }
+.inmo-novedad-body { padding: 12px; }
+.inmo-novedad-title { font-size: 13px; font-weight: 700; margin-bottom: 6px; line-height: 1.35; }
+.inmo-novedad-resumen { font-size: 12px; color: var(--inmo-muted); }
+
+/* ---- Why us ---- */
+.inmo-why-us { background: #fff; border-top: 1px solid var(--inmo-line); }
+.inmo-why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 26px; }
+.inmo-why-grid > div { text-align: center; }
+.inmo-why-grid i { font-size: 22px; color: var(--inmo-accent); margin-bottom: 8px; }
+.inmo-why-grid h4 { font-size: 13.5px; margin: 4px 0; }
+.inmo-why-grid p { font-size: 12px; color: var(--inmo-muted); margin: 0; }
+
+/* ---- Breadcrumb ---- */
+.inmo-breadcrumb { max-width: 1240px; margin: 18px auto 0; padding: 0 24px; font-size: 12px; color: var(--inmo-muted); }
+
+/* ---- Detalle de propiedad ---- */
+.inmo-detalle-layout { display: grid; grid-template-columns: 1.4fr 1fr; grid-template-rows: auto auto; gap: 26px; padding: 20px 24px 60px; }
+.inmo-detalle-media { grid-row: span 2; }
+.inmo-gallery { display: flex; flex-direction: column; gap: 12px; }
+.inmo-gallery-main {
+  position: relative; border-radius: var(--inmo-radius); overflow: hidden; border: 1px solid var(--inmo-line); background: #edf1f6; aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center;
+}
+.inmo-gallery-main img, .inmo-gallery-modal img {
+  width: 100%; height: 100%; object-fit: cover; display: block; cursor: zoom-in;
+}
+.inmo-gallery-placeholder {
+  width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 60px;
+}
+.inmo-detalle-media-count { position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.55); color: #fff; font-size: 11px; padding: 4px 9px; border-radius: 6px; }
+.inmo-detalle-fav { top: 12px; right: 12px; width: 38px; height: 38px; font-size: 16px; }
+.inmo-gallery-expand {
+  position: absolute; right: 62px; top: 12px; width: 38px; height: 38px; border: none; border-radius: 50%; background: rgba(255,255,255,0.9); color: var(--inmo-navy); display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 24px rgba(15,32,68,0.14);
+}
+.inmo-gallery-thumbs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.inmo-gallery-thumb {
+  border: 2px solid transparent; border-radius: 10px; overflow: hidden; padding: 0; background: transparent; width: 100%; aspect-ratio: 1/1; cursor: pointer; transition: border-color .15s ease, transform .15s ease; 
+}
+.inmo-gallery-thumb.active { border-color: var(--inmo-accent); }
+.inmo-gallery-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.inmo-gallery-thumb:hover { transform: translateY(-1px); }
+.inmo-gallery-modal {
+  position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 120;
+}
+.inmo-gallery-modal.is-open { display: flex; }
+.inmo-gallery-modal-backdrop { position: absolute; inset: 0; background: rgba(12, 18, 28, 0.78); }
+.inmo-gallery-modal-dialog {
+  position: relative; width: min(92vw, 1100px); height: min(82vh, 760px); background: rgba(12,18,28,0.15); display: flex; align-items: center; justify-content: center; z-index: 1; border-radius: 18px; overflow: hidden;
+}
+.inmo-gallery-modal-dialog img {
+  width: 100%; height: 100%; object-fit: cover; cursor: default; background: #eef2f7; 
+}
+.inmo-gallery-modal-close, .inmo-gallery-modal-nav {
+  position: absolute; z-index: 2; width: 42px; height: 42px; border: none; border-radius: 50%; background: rgba(255,255,255,0.9); color: var(--inmo-navy); display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 12px 24px rgba(0,0,0,0.18); cursor: pointer;
+}
+.inmo-gallery-modal-close { top: 16px; right: 16px; }
+.inmo-gallery-modal-prev { left: 16px; }
+.inmo-gallery-modal-next { right: 16px; }
+
+.inmo-detalle-title-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 14px; }
+.inmo-detalle-title-row h1 { font-size: 22px; margin: 0 0 6px; }
+.inmo-detalle-loc { font-size: 13px; color: var(--inmo-muted); }
+.inmo-detalle-price { font-size: 22px; font-weight: 800; color: var(--inmo-navy); white-space: nowrap; }
+
+.inmo-detalle-specs { display: flex; gap: 20px; flex-wrap: wrap; padding: 14px 0; border-top: 1px solid var(--inmo-line); border-bottom: 1px solid var(--inmo-line); margin-bottom: 18px; }
+.inmo-detalle-specs > div { display: flex; flex-direction: column; align-items: center; font-size: 11.5px; color: var(--inmo-muted); gap: 4px; }
+.inmo-detalle-specs i { color: var(--inmo-accent); font-size: 16px; }
+.inmo-detalle-specs span { font-weight: 800; color: var(--inmo-text); font-size: 14px; }
+
+.inmo-tabs { display: flex; gap: 18px; border-bottom: 1px solid var(--inmo-line); margin-bottom: 16px; }
+.inmo-tab { font-size: 13px; font-weight: 700; color: var(--inmo-muted); padding-bottom: 10px; border-bottom: 2px solid transparent; cursor: pointer; }
+.inmo-tab.active { color: var(--inmo-navy); border-bottom-color: var(--inmo-navy); }
+.inmo-tab-panel { font-size: 13.5px; line-height: 1.6; color: var(--inmo-text); }
+.inmo-check-list { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; font-size: 13px; }
+.inmo-check-list i { color: var(--inmo-green); margin-right: 6px; }
+
+.inmo-contacto-card { grid-column: 2; background: #fff; border: 1px solid var(--inmo-line); border-radius: var(--inmo-radius); padding: 20px; align-self: stretch; display: flex; flex-direction: column; gap: 12px; box-sizing: border-box; }
+.inmo-contacto-card h3 { margin-top: 0; font-size: 15px; }
+.inmo-contacto-card form { display: flex; flex-direction: column; gap: 12px; }
+
+/* ---- Contacto general ---- */
+.inmo-contacto-layout { display: grid; grid-template-columns: 1.4fr 1fr; gap: 26px; padding: 26px 24px 60px; }
+.inmo-contacto-layout form { display: flex; flex-direction: column; gap: 14px; }
+.inmo-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.inmo-field label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+.inmo-contact-info { display: flex; flex-direction: column; gap: 16px; margin-top: 14px; }
+.inmo-contact-info > div { display: flex; gap: 12px; align-items: center; font-size: 12.5px; }
+.inmo-contact-info i { font-size: 18px; color: var(--inmo-accent); width: 22px; text-align: center; }
+.inmo-contact-info strong { display: block; font-size: 13px; }
+
+/* ---- Mi cuenta ---- */
+.inmo-cuenta-layout { display: grid; grid-template-columns: 240px 1fr; gap: 26px; padding: 26px 24px 60px; }
+.inmo-cuenta-sidebar { background: var(--inmo-navy); color: #fff; border-radius: var(--inmo-radius); padding: 18px; align-self: start; }
+.inmo-cuenta-user { display: flex; align-items: center; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.15); margin-bottom: 14px; }
+.inmo-cuenta-user i { font-size: 34px; }
+.inmo-cuenta-user-name { font-weight: 700; font-size: 13.5px; }
+.inmo-cuenta-user-mail { font-size: 11px; color: rgba(255,255,255,0.6); }
+.inmo-cuenta-nav { display: flex; flex-direction: column; gap: 2px; }
+.inmo-cuenta-nav a { display: flex; align-items: center; gap: 10px; padding: 10px 10px; border-radius: 7px; font-size: 13px; color: rgba(255,255,255,0.85); }
+.inmo-cuenta-nav a:hover, .inmo-cuenta-nav a.active { background: rgba(255,255,255,0.12); color: #fff; }
+.inmo-cuenta-nav i { width: 16px; }
+
+.inmo-cuenta-main h1 { font-size: 20px; margin: 0 0 16px; }
+.inmo-stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 34px; }
+.inmo-stat-card { background: #fff; border: 1px solid var(--inmo-line); border-radius: var(--inmo-radius); padding: 16px; display: flex; align-items: center; gap: 12px; }
+.inmo-stat-card i { font-size: 20px; color: var(--inmo-accent); }
+.inmo-stat-card strong { display: block; font-size: 19px; }
+.inmo-stat-card div { font-size: 11.5px; color: var(--inmo-muted); }
+
+.inmo-cuenta-section { margin-bottom: 32px; }
+.inmo-cuenta-section .inmo-section-head { margin-bottom: 14px; }
+.inmo-cuenta-section .inmo-section-head h2 { font-size: 16px; margin: 0; }
+.inmo-cuenta-section .inmo-section-head a { font-size: 12.5px; color: var(--inmo-accent); font-weight: 600; }
+
+.inmo-table-wrap { overflow-x: auto; background: #fff; border: 1px solid var(--inmo-line); border-radius: var(--inmo-radius); }
+.inmo-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.inmo-table th, .inmo-table td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--inmo-line); }
+.inmo-table th { color: var(--inmo-muted); font-size: 11.5px; text-transform: uppercase; }
+.inmo-status-pill { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; background: var(--inmo-blue-light); color: var(--inmo-navy); }
+.inmo-status-resuelto, .inmo-status-aprobado { background: #e3f7ec; color: var(--inmo-green); }
+.inmo-status-pendiente { background: #fff4e0; color: #a9660c; }
+
+/* ---- Notices ---- */
+.inmo-notice { background: var(--inmo-blue-light); border-radius: 8px; padding: 12px 14px; font-size: 12.5px; color: var(--inmo-navy); }
+.inmo-notice-error { background: #fdeaea; color: #b3261e; }
+
+/* ---- Footer ---- */
+.inmo-footer { background: var(--inmo-navy); color: rgba(255,255,255,0.85); margin-top: 20px; }
+.inmo-footer-benefits { max-width: 1240px; margin: 0 auto; padding: 26px 24px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.inmo-footer-benefits .inmo-benefit { color: rgba(255,255,255,0.8); }
+.inmo-footer-benefits .inmo-benefit strong { color: #fff; }
+.inmo-footer-inner { max-width: 1240px; margin: 0 auto; padding: 34px 24px; display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr; gap: 24px; }
+.inmo-footer-brand p { font-size: 12.5px; color: rgba(255,255,255,0.65); line-height: 1.6; margin: 10px 0 14px; }
+.inmo-footer-social { display: flex; gap: 10px; }
+.inmo-footer-social a { width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; }
+.inmo-footer-col h4 { font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.03em; color: rgba(255,255,255,0.55); margin: 0 0 12px; }
+.inmo-footer-col a, .inmo-footer-col div { display: block; font-size: 12.5px; color: rgba(255,255,255,0.8); margin-bottom: 10px; }
+.inmo-footer-bottom { text-align: center; font-size: 11.5px; color: rgba(255,255,255,0.5); padding: 16px 24px; border-top: 1px solid rgba(255,255,255,0.1); }
+.inmo-footer-bottom i { color: #e0455a; }
+
+/* ---- Auth (registro) ---- */
+.inmo-auth-shell { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--inmo-bg); padding: 24px; }
+.inmo-auth-layout { display: grid; grid-template-columns: 1.2fr 1fr; max-width: 980px; width: 100%; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 60px rgba(15,32,68,0.18); }
+.inmo-auth-visual { background: linear-gradient(135deg, var(--inmo-navy), #1c3a6b); color: #fff; padding: 46px 40px; display: flex; flex-direction: column; justify-content: center; }
+.inmo-auth-chip { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.12); padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; width: fit-content; margin-bottom: 20px; }
+.inmo-auth-visual h1 { font-size: 24px; line-height: 1.3; margin: 0 0 12px; }
+.inmo-auth-visual p { font-size: 13px; color: rgba(255,255,255,0.75); line-height: 1.6; }
+.inmo-auth-pills { display: flex; gap: 10px; margin-top: 24px; flex-wrap: wrap; }
+.inmo-auth-pill { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.1); padding: 8px 12px; border-radius: 20px; font-size: 12px; }
+.inmo-auth-card { background: #fff; padding: 46px 40px; display: flex; flex-direction: column; justify-content: center; }
+.inmo-auth-card h2 { margin: 0 0 4px; font-size: 21px; }
+.inmo-auth-card > p { margin: 0; color: var(--inmo-muted); font-size: 13px; }
+.inmo-auth-card .inmo-field { margin-bottom: 14px; }
+
+/* ---- Responsive ---- */
+@media (max-width: 980px) {
+  .inmo-nav { display: none; }
+  .inmo-topbar-hide-sm { display: none; }
+  .inmo-grid, .inmo-servicios-grid, .inmo-novedades-grid, .inmo-why-grid, .inmo-emprendimientos-grid, .inmo-zonas-grid { grid-template-columns: repeat(2, 1fr); }
+  .inmo-layout, .inmo-detalle-layout, .inmo-contacto-layout, .inmo-cuenta-layout, .inmo-footer-inner { grid-template-columns: 1fr; }
+  .inmo-contacto-card { grid-column: 1; }
+  .inmo-benefits-strip { grid-template-columns: repeat(2, 1fr); }
+  .inmo-search-form { grid-template-columns: 1fr; }
+  .inmo-auth-layout { grid-template-columns: 1fr; }
+  .inmo-auth-visual { display: none; }
+  .inmo-tasacion-teaser { grid-template-columns: 1fr; }
+}

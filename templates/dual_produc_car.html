@@ -1,7 +1,8 @@
 <div class="dual-card">
   <a href="{{ url_for('dual_producto', product_id=p.id) }}" class="dual-card-media" style="background:{{ p.color_media }};">
     {% if p.descuento %}<span class="dual-card-badge">-{{ p.descuento }}%</span>{% endif %}
-    {{ p.nombre }}
+    {% if p.imagen %}<img src="{{ p.imagen }}" alt="{{ p.nombre }}" loading="lazy">{% endif %}
+    <span class="dual-card-media-label">{{ p.nombre }}</span>
   </a>
   <div class="dual-card-name">{{ p.nombre }}</div>
   <div class="dual-card-price">

@@ -41,7 +41,7 @@
       <div class="dual-panel">
         <h3>Resumen de compra</h3>
         <div class="dual-confirm-item" style="border-top:none; padding-top:0;">
-          <div class="dual-confirm-thumb" style="background:{{ item.color_media }};">{{ item.nombre }}</div>
+          <div class="dual-confirm-thumb" style="background:{{ item.color_media }};">{% if item.imagen %}<img src="{{ item.imagen }}" alt="{{ item.nombre }}">{% endif %}<span>{{ item.nombre }}</span></div>
           <div style="flex:1; font-size:13px;">
             <div style="font-weight:700;">{{ item.nombre }}</div>
             <div style="color:var(--dual-muted);">Color: {{ item.color }} · Talle: {{ item.talla }}</div>
@@ -100,7 +100,7 @@
       </div>
 
       <div class="dual-confirm-item">
-        <div class="dual-confirm-thumb" style="background:{{ item.color_media }};">{{ item.nombre }}</div>
+        <div class="dual-confirm-thumb" style="background:{{ item.color_media }};">{% if item.imagen %}<img src="{{ item.imagen }}" alt="{{ item.nombre }}">{% endif %}<span>{{ item.nombre }}</span></div>
         <div style="flex:1; font-size:13px; text-align:left;">
           <div style="font-weight:700;">{{ item.nombre }}</div>
           <div style="color:var(--dual-muted);">Color: {{ item.color }} · Talle: {{ item.talla }}</div>
@@ -112,6 +112,7 @@
       <p style="font-size:12px; color:var(--dual-muted); margin-top:10px;">Te enviamos el comprobante a <span id="dual-confirm-email"></span></p>
 
       <a id="dual-link-seguimiento" href="#" class="dual-btn-primary" style="display:block; text-decoration:none;">VER SEGUIMIENTO DEL ENVÍO</a>
+      <a id="dual-link-comprobante" href="#" class="dual-btn-secondary" style="display:block; text-decoration:none;">VER COMPROBANTE</a>
       <a id="dual-link-pedidos" href="#" class="dual-btn-secondary" style="display:block; text-decoration:none;">IR A MIS PEDIDOS</a>
     </div>
   </div>

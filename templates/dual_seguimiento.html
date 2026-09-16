@@ -31,7 +31,7 @@
       <div style="font-size:12.5px; color:var(--dual-muted);">Entre las {{ pedido.horario_desde }} y las {{ pedido.horario_hasta }}</div>
     </div>
     <div class="dual-summary-row"><span>Dirección de entrega</span><span style="text-align:right;">{{ pedido.direccion }}</span></div>
-    <button class="dual-btn-primary">VER EN MAPA</button>
+    <a class="dual-btn-primary" href="https://www.google.com/maps/search/?api=1&query={{ pedido.direccion|urlencode }}" target="_blank" rel="noopener" style="display:inline-block; text-decoration:none;">VER EN MAPA</a>
   </div>
 
   <div style="text-align:center; margin-top:18px;">

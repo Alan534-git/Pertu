@@ -1,16 +1,21 @@
 from flask import Flask, render_template, redirect, url_for, session, jsonify, request, Response
+from jinja2 import ChoiceLoader, FileSystemLoader
 from werkzeug.security import check_password_hash, generate_password_hash
 import json
 import os
 import uuid
 from datetime import datetime, timedelta
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # NOTA: La clave secreta debe ser una cadena de bytes aleatoria en producción
 # Para Canvas, usamos un valor placeholder.
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates")
 app.secret_key = "clave-secreta"  # Necesario para manejar sesiones
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+app.jinja_loader = ChoiceLoader([
+    FileSystemLoader(os.path.join(BASE_DIR, "templates")),
+    FileSystemLoader(BASE_DIR),
+])
 DATA_DIR = os.path.join(BASE_DIR, "data")
 USERS_FILE = os.path.join(DATA_DIR, "users.json")
 REQUESTS_FILE = os.path.join(DATA_DIR, "requests.json")
@@ -104,6 +109,58 @@ dual_productos = [
      "descripcion": "Mochila deportiva con compartimento para calzado."},
 ]
 
+DUAL_IMAGENES = {
+    101: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=85",
+    102: "https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?auto=format&fit=crop&w=800&q=85",
+    103: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=800&q=85",
+    104: "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=800&q=85",
+    105: "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&q=85",
+    106: "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&q=85",
+    107: "https://images.unsplash.com/photo-1583496661160-fb5886a13d27?auto=format&fit=crop&w=800&q=85",
+    108: "https://images.unsplash.com/photo-1566206091558-7f218b696731?auto=format&fit=crop&w=800&q=85",
+    201: "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=800&q=85",
+    202: "https://images.unsplash.com/photo-1506629905607-d9c297d1a9e6?auto=format&fit=crop&w=800&q=85",
+    203: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=800&q=85",
+    204: "https://images.unsplash.com/photo-1552902865-b72c031ac5ea?auto=format&fit=crop&w=800&q=85",
+    205: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=800&q=85",
+    206: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=800&q=85",
+    207: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=85",
+    208: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=85",
+}
+
+for producto in dual_productos:
+    producto["imagen"] = DUAL_IMAGENES.get(producto["id"])
+
+# Stock de demostración por color y talle. Cero significa "sin stock".
+DUAL_STOCK_AGOTADO = {
+    101: [("Beige", "L")],
+    102: [("Terracota", "XS"), ("Blanco", "L")],
+    103: [("Azul", "42")],
+    104: [("Rosa viejo", "S")],
+    105: [("Crudo", "S")],
+    106: [("Camel", "XL")],
+    107: [("Ladrillo", "XS")],
+    108: [("Rosa", "L")],
+    201: [("Gris", "S")],
+    202: [("Negro", "XS")],
+    203: [("Azul", "XL")],
+    204: [("Negro", "S")],
+    205: [("Gris", "XL")],
+    206: [("Negro", "L")],
+    207: [("Blanco/Negro", "40")],
+    208: [],
+}
+
+for producto in dual_productos:
+    agotados = set(DUAL_STOCK_AGOTADO.get(producto["id"], []))
+    producto["stock"] = {
+        color: {
+            talle: 0 if (color, talle) in agotados else 5
+            for talle in producto["talles"]
+        }
+        for color in producto["colores_nombre"]
+    }
+
 DUAL_CATEGORIA_CONFIG = {
     "mujer": {
         "titulo": "Indumentaria Femenina", "eyebrow": "INDUMENTARIA",
@@ -138,6 +195,12 @@ DUAL_CATEGORIAS_DESTACADAS = [
 
 DUAL_TALLES = ["XS", "S", "M", "L", "XL"]
 DUAL_COLORES_HEX = ["#1a1a1a", "#c9a6a1", "#7c8ba3", "#e6c7ba", "#3d4a63"]
+DUAL_COLOR_HEX_BY_NAME = {
+    "Negro": "#1a1a1a", "Blanco": "#f5f5f2", "Beige": "#e6c7ba",
+    "Terracota": "#b86f58", "Azul": "#7c8ba3", "Rosa viejo": "#c9a6a1",
+    "Crudo": "#ded3c4", "Camel": "#b7a99c", "Ladrillo": "#a9764f",
+    "Rosa": "#e0a8a0", "Gris": "#8b9099", "Blanco/Negro": "#d8d8d4",
+}
 
 DUAL_TRACKING_STEPS = [
     "Pedido confirmado",
@@ -228,6 +291,13 @@ default_users = {
             "role": "cliente",
             "sector": "dual",
             "display_name": "Cliente DUAL"
+        },
+        {
+            "username": "cliente_inmo",
+            "password_hash": generate_password_hash("inmo123"),
+            "role": "cliente",
+            "sector": "inmo",
+            "display_name": "Juan Pérez"
         }
     ]
 }
@@ -235,7 +305,11 @@ default_users = {
 default_requests = {
     "delivery_orders": [],
     "gestoria_requests": [],
-    "dual_orders": []
+    "dual_orders": [],
+    "inmo_contacts": [],
+    "inmo_tasaciones": [],
+    "inmo_visitas": [],
+    "inmo_compras": []
 }
 
 gestoria_services = [
@@ -265,6 +339,193 @@ gestoria_services = [
     }
 ]
 
+inmo_propiedades = [
+    {
+        "id": 1,
+        "nombre": "Departamento en Palermo",
+        "operacion": "venta",
+        "precio": 420000,
+        "ubicacion": "Palermo",
+        "zona": "Palermo",
+        "tipo": "Departamento",
+        "dormitorios": 2,
+        "banos": 2,
+        "superficie": 72,
+        "cocheras": 1,
+        "descripcion": "Excelente departamento con luz natural y amenities modernos.",
+        "caracteristicas": ["Balcony", "Terraza", "Luz natural", "Cocina equipada"],
+        "color_media": "linear-gradient(135deg, #dfe8ff, #b4c8ff)",
+        "imagen": "img.departamento1.jpg",
+        "imagenes": [
+            "img.departamento1.jpg",
+            "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80"
+        ]
+    },
+    {
+        "id": 2,
+        "nombre": "Casa en Belgrano",
+        "operacion": "venta",
+        "precio": 680000,
+        "ubicacion": "Belgrano",
+        "zona": "Belgrano",
+        "tipo": "Casa",
+        "dormitorios": 4,
+        "banos": 3,
+        "superficie": 180,
+        "cocheras": 2,
+        "descripcion": "Casa familiar con jardín, excelente estado y mucha luminosidad.",
+        "caracteristicas": ["Jardín", "Patio", "Cochera doble", "Living comedor"],
+        "color_media": "linear-gradient(135deg, #e8ddcc, #d8c7b0)",
+        "imagen": "img.casa2.jpg",
+        "imagenes": [
+            "img.casa2.jpg",
+            "https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80"
+        ]
+    },
+    {
+        "id": 3,
+        "nombre": "PH en Villa Crespo",
+        "operacion": "alquiler",
+        "precio": 1650,
+        "ubicacion": "Villa Crespo",
+        "zona": "Villa Crespo",
+        "tipo": "PH",
+        "dormitorios": 3,
+        "banos": 2,
+        "superficie": 95,
+        "cocheras": 1,
+        "descripcion": "PH muy luminoso con vista tranquila, ideal para vivir en una zona muy conectada.",
+        "caracteristicas": ["Vista", "Luz natural", "Lavarropas", "Balcón"],
+        "color_media": "linear-gradient(135deg, #d9f0d6, #b6d7b4)",
+        "imagen": "img.departamento3.jpg",
+        "imagenes": [
+            "img.departamento3.jpg",
+            "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=80"
+        ]
+    },
+    {
+        "id": 4,
+        "nombre": "Local comercial en Recoleta",
+        "operacion": "alquiler",
+        "precio": 2300,
+        "ubicacion": "Recoleta",
+        "zona": "Recoleta",
+        "tipo": "Local",
+        "dormitorios": 0,
+        "banos": 1,
+        "superficie": 58,
+        "cocheras": 0,
+        "descripcion": "Local comercial con alta visibilidad y excelente ubicación comercial.",
+        "caracteristicas": ["Frente comercial", "Excelente tránsito", "Patio interno"],
+        "color_media": "linear-gradient(135deg, #f8e2d8, #edd0c2)",
+        "imagen": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=900&q=80",
+        "imagenes": [
+            "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=900&q=80",
+            "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&fit=crop&w=1200&q=80"
+        ]
+    },
+    {
+        "id": 5,
+        "nombre": "Departamento en Caballito",
+        "operacion": "venta",
+        "precio": 310000,
+        "ubicacion": "Caballito",
+        "zona": "Caballito",
+        "tipo": "Departamento",
+        "dormitorios": 2,
+        "banos": 1,
+        "superficie": 64,
+        "cocheras": 1,
+        "descripcion": "Ideal para inversión o primera vivienda, muy bien conectado y con amenities.",
+        "caracteristicas": ["Piso alto", "Laundry", "Esquina", "Muy luminoso"],
+        "color_media": "linear-gradient(135deg, #dfe9e2, #c5d6cf)",
+        "imagen": "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=900&q=80",
+        "imagenes": [
+            "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=900&q=80",
+            "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1200&q=80"
+        ]
+    },
+    {
+        "id": 6,
+        "nombre": "Terreno en Lanús",
+        "operacion": "venta",
+        "precio": 190000,
+        "ubicacion": "Lanús",
+        "zona": "Lanús",
+        "tipo": "Terreno",
+        "dormitorios": 0,
+        "banos": 0,
+        "superficie": 320,
+        "cocheras": 0,
+        "descripcion": "Terreno amplio en zona residencial con buen potencial de desarrollo.",
+        "caracteristicas": ["Lote amplio", "Zona residencial", "Fácil acceso"],
+        "color_media": "linear-gradient(135deg, #ccdfd9, #b3cdc2)",
+        "imagen": "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=80",
+        "imagenes": [
+            "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=80",
+            "https://images.unsplash.com/photo-1479839672679-a46483c0e7c8?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&fit=crop&w=1200&q=80"
+        ]
+    },
+]
+
+inmo_zonas = [
+    {"nombre": "Palermo", "precio_prom": 850000},
+    {"nombre": "Belgrano", "precio_prom": 940000},
+    {"nombre": "Villa Crespo", "precio_prom": 610000},
+    {"nombre": "Recoleta", "precio_prom": 780000},
+    {"nombre": "Caballito", "precio_prom": 490000},
+    {"nombre": "Lanús", "precio_prom": 320000},
+]
+
+inmo_emprendimientos_data = [
+    {
+        "nombre": "Asteras Residencial", 
+        "ubicacion": "Palermo", 
+        "desde": 210000, 
+        "color_media": "linear-gradient(135deg, #1d3357, #6d8bb0)",
+        "imagen": "img4.jpg"
+    },
+    {
+        "nombre": "Torre Sol", 
+        "ubicacion": "Belgrano", 
+        "desde": 260000, 
+        "color_media": "linear-gradient(135deg, #8d6e63, #d4b7a3)",
+        "imagen": "img.casa2.jpg"
+    },
+    {
+        "nombre": "Marea Norte", 
+        "ubicacion": "Dock Sud", 
+        "desde": 185000, 
+        "color_media": "linear-gradient(135deg, #2d6a4f, #9cc5a1)",
+        "imagen": "img.departamento3.jpg"
+    },
+]
+
+inmo_servicios = [
+    {"titulo": "Venta y alquiler", "descripcion": "Asesoramiento completo para comprar, vender o alquilar con seguridad.", "icono": "fa-house"},
+    {"titulo": "Tasación online", "descripcion": "Estimaciones rápidas con criterios de mercado actualizados.", "icono": "fa-chart-line"},
+    {"titulo": "Gestión integral", "descripcion": "Seguimiento de documentación, trámites y coordinación de visitas.", "icono": "fa-file-contract"},
+    {"titulo": "Inversión", "descripcion": "Análisis de rentabilidad y oportunidades de capitalización.", "icono": "fa-sack-dollar"},
+]
+
+inmo_novedades = [
+    {"titulo": "Cómo elegir la zona ideal según presupuesto", "resumen": "Guía rápida para decidir entre barrios y precios.", "color_media": "linear-gradient(135deg, #d8e7ff, #b7c8f6)"},
+    {"titulo": "Oportunidades en alquiler para familias", "resumen": "Las mejores opciones en zonas con escuelas y transporte.", "color_media": "linear-gradient(135deg, #d5f0df, #bfe5c7)"},
+    {"titulo": "Tendencias del mercado inmobiliario 2026", "resumen": "Qué está creciendo y dónde conviene invertir ahora.", "color_media": "linear-gradient(135deg, #f9e7d1, #efd0a3)"},
+]
+
 
 def load_json(path, default_value):
     try:
@@ -282,20 +543,22 @@ def save_json(path, payload):
 
 def ensure_data_files():
     os.makedirs(DATA_DIR, exist_ok=True)
-
     if not os.path.exists(USERS_FILE):
         save_json(USERS_FILE, default_users)
     else:
-        current_users = load_json(USERS_FILE, {"users": []}).get("users", [])
-        existing_usernames = {user.get("username") for user in current_users if isinstance(user, dict)}
-        missing_users = []
+        users_payload = load_json(USERS_FILE, default_users)
+        users = users_payload.get("users", [])
+        existing = {user.get("username") for user in users if user.get("username")}
+        added = False
         for user in default_users.get("users", []):
-            if user.get("username") not in existing_usernames:
-                missing_users.append(user)
-        if missing_users:
-            current_users.extend(missing_users)
-            save_json(USERS_FILE, {"users": current_users})
-
+            username = user.get("username")
+            if username and username not in existing:
+                users.append(user)
+                existing.add(username)
+                added = True
+        if added:
+            users_payload["users"] = users
+            save_json(USERS_FILE, users_payload)
     if not os.path.exists(REQUESTS_FILE):
         save_json(REQUESTS_FILE, default_requests)
 
@@ -310,6 +573,10 @@ def load_requests():
     data.setdefault("delivery_orders", [])
     data.setdefault("gestoria_requests", [])
     data.setdefault("dual_orders", [])
+    data.setdefault("inmo_contacts", [])
+    data.setdefault("inmo_tasaciones", [])
+    data.setdefault("inmo_visitas", [])
+    data.setdefault("inmo_compras", [])
     return data
 
 
@@ -318,7 +585,14 @@ def save_requests(payload):
 
 
 def get_current_user():
-    return session.get("user")
+    user = session.get("user")
+    if not isinstance(user, dict):
+        session.pop("user", None)
+        return None
+    if not user.get("username"):
+        session.pop("user", None)
+        return None
+    return user
 
 
 def get_user_by_username(username):
@@ -339,13 +613,18 @@ def redirect_for_user(user):
     if user.get("role") == "admin":
         return redirect(url_for("admin_dashboard"))
 
-    if user.get("sector") == "gestoria":
+    sector = (user.get("sector") or "").strip()
+    if sector == "gestoria":
         return redirect(url_for("gestoria"))
-
-    if user.get("sector") == "dual":
+    if sector == "dual":
         return redirect(url_for("dual_home"))
+    if sector == "delivery":
+        return redirect(url_for("delivery"))
+    if sector == "inmo":
+        return redirect(url_for("inmo_home"))
 
-    return redirect(url_for("delivery"))
+    session.pop("user", None)
+    return redirect(url_for("login"))
 
 
 @app.context_processor
@@ -436,6 +715,24 @@ def dual_require_sector(current_user):
     if current_user.get("role") != "admin" and current_user.get("sector") not in ("dual", "admin"):
         return redirect_for_user(current_user)
     return None
+
+
+def inmo_require_sector(current_user):
+    """Verifica acceso al sector InmoControl."""
+    if not current_user:
+        return redirect(url_for("login"))
+    if current_user.get("role") != "admin" and current_user.get("sector") not in ("inmo", "admin"):
+        return redirect_for_user(current_user)
+    return None
+
+
+def inmo_get_favoritos():
+    favoritos = session.get("inmo_favoritos", [])
+    if not isinstance(favoritos, list):
+        session["inmo_favoritos"] = []
+        return []
+    return favoritos
+
 
 # ----------------------------------
 # Rutas
@@ -538,10 +835,12 @@ def dual_home():
         return blocked
 
     destacados = [p for p in dual_productos if p.get("es_novedad")][:4]
+    destacados += [p for p in dual_productos if not p.get("es_novedad") and p["id"] != 101][:1]
     return render_template(
         "dual_index.html",
         categorias_destacadas=DUAL_CATEGORIAS_DESTACADAS,
         destacados=destacados,
+        color_hex=DUAL_COLOR_HEX_BY_NAME,
         active_nav="inicio",
         dual_cart_count=0,
         page_title="DUAL",
@@ -569,6 +868,29 @@ def dual_categoria(categoria):
         productos_filtrados = [p for p in dual_productos if p.get("descuento")]
     else:  # novedades
         productos_filtrados = [p for p in dual_productos if p.get("es_novedad")]
+    subcategorias_seleccionadas = request.args.getlist("subcategoria")
+    talles_seleccionados = request.args.getlist("talle")
+    colores_seleccionados = request.args.getlist("color")
+    precio_maximo = request.args.get("precio_max", type=int)
+
+    if subcategorias_seleccionadas:
+        productos_filtrados = [
+            p for p in productos_filtrados if p["subcategoria"] in subcategorias_seleccionadas
+        ]
+    if talles_seleccionados:
+        productos_filtrados = [
+            p for p in productos_filtrados if any(t in p["talles"] for t in talles_seleccionados)
+        ]
+    if colores_seleccionados:
+        productos_filtrados = [
+            p for p in productos_filtrados if any(c in p["colores_nombre"] for c in colores_seleccionados)
+        ]
+    if precio_maximo is not None:
+        productos_filtrados = [p for p in productos_filtrados if p["precio"] <= precio_maximo]
+
+    colores_disponibles = sorted({
+        color for producto in productos_filtrados for color in producto["colores_nombre"]
+    })
 
     return render_template(
         "dual_categoria.html",
@@ -578,8 +900,15 @@ def dual_categoria(categoria):
         copy=config["copy"],
         subcategorias=config["subcategorias"],
         talles=DUAL_TALLES,
-        colores=DUAL_COLORES_HEX,
+        colores=colores_disponibles,
+        color_hex=DUAL_COLOR_HEX_BY_NAME,
         productos=productos_filtrados,
+        filtros={
+            "subcategoria": subcategorias_seleccionadas,
+            "talle": talles_seleccionados,
+            "color": colores_seleccionados,
+            "precio_max": precio_maximo or 100000,
+        },
         active_nav=categoria,
         dual_cart_count=0,
         page_title=config["titulo"],
@@ -601,6 +930,8 @@ def dual_producto(product_id):
     return render_template(
         "dual_producto.html",
         producto=producto,
+        color_hex=DUAL_COLOR_HEX_BY_NAME,
+        stock_json=json.dumps(producto["stock"], ensure_ascii=False),
         active_nav=producto["seccion"],
         dual_cart_count=0,
         page_title=producto["nombre"],
@@ -638,6 +969,7 @@ def dual_comprar(product_id):
         "product_id": producto["id"],
         "nombre": producto["nombre"],
         "color_media": producto["color_media"],
+        "imagen": producto.get("imagen"),
         "talla": talla,
         "color": color,
         "cantidad": cantidad,
@@ -750,6 +1082,30 @@ def dual_pedido_detalle(order_id):
     )
 
 
+@app.route("/dual/pedido/<order_id>/comprobante")
+def dual_pedido_comprobante(order_id):
+    """Muestra el comprobante persistido de un pedido confirmado."""
+    current_user = get_current_user()
+    blocked = dual_require_sector(current_user)
+    if blocked:
+        return blocked
+
+    requests_data = load_requests()
+    pedido = next((o for o in requests_data.get("dual_orders", []) if o["id"] == order_id), None)
+    if not pedido:
+        return redirect(url_for("dual_pedidos"))
+    if current_user.get("role") != "admin" and pedido.get("username") != current_user.get("username"):
+        return redirect(url_for("dual_pedidos"))
+
+    return render_template(
+        "dual_comprobante.html",
+        pedido=pedido,
+        active_nav="",
+        dual_cart_count=0,
+        page_title="Comprobante de compra",
+    )
+
+
 @app.route("/api/dual/pedido", methods=["POST"])
 def api_dual_pedido():
     """Confirma la compra: guarda el pedido y devuelve datos del comprobante."""
@@ -758,16 +1114,44 @@ def api_dual_pedido():
         return jsonify({"success": False, "message": "Debe iniciar sesión."}), 401
 
     data = request.get_json() or {}
-    item = data.get("item")
-    envio_costo = data.get("envio_costo", DUAL_ENVIO_COSTO)
-    total = data.get("total")
+    item_data = data.get("item") or {}
     envio = data.get("envio") or {}
     metodo_pago = data.get("metodo_pago", "tarjeta")
 
-    if not item or not total:
+    producto = get_dual_product_by_id(item_data.get("product_id"))
+    if not producto:
         return jsonify({"success": False, "message": "Datos de compra incompletos."}), 400
+    try:
+        cantidad = int(item_data.get("cantidad", 1))
+    except (TypeError, ValueError):
+        cantidad = 0
+    if cantidad < 1 or cantidad > 10:
+        return jsonify({"success": False, "message": "La cantidad seleccionada no es válida."}), 400
+    talla = item_data.get("talla")
+    color = item_data.get("color")
+    if talla not in producto["talles"] or color not in producto["colores_nombre"]:
+        return jsonify({"success": False, "message": "La variante seleccionada no es válida."}), 400
+    stock_disponible = producto.get("stock", {}).get(color, {}).get(talla, 0)
+    if cantidad > stock_disponible:
+        return jsonify({"success": False, "message": "El talle y color seleccionados no tienen stock suficiente."}), 400
     if not envio.get("nombre") or not envio.get("email") or not envio.get("calle"):
         return jsonify({"success": False, "message": "Completá los datos de envío."}), 400
+    if metodo_pago not in {"tarjeta", "mercadopago", "transferencia", "efectivo"}:
+        return jsonify({"success": False, "message": "El método de pago no es válido."}), 400
+
+    item = {
+        "product_id": producto["id"],
+        "nombre": producto["nombre"],
+        "color_media": producto["color_media"],
+        "imagen": producto.get("imagen"),
+        "talla": talla,
+        "color": color,
+        "cantidad": cantidad,
+        "precio_unitario": producto["precio"],
+        "subtotal": producto["precio"] * cantidad,
+    }
+    envio_costo = DUAL_ENVIO_COSTO
+    total = item["subtotal"] + envio_costo
 
     order_id = str(uuid.uuid4())
     numero = "DUAL-" + order_id[:6].upper()
@@ -795,12 +1179,382 @@ def api_dual_pedido():
     requests_data["dual_orders"].append(pedido)
     save_requests(requests_data)
 
+    producto["stock"][color][talla] -= cantidad
+
     total_formateado = "$" + "{:,.0f}".format(total).replace(",", ".")
 
     return jsonify({
         "success": True,
         "message": "Pago procesado",
-        "order": {"id": order_id, "numero": numero, "total_formateado": total_formateado},
+        "order": {
+            "id": order_id,
+            "numero": numero,
+            "total_formateado": total_formateado,
+            "receipt_url": url_for("dual_pedido_comprobante", order_id=order_id),
+        },
+    })
+
+
+@app.route("/inmo")
+@app.route("/inmo/home")
+def inmo_home():
+    current_user = get_current_user()
+    blocked = inmo_require_sector(current_user)
+    if blocked:
+        return blocked
+
+    return render_template(
+        "inmo.index",
+        propiedades=inmo_propiedades[:4],
+        zonas=inmo_zonas,
+        emprendimientos=inmo_emprendimientos_data,
+        servicios=inmo_servicios,
+        novedades=inmo_novedades,
+        active_nav="inicio",
+        inmo_favoritos=inmo_get_favoritos(),
+        page_title="InmoControl",
+    )
+
+
+@app.route("/inmo/registro", methods=["GET", "POST"])
+def inmo_registro():
+    current_user = get_current_user()
+    if current_user:
+        return redirect_for_user(current_user)
+
+    error_message = None
+    if request.method == "POST":
+        display_name = (request.form.get("display_name") or "").strip()
+        username = (request.form.get("username") or "").strip()
+        password = request.form.get("password") or ""
+        if not display_name or not username or not password:
+            error_message = "Completá todos los campos."
+        else:
+            users = load_users()
+            if any(u.get("username") == username for u in users):
+                error_message = "Ese usuario ya existe."
+            else:
+                users.append({
+                    "username": username,
+                    "password_hash": generate_password_hash(password),
+                    "role": "cliente",
+                    "sector": "inmo",
+                    "display_name": display_name,
+                })
+                save_json(USERS_FILE, {"users": users})
+                session["user"] = {
+                    "username": username,
+                    "display_name": display_name,
+                    "role": "cliente",
+                    "sector": "inmo",
+                }
+                return redirect(url_for("inmo_home"))
+
+    return render_template("inmo_resgistro.html", error_message=error_message)
+
+
+@app.route("/inmo/listado/<operacion>")
+def inmo_listado(operacion):
+    current_user = get_current_user()
+    blocked = inmo_require_sector(current_user)
+    if blocked:
+        return blocked
+
+    operacion = operacion.lower()
+    if operacion not in {"comprar", "alquilar"}:
+        return redirect(url_for("inmo_home"))
+
+    propiedades = [p for p in inmo_propiedades if p.get("operacion") == ("venta" if operacion == "comprar" else "alquiler")]
+    filtro_ubicacion = request.args.get("ubicacion")
+    filtro_tipo = request.args.get("tipo")
+    if filtro_ubicacion:
+        propiedades = [p for p in propiedades if p.get("ubicacion") == filtro_ubicacion]
+    if filtro_tipo:
+        propiedades = [p for p in propiedades if p.get("tipo") == filtro_tipo]
+
+    return render_template(
+        "inmo_listado.html",
+        titulo="Comprar propiedades" if operacion == "comprar" else "Alquilar propiedades",
+        operacion=operacion,
+        propiedades=propiedades,
+        zonas=inmo_zonas,
+        tipos=sorted({p.get("tipo") for p in inmo_propiedades if p.get("tipo")}),
+        ambientes=["1", "2", "3", "4", "5+"],
+        filtro_ubicacion=filtro_ubicacion,
+        filtro_tipo=filtro_tipo,
+        active_nav=operacion,
+        inmo_favoritos=inmo_get_favoritos(),
+        page_title="InmoControl",
+    )
+
+
+@app.route("/inmo/propiedad/<int:property_id>")
+def inmo_propiedad(property_id):
+    current_user = get_current_user()
+    blocked = inmo_require_sector(current_user)
+    if blocked:
+        return blocked
+
+    propiedad = next((p for p in inmo_propiedades if p["id"] == property_id), None)
+    if not propiedad:
+        return redirect(url_for("inmo_home"))
+
+    return render_template(
+        "inmo_propiedad.html",
+        propiedad=propiedad,
+        inmo_favoritos=inmo_get_favoritos(),
+        active_nav="comprar",
+        page_title=propiedad["nombre"],
+    )
+
+
+@app.route("/inmo/comprar/<int:property_id>")
+def inmo_comprar(property_id):
+    current_user = get_current_user()
+    blocked = inmo_require_sector(current_user)
+    if blocked:
+        return blocked
+
+    propiedad = next((p for p in inmo_propiedades if p["id"] == property_id), None)
+    if not propiedad:
+        return redirect(url_for("inmo_home"))
+
+    return render_template(
+        "inmo_compra.html",
+        propiedad=propiedad,
+        inmo_favoritos=inmo_get_favoritos(),
+        active_nav="comprar",
+        page_title=f"Comprar — {propiedad['nombre']}",
+    )
+
+
+@app.route("/inmo/emprendimientos")
+def inmo_emprendimientos():
+    current_user = get_current_user()
+    blocked = inmo_require_sector(current_user)
+    if blocked:
+        return blocked
+    return render_template("inmo_emprendimiento.html", emprendimientos=inmo_emprendimientos_data, inmo_favoritos=inmo_get_favoritos(), active_nav="emprendimientos", page_title="Emprendimientos")
+
+
+@app.route("/inmo/mapa")
+def inmo_mapa():
+    current_user = get_current_user()
+    blocked = inmo_require_sector(current_user)
+    if blocked:
+        return blocked
+    return render_template("inmo_mapa.html", zonas=inmo_zonas, inmo_favoritos=inmo_get_favoritos(), active_nav="comprar", page_title="Mapa inmobiliario")
+
+
+@app.route("/inmo/cuenta")
+def inmo_cuenta():
+    current_user = get_current_user()
+    blocked = inmo_require_sector(current_user)
+    if blocked:
+        return blocked
+
+    requests_data = load_requests()
+    favoritos = [p for p in inmo_propiedades if p["id"] in inmo_get_favoritos()]
+    consultas = requests_data.get("inmo_contacts", [])
+    tasaciones = requests_data.get("inmo_tasaciones", [])
+    visitas = requests_data.get("inmo_visitas", [])
+    compras = [c for c in requests_data.get("inmo_compras", []) if c.get("username") == current_user.get("username")]
+    return render_template(
+        "inmo_cuenta.html",
+        propiedades_guardadas=favoritos,
+        consultas=consultas,
+        tasaciones=tasaciones,
+        visitas=visitas,
+        compras=compras,
+        inmo_favoritos=inmo_get_favoritos(),
+    )
+
+
+@app.route("/inmo/tasacion")
+def inmo_tasacion():
+    current_user = get_current_user()
+    blocked = inmo_require_sector(current_user)
+    if blocked:
+        return blocked
+    return render_template("inmo_tasacion.html", inmo_favoritos=inmo_get_favoritos(), active_nav="tasacion", page_title="Tasación")
+
+
+@app.route("/inmo/servicios")
+def inmo_servicios_view():
+    current_user = get_current_user()
+    blocked = inmo_require_sector(current_user)
+    if blocked:
+        return blocked
+    return render_template("inmo_servicios.html", servicios=inmo_servicios, inmo_favoritos=inmo_get_favoritos(), active_nav="servicios", page_title="Servicios")
+
+
+@app.route("/inmo/novedades")
+def inmo_novedades_view():
+    current_user = get_current_user()
+    blocked = inmo_require_sector(current_user)
+    if blocked:
+        return blocked
+    return render_template("inmo_novedades.html", novedades=inmo_novedades, inmo_favoritos=inmo_get_favoritos(), active_nav="novedades", page_title="Novedades")
+
+
+@app.route("/inmo/contacto")
+def inmo_contacto():
+    current_user = get_current_user()
+    blocked = inmo_require_sector(current_user)
+    if blocked:
+        return blocked
+    return render_template("inmo_contacto.html", inmo_favoritos=inmo_get_favoritos(), page_title="Contacto")
+
+
+@app.route("/api/inmo/favorito", methods=["POST"])
+def api_inmo_favorito():
+    current_user = get_current_user()
+    if not current_user:
+        return jsonify({"success": False, "message": "Debe iniciar sesión."}), 401
+
+    data = request.get_json() or {}
+    property_id = data.get("property_id")
+    if property_id is None:
+        return jsonify({"success": False, "message": "Falta la propiedad."}), 400
+
+    favoritos = inmo_get_favoritos()
+    property_id = int(property_id)
+    if property_id in favoritos:
+        favoritos = [pid for pid in favoritos if pid != property_id]
+        guardado = False
+    else:
+        favoritos.append(property_id)
+        guardado = True
+
+    session["inmo_favoritos"] = favoritos
+    return jsonify({"success": True, "guardado": guardado, "favoritos": favoritos})
+
+
+@app.route("/api/inmo/contacto", methods=["POST"])
+def api_inmo_contacto():
+    current_user = get_current_user()
+    if not current_user:
+        return jsonify({"success": False, "message": "Debe iniciar sesión."}), 401
+
+    data = request.get_json() or {}
+    payload = {
+        "id": str(uuid.uuid4()),
+        "username": current_user.get("username"),
+        "nombre": (data.get("nombre") or "").strip(),
+        "email": (data.get("email") or "").strip(),
+        "telefono": (data.get("telefono") or "").strip(),
+        "mensaje": (data.get("mensaje") or data.get("consulta") or "").strip(),
+        "property_id": data.get("property_id"),
+        "status": "nuevo",
+        "created_at": datetime.utcnow().isoformat() + "Z",
+    }
+    if not payload["nombre"] or not payload["email"]:
+        return jsonify({"success": False, "message": "Completá nombre y email."}), 400
+
+    requests_data = load_requests()
+    requests_data["inmo_contacts"].append(payload)
+    save_requests(requests_data)
+    return jsonify({"success": True, "message": "Consulta enviada con éxito."})
+
+
+@app.route("/api/inmo/visita", methods=["POST"])
+def api_inmo_visita():
+    current_user = get_current_user()
+    if not current_user:
+        return jsonify({"success": False, "message": "Debe iniciar sesión."}), 401
+
+    data = request.get_json() or {}
+    property_id = data.get("property_id")
+    if property_id is None:
+        return jsonify({"success": False, "message": "Falta la propiedad."}), 400
+
+    requests_data = load_requests()
+    requests_data["inmo_visitas"].append({
+        "id": str(uuid.uuid4()),
+        "username": current_user.get("username"),
+        "property_id": property_id,
+        "status": "programada",
+        "created_at": datetime.utcnow().isoformat() + "Z",
+    })
+    save_requests(requests_data)
+    return jsonify({"success": True, "message": "Visita agendada."})
+
+
+@app.route("/api/inmo/tasacion", methods=["POST"])
+def api_inmo_tasacion():
+    current_user = get_current_user()
+    if not current_user:
+        return jsonify({"success": False, "message": "Debe iniciar sesión."}), 401
+
+    data = request.get_json() or {}
+    tipo = (data.get("tipo") or "Departamento").strip()
+    superficie = float(data.get("superficie") or 0)
+    direccion = (data.get("direccion") or "").strip()
+    if not direccion or superficie <= 0:
+        return jsonify({"success": False, "message": "Necesitamos dirección y superficie."}), 400
+
+    base = {"Departamento": 1850, "Casa": 2200, "PH": 2000, "Oficina": 1700, "Terreno": 1200, "Local": 1600}.get(tipo, 1800)
+    valor = round(base * superficie * (1.05 if tipo in {"Casa", "PH"} else 1.0), 2)
+
+    requests_data = load_requests()
+    tasacion = {
+        "id": str(uuid.uuid4()),
+        "username": current_user.get("username"),
+        "direccion": direccion,
+        "tipo": tipo,
+        "valor_estimado": valor,
+        "created_at": datetime.utcnow().isoformat() + "Z",
+    }
+    requests_data["inmo_tasaciones"].append(tasacion)
+    save_requests(requests_data)
+    return jsonify({"success": True, "valor": valor, "valor_formateado": f"USD {valor:,.0f}".replace(",", ".")})
+
+
+@app.route("/api/inmo/compra", methods=["POST"])
+def api_inmo_compra():
+    """Registra la compra de una propiedad y genera el comprobante."""
+    current_user = get_current_user()
+    if not current_user:
+        return jsonify({"success": False, "message": "Debe iniciar sesión."}), 401
+
+    data = request.get_json() or {}
+    property_id = data.get("property_id")
+    propiedad = next((p for p in inmo_propiedades if p["id"] == property_id), None)
+    if not propiedad:
+        return jsonify({"success": False, "message": "Propiedad no encontrada."}), 404
+
+    nombre = (data.get("nombre") or "").strip()
+    email = (data.get("email") or "").strip()
+    telefono = (data.get("telefono") or "").strip()
+    dni = (data.get("dni") or "").strip()
+    forma_pago = (data.get("forma_pago") or "Contado").strip()
+
+    if not nombre or not email or not dni:
+        return jsonify({"success": False, "message": "Completá nombre, DNI y email."}), 400
+
+    requests_data = load_requests()
+    numero = f"INM-{1000 + len(requests_data['inmo_compras']) + 1}"
+    compra = {
+        "id": str(uuid.uuid4()),
+        "numero": numero,
+        "username": current_user.get("username"),
+        "property_id": propiedad["id"],
+        "propiedad_nombre": propiedad["nombre"],
+        "propiedad_ubicacion": propiedad["ubicacion"],
+        "precio": propiedad["precio"],
+        "comprador": {"nombre": nombre, "email": email, "telefono": telefono, "dni": dni},
+        "forma_pago": forma_pago,
+        "status": "confirmada",
+        "created_at": datetime.utcnow().isoformat() + "Z",
+    }
+    requests_data["inmo_compras"].append(compra)
+    save_requests(requests_data)
+
+    return jsonify({
+        "success": True,
+        "message": "Compra confirmada.",
+        "compra": compra,
+        "precio_formateado": f"USD {propiedad['precio']:,.0f}".replace(",", "."),
     })
 
 
@@ -1090,4 +1844,4 @@ def api_eliminar():
 
 if __name__ == "__main__":
     app_id = os.environ.get('__app_id', 'default-app-id')
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=False, host='0.0.0.0', port=5000)

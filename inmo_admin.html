@@ -30,6 +30,8 @@
         <div class="sector-links" style="margin-bottom: 18px;">
             <a href="{{ url_for('delivery') }}" class="sector-link secondary"><i class="fas fa-truck"></i> Delivery</a>
             <a href="{{ url_for('gestoria') }}" class="sector-link secondary"><i class="fas fa-car-side"></i> Gestoría</a>
+            <a href="{{ url_for('dual_home') }}" class="sector-link secondary"><i class="fas fa-shirt"></i> DUAL</a>
+            <a href="{{ url_for('inmo_home') }}" class="sector-link secondary"><i class="fas fa-building-columns"></i> InmoControl</a>
             <a href="{{ url_for('logout') }}" class="sector-link primary"><i class="fas fa-right-from-bracket"></i> Salir</a>
         </div>
 
@@ -68,6 +70,14 @@
                     <div class="mini-card">
                         <h3>Gestoría</h3>
                         <p>{{ gestoria_requests | length }} trámites registrados.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h3>DUAL</h3>
+                        <p>{{ dual_orders | length }} pedidos registrados.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h3>InmoControl</h3>
+                        <p>{{ inmo_consultas | length }} consultas · {{ inmo_tasaciones | length }} tasaciones · {{ inmo_visitas | length }} visitas.</p>
                     </div>
                 </div>
             </section>
@@ -137,11 +147,75 @@
             {% endif %}
         </section>
 
+        <section class="panel-card" style="margin-top: 18px;">
+            <h2>Consultas de InmoControl</h2>
+            {% if inmo_consultas %}
+                <div class="table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Email</th>
+                                <th>Mensaje</th>
+                                <th>Estado</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in inmo_consultas %}
+                                <tr>
+                                    <td>{{ item.display_name or item.username }}</td>
+                                    <td>{{ item.email }}</td>
+                                    <td>{{ item.mensaje or '-' }}</td>
+                                    <td><span class="status-pill status-{{ item.status }}">{{ item.status }}</span></td>
+                                    <td>
+                                        <button class="btn-accion admin-status-btn" data-collection="inmo_consultas" data-request-id="{{ item.id }}" data-status="aprobado">Aprobar</button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="notice">No hay consultas de InmoControl todavía.</div>
+            {% endif %}
+        </section>
+
+        <section class="panel-card" style="margin-top: 18px;">
+            <h2>Tasaciones solicitadas</h2>
+            {% if inmo_tasaciones %}
+                <div class="table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Dirección</th>
+                                <th>Tipo</th>
+                                <th>Valor estimado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in inmo_tasaciones %}
+                                <tr>
+                                    <td>{{ item.display_name or item.username }}</td>
+                                    <td>{{ item.direccion }}</td>
+                                    <td>{{ item.tipo }}</td>
+                                    <td>USD {{ "{:,.0f}".format(item.valor_estimado).replace(",", ".") }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="notice">Todavía no se solicitaron tasaciones.</div>
+            {% endif %}
+        </section>
+
         <div id="admin-feedback" class="notice" style="display:none; margin-top: 18px;"></div>
     </div>
     </div>
-+
-+    <script src="{{ url_for('static', filename='js/carrito.js') }}"></script>
-+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
-+</body>
-+</html>
+
+    <script src="{{ url_for('static', filename='js/carrito.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+</body>
+</html>
