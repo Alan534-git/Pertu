@@ -1,0 +1,96 @@
+{% extends "inmo/inmo_base.html" %}
+{% block title %}InmoControl — {{ titulo }}{% endblock %}
+
+{% block content %}
+<section class="inmo-listado-header">
+  <div class="inmo-section-inner">
+    <h1>{{ titulo }}</h1>
+    <p>Más de {{ "1.248" if operacion == "comprar" else "856" }} propiedades en {{ "venta" if operacion == "comprar" else "alquiler" }}</p>
+  </div>
+</section>
+
+<div class="inmo-section-inner inmo-layout">
+  <aside class="inmo-filters">
+    <div class="inmo-filters-head">
+      <h3>Filtros</h3>
+      <a href="{{ url_for('inmo_listado', operacion=operacion) }}" class="inmo-filters-clear">Limpiar</a>
+    </div>
+    <form method="get">
+      <div class="inmo-filter-block">
+        <label>Ubicación</label>
+        <select name="ubicacion" onchange="this.form.submit()">
+          <option value="">Seleccionar</option>
+          {% for z in zonas %}
+            <option value="{{ z.nombre }}" {{ 'selected' if filtro_ubicacion == z.nombre else '' }}>{{ z.nombre }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="inmo-filter-block">
+        <label>Tipo de propiedad</label>
+        <select name="tipo" onchange="this.form.submit()">
+          <option value="">Seleccionar</option>
+          {% for t in tipos %}
+            <option value="{{ t }}" {{ 'selected' if filtro_tipo == t else '' }}>{{ t }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="inmo-filter-block">
+        <label>Operación</label>
+        <label class="inmo-checkbox"><input type="checkbox" checked disabled> {{ "Venta" if operacion == "comprar" else "Alquiler" }}</label>
+        {% if operacion == "alquiler" %}<label class="inmo-checkbox"><input type="checkbox"> Temporal</label>{% endif %}
+      </div>
+
+      <div class="inmo-filter-block">
+        <label>Precio {{ "(USD)" if operacion == "comprar" else "mensual (USD)" }}</label>
+        <div class="inmo-price-range">
+          <span>USD 0</span>
+          <span>{{ "USD 1.000.000+" if operacion == "comprar" else "USD 5.000+" }}</span>
+        </div>
+        <input type="range" style="width:100%;" disabled>
+      </div>
+
+      {% if operacion == "comprar" %}
+      <div class="inmo-filter-block">
+        <label>Ambientes</label>
+        <div class="inmo-ambientes-pills">
+          {% for a in ambientes %}<span class="inmo-pill">{{ a }}</span>{% endfor %}
+        </div>
+      </div>
+      {% else %}
+      <div class="inmo-filter-block">
+        <label>Garantía</label>
+        <select disabled><option>Seleccionar</option></select>
+      </div>
+      {% endif %}
+
+      <button type="submit" class="inmo-btn-primary" style="width:100%;">Aplicar filtros</button>
+    </form>
+  </aside>
+
+  <div class="inmo-listado-results">
+    <div class="inmo-toolbar">
+      <span>{{ propiedades|length }} propiedades</span>
+      <span>Ordenar por: {{ "Más recientes" if operacion == "comprar" else "Relevancia" }} ▾</span>
+    </div>
+
+    {% if propiedades %}
+    <div class="inmo-grid">
+      {% for p in propiedades %}
+        {% include "inmo/inmo_property_card.html" %}
+      {% endfor %}
+    </div>
+    <div class="inmo-pagination">
+      <span class="active">1</span><span>2</span><span>3</span><span>…</span><span>{{ "25" if operacion == "comprar" else "18" }}</span>
+      <span>Siguiente</span>
+    </div>
+    {% else %}
+    <div class="inmo-empty">No encontramos propiedades con esos filtros. Probá ajustando la búsqueda.</div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/inmo.js') }}"></script>
+{% endblock %}

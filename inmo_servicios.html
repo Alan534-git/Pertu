@@ -1,0 +1,24 @@
+{% extends "inmo/inmo_base.html" %}
+{% block title %}InmoControl — Servicios{% endblock %}
+
+{% block content %}
+<section class="inmo-listado-header">
+  <div class="inmo-section-inner">
+    <h1>Te acompañamos en todo el proceso</h1>
+    <p>Compra, venta, alquiler, tasaciones y asesoramiento legal en un solo lugar.</p>
+  </div>
+</section>
+
+<div class="inmo-section-inner">
+  <div class="inmo-servicios-grid inmo-servicios-grid-full">
+    {% for s in servicios %}
+    <div class="inmo-servicio-card">
+      <i class="fas {{ s.icono }}"></i>
+      <h3>{{ s.titulo }}</h3>
+      <p>{{ s.descripcion }}</p>
+      <a href="{{ url_for('inmo_contacto') }}" class="inmo-outline-btn">Consultar</a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

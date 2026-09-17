@@ -1,0 +1,37 @@
+{% extends "inmo/inmo_base.html" %}
+{% block title %}InmoControl — Contacto{% endblock %}
+
+{% block content %}
+<section class="inmo-listado-header">
+  <div class="inmo-section-inner">
+    <h1>Escribinos, estamos para ayudarte</h1>
+  </div>
+</section>
+
+<div class="inmo-section-inner inmo-contacto-layout">
+  <form id="inmo-form-contacto" class="inmo-panel-card">
+    <div class="inmo-field"><label>Nombre completo</label><input type="text" name="nombre" required></div>
+    <div class="inmo-field"><label>Email</label><input type="email" name="email" required></div>
+    <div class="inmo-field-row">
+      <div class="inmo-field"><label>Teléfono</label><input type="tel" name="telefono"></div>
+    </div>
+    <div class="inmo-field"><label>Mensaje</label><textarea name="mensaje" rows="4"></textarea></div>
+    <button type="submit" class="inmo-btn-primary">Enviar mensaje</button>
+    <div id="inmo-contacto-general-feedback" class="inmo-notice" style="display:none; margin-top:12px;"></div>
+  </form>
+
+  <div class="inmo-panel-card">
+    <h3>O comunicate por</h3>
+    <div class="inmo-contact-info">
+      <div><i class="fab fa-whatsapp"></i><div><strong>WhatsApp</strong>+54 11 1234-5678</div></div>
+      <div><i class="fas fa-phone"></i><div><strong>Teléfono</strong>+54 11 1234-5678</div></div>
+      <div><i class="fas fa-envelope"></i><div><strong>Email</strong>info@inmocontrol.com</div></div>
+      <div><i class="fas fa-clock"></i><div><strong>Horario de atención</strong>Lunes a Viernes 9 a 18 hs.</div></div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/inmo.js') }}"></script>
+{% endblock %}

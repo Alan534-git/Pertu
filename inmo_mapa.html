@@ -1,0 +1,30 @@
+{% extends "inmo/inmo_base.html" %}
+{% block title %}InmoControl — Mapa y zonas{% endblock %}
+
+{% block content %}
+<section class="inmo-listado-header">
+  <div class="inmo-section-inner">
+    <h1>Explorá propiedades por zona</h1>
+    <p>Descubrí el precio promedio y las propiedades disponibles en cada barrio.</p>
+  </div>
+</section>
+
+<div class="inmo-section-inner">
+  <div class="inmo-map-preview inmo-map-preview-full">
+    <div class="inmo-map-placeholder inmo-map-placeholder-lg">
+      {% for z in zonas %}
+        <span class="inmo-map-pin" style="left:{{ (loop.index0 * 18) % 90 }}%; top:{{ (loop.index0 * 27) % 70 }}%;">USD {{ (z.precio_prom / 1000)|round|int }}k</span>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="inmo-zonas-grid">
+    {% for z in zonas %}
+    <a href="{{ url_for('inmo_listado', operacion='comprar', ubicacion=z.nombre) }}" class="inmo-zona-card">
+      <div class="inmo-zona-nombre">{{ z.nombre }}</div>
+      <div class="inmo-zona-precio">Precio promedio<br><strong>USD {{ "{:,.0f}".format(z.precio_prom).replace(",", ".") }}</strong></div>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

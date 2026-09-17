@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}InmoControl{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/inmo.css') }}">
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('favicon') }}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="inmo-scope">
+
+  <div class="inmo-topbar">
+    <div class="inmo-topbar-inner">
+      <div class="inmo-topbar-left">
+        <span><i class="fas fa-phone"></i> +54 11 1234-5678</span>
+        <span><i class="fas fa-envelope"></i> info@inmocontrol.com</span>
+        <span class="inmo-topbar-hide-sm"><i class="fas fa-clock"></i> Lun - Vie 9 a 18 hs</span>
+      </div>
+      <div class="inmo-topbar-right">
+        <span class="inmo-topbar-hide-sm">Seguinos</span>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+        <a href="#"><i class="fab fa-x-twitter"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <header class="inmo-header">
+    <div class="inmo-header-inner">
+      <a href="{{ url_for('inmo_home') }}" class="inmo-logo">
+        <span class="inmo-logo-mark"><i class="fas fa-building-columns"></i></span>
+        <span class="inmo-logo-text">InmoControl<small>Tu lugar. Tu inversión.</small></span>
+      </a>
+
+      <nav class="inmo-nav">
+        <a href="{{ url_for('inmo_listado', operacion='comprar') }}" class="{{ 'active' if active_nav == 'comprar' else '' }}">Comprar</a>
+        <a href="{{ url_for('inmo_listado', operacion='alquilar') }}" class="{{ 'active' if active_nav == 'alquilar' else '' }}">Alquilar</a>
+        <a href="{{ url_for('inmo_emprendimientos') }}" class="{{ 'active' if active_nav == 'emprendimientos' else '' }}">Emprendimientos</a>
+        <a href="{{ url_for('inmo_tasacion') }}">Vender / Tasar</a>
+        <a href="{{ url_for('inmo_servicios_view') }}">Servicios</a>
+        <a href="{{ url_for('inmo_novedades_view') }}">Novedades</a>
+      </nav>
+
+      <div class="inmo-header-icons">
+        <a class="inmo-icon-btn inmo-icon-fav" href="{{ url_for('inmo_cuenta') }}" title="Favoritos">
+          <i class="far fa-heart"></i>
+          {% if inmo_favoritos and inmo_favoritos|length > 0 %}
+            <span class="inmo-count">{{ inmo_favoritos|length }}</span>
+          {% endif %}
+        </a>
+        <a class="inmo-icon-btn" href="{{ url_for('inmo_cuenta') }}" title="Notificaciones"><i class="far fa-bell"></i></a>
+        <div class="inmo-account-menu">
+          <a href="{{ url_for('inmo_cuenta') }}" class="inmo-account-btn">
+            <i class="far fa-circle-user"></i> {{ current_user.display_name if current_user else 'Mi cuenta' }} <i class="fas fa-chevron-down" style="font-size:10px;"></i>
+          </a>
+          <div class="inmo-account-dropdown">
+            <a href="{{ url_for('inmo_cuenta') }}"><i class="fas fa-gauge"></i> Dashboard</a>
+            <a href="{{ url_for('inmo_cuenta') }}"><i class="fas fa-heart"></i> Mis favoritos</a>
+            {% if current_user %}
+              <a href="{{ url_for('logout') }}"><i class="fas fa-right-from-bracket"></i> Cerrar sesión</a>
+            {% else %}
+              <a href="{{ url_for('inmo_registro') }}"><i class="fas fa-user-plus"></i> Crear cuenta</a>
+            {% endif %}
+          </div>
+        </div>
+        <a class="inmo-logout-link" href="{{ url_for('logout') }}" title="Cerrar sesión"><i class="fas fa-right-from-bracket"></i><span>Cerrar sesión</span></a>
+      </div>
+    </div>
+  </header>
+
+  {% block content %}{% endblock %}
+
+  <footer class="inmo-footer">
+    <div class="inmo-footer-benefits">
+      <div class="inmo-benefit"><i class="fas fa-truck-fast"></i><div><strong>Envíos a todo el país</strong>Rápidos y seguros</div></div>
+      <div class="inmo-benefit"><i class="fas fa-rotate"></i><div><strong>Cambios fáciles</strong>Hasta 30 días</div></div>
+      <div class="inmo-benefit"><i class="fas fa-shield-halved"></i><div><strong>Compra protegida</strong>100% segura</div></div>
+      <div class="inmo-benefit"><i class="fas fa-credit-card"></i><div><strong>3 cuotas sin interés</strong>Con todas las tarjetas</div></div>
+    </div>
+    <div class="inmo-footer-inner">
+      <div class="inmo-footer-brand">
+        <div class="inmo-logo" style="color:#fff;">
+          <span class="inmo-logo-mark" style="background:#fff; color:#0f2044;"><i class="fas fa-building-columns"></i></span>
+          <span class="inmo-logo-text">InmoControl<small style="color:rgba(255,255,255,0.6);">Tu lugar. Tu inversión.</small></span>
+        </div>
+        <p>Más de 15 años ayudando a encontrar el lugar ideal para vivir o invertir.</p>
+        <div class="inmo-footer-social">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+          <a href="#"><i class="fab fa-x-twitter"></i></a>
+        </div>
+      </div>
+
+      <div class="inmo-footer-col">
+        <h4>Navegación</h4>
+        <a href="{{ url_for('inmo_listado', operacion='comprar') }}">Comprar</a>
+        <a href="{{ url_for('inmo_listado', operacion='alquilar') }}">Alquilar</a>
+        <a href="{{ url_for('inmo_emprendimientos') }}">Emprendimientos</a>
+        <a href="{{ url_for('inmo_servicios_view') }}">Servicios</a>
+        <a href="{{ url_for('inmo_novedades_view') }}">Novedades</a>
+      </div>
+
+      <div class="inmo-footer-col">
+        <h4>Información</h4>
+        <a href="{{ url_for('inmo_home') }}">Quiénes somos</a>
+        <a href="{{ url_for('inmo_home') }}">Cómo trabajamos</a>
+        <a href="{{ url_for('inmo_home') }}">Preguntas frecuentes</a>
+        <a href="{{ url_for('inmo_novedades_view') }}">Blog</a>
+        <a href="{{ url_for('inmo_contacto') }}">Contacto</a>
+      </div>
+
+      <div class="inmo-footer-col">
+        <h4>Legal</h4>
+        <a href="{{ url_for('inmo_home') }}">Términos y condiciones</a>
+        <a href="{{ url_for('inmo_home') }}">Política de privacidad</a>
+        <a href="{{ url_for('inmo_home') }}">Política de cookies</a>
+      </div>
+
+      <div class="inmo-footer-col">
+        <h4>Contacto</h4>
+        <div><i class="fas fa-phone"></i> +54 11 1234-5678</div>
+        <div><i class="fas fa-envelope"></i> info@inmocontrol.com</div>
+        <div><i class="fas fa-location-dot"></i> Av. del Libertador 1234, CABA, Argentina</div>
+      </div>
+    </div>
+    <div class="inmo-footer-bottom">
+      © 2024 InmoControl. Todos los derechos reservados. · Diseñado con <i class="fas fa-heart"></i> para ayudarte a encontrar tu lugar.
+    </div>
+  </footer>
+
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>
