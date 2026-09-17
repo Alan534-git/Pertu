@@ -1,4 +1,4 @@
-{% extends "inmo_base.html" %}
+{% extends "inmo/inmo_base.html" %}
 {% block title %}InmoControl — Encontrá el hogar o la inversión perfecta{% endblock %}
 
 {% block content %}
@@ -185,7 +185,7 @@
     </div>
     <div class="inmo-grid">
       {% for p in propiedades %}
-        {% include "inmo_property_card.html" %}
+        {% include "inmo/inmo_property_card.html" %}
       {% endfor %}
     </div>
   </div>

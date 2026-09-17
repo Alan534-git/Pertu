@@ -111,6 +111,21 @@ input[type="number"].input-cantidad {
     gap: 15px; /* Espacio consistente entre el switch y el carrito */
 }
 
+.logout-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.logout-link:hover {
+    color: var(--color-accent-main);
+}
+
 /* Estilo para el botón de cambio de tema */
 #theme-toggle {
     background: var(--color-bg-container);

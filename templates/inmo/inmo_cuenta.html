@@ -1,4 +1,4 @@
-{% extends "inmo_base.html" %}
+{% extends "inmo/inmo_base.html" %}
 {% block title %}InmoControl — Mi cuenta{% endblock %}
 
 {% block content %}
@@ -42,7 +42,7 @@
       {% if propiedades_guardadas %}
       <div class="inmo-grid">
         {% for p in propiedades_guardadas %}
-          {% include "inmo_property_card.html" %}
+          {% include "inmo/inmo_property_card.html" %}
         {% endfor %}
       </div>
       {% else %}

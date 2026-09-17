@@ -61,6 +61,18 @@
 .inmo-nav a:hover, .inmo-nav a.active { color: var(--inmo-accent); border-bottom-color: var(--inmo-accent); }
 
 .inmo-header-icons { display: flex; align-items: center; gap: 6px; }
+
+.inmo-logout-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #52627a;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.inmo-logout-link:hover { color: #0f2044; }
 .inmo-icon-btn { position: relative; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--inmo-text); font-size: 15px; }
 .inmo-icon-btn:hover { background: var(--inmo-blue-light); }
 .inmo-count { position: absolute; top: -2px; right: -2px; background: var(--inmo-accent); color: #fff; font-size: 10px; font-weight: 700; border-radius: 50%; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; }

@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, session, jsonify, request, Response
-from jinja2 import ChoiceLoader, FileSystemLoader
+from jinja2 import FileSystemLoader
 from werkzeug.security import check_password_hash, generate_password_hash
 import json
 import math
@@ -21,10 +21,7 @@ app.config.update(
     SESSION_COOKIE_SECURE=os.environ.get("FLASK_COOKIE_SECURE", "0") == "1",
     MAX_CONTENT_LENGTH=1 * 1024 * 1024,
 )
-app.jinja_loader = ChoiceLoader([
-    FileSystemLoader(os.path.join(BASE_DIR, "templates")),
-    FileSystemLoader(BASE_DIR),
-])
+app.jinja_loader = FileSystemLoader(os.path.join(BASE_DIR, "templates"))
 DATA_DIR = os.path.join(BASE_DIR, "data")
 USERS_FILE = os.path.join(DATA_DIR, "users.json")
 REQUESTS_FILE = os.path.join(DATA_DIR, "requests.json")
@@ -1238,7 +1235,7 @@ def inmo_home():
         return blocked
 
     return render_template(
-        "inmo.index",
+        "inmo/inmo.index",
         propiedades=inmo_propiedades[:4],
         zonas=inmo_zonas,
         emprendimientos=inmo_emprendimientos_data,
@@ -1284,7 +1281,7 @@ def inmo_registro():
                 }
                 return redirect(url_for("inmo_home"))
 
-    return render_template("inmo_resgistro.html", error_message=error_message)
+    return render_template("inmo/inmo_resgistro.html", error_message=error_message)
 
 
 @app.route("/inmo/listado/<operacion>")
@@ -1307,7 +1304,7 @@ def inmo_listado(operacion):
         propiedades = [p for p in propiedades if p.get("tipo") == filtro_tipo]
 
     return render_template(
-        "inmo_listado.html",
+        "inmo/inmo_listado.html",
         titulo="Comprar propiedades" if operacion == "comprar" else "Alquilar propiedades",
         operacion=operacion,
         propiedades=propiedades,
@@ -1334,7 +1331,7 @@ def inmo_propiedad(property_id):
         return redirect(url_for("inmo_home"))
 
     return render_template(
-        "inmo_propiedad.html",
+        "inmo/inmo_propiedad.html",
         propiedad=propiedad,
         inmo_favoritos=inmo_get_favoritos(),
         active_nav="comprar",
@@ -1354,7 +1351,7 @@ def inmo_comprar(property_id):
         return redirect(url_for("inmo_home"))
 
     return render_template(
-        "inmo_compra.html",
+        "inmo/inmo_compra.html",
         propiedad=propiedad,
         inmo_favoritos=inmo_get_favoritos(),
         active_nav="comprar",
@@ -1368,7 +1365,7 @@ def inmo_emprendimientos():
     blocked = inmo_require_sector(current_user)
     if blocked:
         return blocked
-    return render_template("inmo_emprendimiento.html", emprendimientos=inmo_emprendimientos_data, inmo_favoritos=inmo_get_favoritos(), active_nav="emprendimientos", page_title="Emprendimientos")
+    return render_template("inmo/inmo_emprendimiento.html", emprendimientos=inmo_emprendimientos_data, inmo_favoritos=inmo_get_favoritos(), active_nav="emprendimientos", page_title="Emprendimientos")
 
 
 @app.route("/inmo/mapa")
@@ -1377,7 +1374,7 @@ def inmo_mapa():
     blocked = inmo_require_sector(current_user)
     if blocked:
         return blocked
-    return render_template("inmo_mapa.html", zonas=inmo_zonas, inmo_favoritos=inmo_get_favoritos(), active_nav="comprar", page_title="Mapa inmobiliario")
+    return render_template("inmo/inmo_mapa.html", zonas=inmo_zonas, inmo_favoritos=inmo_get_favoritos(), active_nav="comprar", page_title="Mapa inmobiliario")
 
 
 @app.route("/inmo/cuenta")
@@ -1395,7 +1392,7 @@ def inmo_cuenta():
     visitas = [item for item in requests_data.get("inmo_visitas", []) if item.get("username") == username]
     compras = [item for item in requests_data.get("inmo_compras", []) if item.get("username") == username]
     return render_template(
-        "inmo_cuenta.html",
+        "inmo/inmo_cuenta.html",
         propiedades_guardadas=favoritos,
         consultas=consultas,
         tasaciones=tasaciones,
@@ -1411,7 +1408,7 @@ def inmo_tasacion():
     blocked = inmo_require_sector(current_user)
     if blocked:
         return blocked
-    return render_template("inmo_tasacion.html", inmo_favoritos=inmo_get_favoritos(), active_nav="tasacion", page_title="Tasación")
+    return render_template("inmo/inmo_tasacion.html", inmo_favoritos=inmo_get_favoritos(), active_nav="tasacion", page_title="Tasación")
 
 
 @app.route("/inmo/servicios")
@@ -1420,7 +1417,7 @@ def inmo_servicios_view():
     blocked = inmo_require_sector(current_user)
     if blocked:
         return blocked
-    return render_template("inmo_servicios.html", servicios=inmo_servicios, inmo_favoritos=inmo_get_favoritos(), active_nav="servicios", page_title="Servicios")
+    return render_template("inmo/inmo_servicios.html", servicios=inmo_servicios, inmo_favoritos=inmo_get_favoritos(), active_nav="servicios", page_title="Servicios")
 
 
 @app.route("/inmo/novedades")
@@ -1429,7 +1426,7 @@ def inmo_novedades_view():
     blocked = inmo_require_sector(current_user)
     if blocked:
         return blocked
-    return render_template("inmo_novedades.html", novedades=inmo_novedades, inmo_favoritos=inmo_get_favoritos(), active_nav="novedades", page_title="Novedades")
+    return render_template("inmo/inmo_novedades.html", novedades=inmo_novedades, inmo_favoritos=inmo_get_favoritos(), active_nav="novedades", page_title="Novedades")
 
 
 @app.route("/inmo/contacto")
@@ -1438,7 +1435,7 @@ def inmo_contacto():
     blocked = inmo_require_sector(current_user)
     if blocked:
         return blocked
-    return render_template("inmo_contacto.html", inmo_favoritos=inmo_get_favoritos(), page_title="Contacto")
+    return render_template("inmo/inmo_contacto.html", inmo_favoritos=inmo_get_favoritos(), page_title="Contacto")
 
 
 @app.route("/api/inmo/favorito", methods=["POST"])

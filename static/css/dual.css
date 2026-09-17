@@ -137,6 +137,18 @@
 
 .dual-icon-btn:hover { background: var(--dual-cream); }
 
+.dual-logout-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--dual-muted);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.dual-logout-link:hover { color: var(--dual-black); }
+
 .dual-cart-count {
   position: absolute;
   top: -2px;
@@ -167,6 +179,12 @@
 
 @media (min-width: 900px) {
   .dual-search { display: flex; }
+}
+
+@media (max-width: 700px) {
+  .dual-logout-link span { display: none; }
+  .dual-header-inner { gap: 12px; padding-inline: 14px; }
+  .dual-nav { gap: 12px; overflow-x: auto; }
 }
 
 /* ---------- hero ---------- */

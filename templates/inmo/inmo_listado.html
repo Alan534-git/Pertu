@@ -1,4 +1,4 @@
-{% extends "inmo_base.html" %}
+{% extends "inmo/inmo_base.html" %}
 {% block title %}InmoControl — {{ titulo }}{% endblock %}
 
 {% block content %}
@@ -77,7 +77,7 @@
     {% if propiedades %}
     <div class="inmo-grid">
       {% for p in propiedades %}
-        {% include "inmo_property_card.html" %}
+        {% include "inmo/inmo_property_card.html" %}
       {% endfor %}
     </div>
     <div class="inmo-pagination">
