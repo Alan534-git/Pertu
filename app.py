@@ -2,7 +2,10 @@ from flask import Flask, render_template, redirect, url_for, session, jsonify, r
 from jinja2 import ChoiceLoader, FileSystemLoader
 from werkzeug.security import check_password_hash, generate_password_hash
 import json
+import math
 import os
+import secrets
+import tempfile
 import uuid
 from datetime import datetime, timedelta
 
@@ -11,7 +14,13 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # NOTA: La clave secreta debe ser una cadena de bytes aleatoria en producción
 # Para Canvas, usamos un valor placeholder.
 app = Flask(__name__, template_folder="templates")
-app.secret_key = "clave-secreta"  # Necesario para manejar sesiones
+app.secret_key = os.environ.get("FLASK_SECRET_KEY") or secrets.token_hex(32)
+app.config.update(
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE="Lax",
+    SESSION_COOKIE_SECURE=os.environ.get("FLASK_COOKIE_SECURE", "0") == "1",
+    MAX_CONTENT_LENGTH=1 * 1024 * 1024,
+)
 app.jinja_loader = ChoiceLoader([
     FileSystemLoader(os.path.join(BASE_DIR, "templates")),
     FileSystemLoader(BASE_DIR),
@@ -531,14 +540,31 @@ def load_json(path, default_value):
     try:
         with open(path, "r", encoding="utf-8") as file:
             return json.load(file)
-    except (FileNotFoundError, json.JSONDecodeError):
+    except (FileNotFoundError, OSError, json.JSONDecodeError):
         return default_value
 
 
 def save_json(path, payload):
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w", encoding="utf-8") as file:
-        json.dump(payload, file, indent=2, ensure_ascii=False)
+    directory = os.path.dirname(path)
+    os.makedirs(directory, exist_ok=True)
+    temporary_path = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            dir=directory,
+            prefix=".tmp-",
+            suffix=".json",
+            delete=False,
+        ) as file:
+            temporary_path = file.name
+            json.dump(payload, file, indent=2, ensure_ascii=False)
+            file.flush()
+            os.fsync(file.fileno())
+        os.replace(temporary_path, path)
+    finally:
+        if temporary_path and os.path.exists(temporary_path):
+            os.unlink(temporary_path)
 
 
 def ensure_data_files():
@@ -636,6 +662,14 @@ def inject_user_context():
         "is_admin": bool(current_user and current_user.get("role") == "admin"),
         "user_sector": current_user.get("sector") if current_user else None,
     }
+
+
+@app.after_request
+def add_security_headers(response):
+    response.headers.setdefault("X-Content-Type-Options", "nosniff")
+    response.headers.setdefault("X-Frame-Options", "SAMEORIGIN")
+    response.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
+    return response
 
 
 ensure_data_files()
@@ -1355,10 +1389,11 @@ def inmo_cuenta():
 
     requests_data = load_requests()
     favoritos = [p for p in inmo_propiedades if p["id"] in inmo_get_favoritos()]
-    consultas = requests_data.get("inmo_contacts", [])
-    tasaciones = requests_data.get("inmo_tasaciones", [])
-    visitas = requests_data.get("inmo_visitas", [])
-    compras = [c for c in requests_data.get("inmo_compras", []) if c.get("username") == current_user.get("username")]
+    username = current_user.get("username")
+    consultas = [item for item in requests_data.get("inmo_contacts", []) if item.get("username") == username]
+    tasaciones = [item for item in requests_data.get("inmo_tasaciones", []) if item.get("username") == username]
+    visitas = [item for item in requests_data.get("inmo_visitas", []) if item.get("username") == username]
+    compras = [item for item in requests_data.get("inmo_compras", []) if item.get("username") == username]
     return render_template(
         "inmo_cuenta.html",
         propiedades_guardadas=favoritos,
@@ -1412,13 +1447,15 @@ def api_inmo_favorito():
     if not current_user:
         return jsonify({"success": False, "message": "Debe iniciar sesión."}), 401
 
-    data = request.get_json() or {}
-    property_id = data.get("property_id")
-    if property_id is None:
+    data = request.get_json(silent=True) or {}
+    try:
+        property_id = int(data.get("property_id"))
+    except (TypeError, ValueError):
         return jsonify({"success": False, "message": "Falta la propiedad."}), 400
+    if not any(property_item["id"] == property_id for property_item in inmo_propiedades):
+        return jsonify({"success": False, "message": "Propiedad no encontrada."}), 404
 
     favoritos = inmo_get_favoritos()
-    property_id = int(property_id)
     if property_id in favoritos:
         favoritos = [pid for pid in favoritos if pid != property_id]
         guardado = False
@@ -1436,7 +1473,15 @@ def api_inmo_contacto():
     if not current_user:
         return jsonify({"success": False, "message": "Debe iniciar sesión."}), 401
 
-    data = request.get_json() or {}
+    data = request.get_json(silent=True) or {}
+    property_id = data.get("property_id")
+    if property_id not in (None, ""):
+        try:
+            property_id = int(property_id)
+        except (TypeError, ValueError):
+            return jsonify({"success": False, "message": "Propiedad no válida."}), 400
+        if not any(property_item["id"] == property_id for property_item in inmo_propiedades):
+            return jsonify({"success": False, "message": "Propiedad no encontrada."}), 404
     payload = {
         "id": str(uuid.uuid4()),
         "username": current_user.get("username"),
@@ -1444,7 +1489,7 @@ def api_inmo_contacto():
         "email": (data.get("email") or "").strip(),
         "telefono": (data.get("telefono") or "").strip(),
         "mensaje": (data.get("mensaje") or data.get("consulta") or "").strip(),
-        "property_id": data.get("property_id"),
+        "property_id": property_id,
         "status": "nuevo",
         "created_at": datetime.utcnow().isoformat() + "Z",
     }
@@ -1463,10 +1508,13 @@ def api_inmo_visita():
     if not current_user:
         return jsonify({"success": False, "message": "Debe iniciar sesión."}), 401
 
-    data = request.get_json() or {}
-    property_id = data.get("property_id")
-    if property_id is None:
+    data = request.get_json(silent=True) or {}
+    try:
+        property_id = int(data.get("property_id"))
+    except (TypeError, ValueError):
         return jsonify({"success": False, "message": "Falta la propiedad."}), 400
+    if not any(property_item["id"] == property_id for property_item in inmo_propiedades):
+        return jsonify({"success": False, "message": "Propiedad no encontrada."}), 404
 
     requests_data = load_requests()
     requests_data["inmo_visitas"].append({
@@ -1486,11 +1534,14 @@ def api_inmo_tasacion():
     if not current_user:
         return jsonify({"success": False, "message": "Debe iniciar sesión."}), 401
 
-    data = request.get_json() or {}
+    data = request.get_json(silent=True) or {}
     tipo = (data.get("tipo") or "Departamento").strip()
-    superficie = float(data.get("superficie") or 0)
+    try:
+        superficie = float(data.get("superficie") or 0)
+    except (TypeError, ValueError):
+        superficie = 0
     direccion = (data.get("direccion") or "").strip()
-    if not direccion or superficie <= 0:
+    if not direccion or not math.isfinite(superficie) or superficie <= 0 or superficie > 100000:
         return jsonify({"success": False, "message": "Necesitamos dirección y superficie."}), 400
 
     base = {"Departamento": 1850, "Casa": 2200, "PH": 2000, "Oficina": 1700, "Terreno": 1200, "Local": 1600}.get(tipo, 1800)
@@ -1517,8 +1568,11 @@ def api_inmo_compra():
     if not current_user:
         return jsonify({"success": False, "message": "Debe iniciar sesión."}), 401
 
-    data = request.get_json() or {}
-    property_id = data.get("property_id")
+    data = request.get_json(silent=True) or {}
+    try:
+        property_id = int(data.get("property_id"))
+    except (TypeError, ValueError):
+        return jsonify({"success": False, "message": "Propiedad no encontrada."}), 400
     propiedad = next((p for p in inmo_propiedades if p["id"] == property_id), None)
     if not propiedad:
         return jsonify({"success": False, "message": "Propiedad no encontrada."}), 404
@@ -1531,6 +1585,8 @@ def api_inmo_compra():
 
     if not nombre or not email or not dni:
         return jsonify({"success": False, "message": "Completá nombre, DNI y email."}), 400
+    if forma_pago not in {"Contado", "Crédito hipotecario", "Financiación propia"}:
+        return jsonify({"success": False, "message": "Forma de pago no válida."}), 400
 
     requests_data = load_requests()
     numero = f"INM-{1000 + len(requests_data['inmo_compras']) + 1}"
@@ -1612,16 +1668,18 @@ def api_agregar():
     if not get_current_user():
         return jsonify({'success': False, 'message': 'Debe iniciar sesión.'}), 401
 
-    data = request.get_json()
+    data = request.get_json(silent=True) or {}
     product_id = data.get('product_id')
     refresco_id_str = str(data.get('refresco_id', 0))
+    if refresco_id_str not in refresco_precios:
+        return jsonify({'success': False, 'message': 'Refresco no válido'}), 400
     refresco_id = int(refresco_id_str)
     
     # Intenta parsear las cantidades, usando 1 y 0 como fallback
     try:
         cant_milanesa = int(data.get('cant_milanesa', 1))
         cant_refresco = int(data.get('cant_refresco', 0))
-    except ValueError:
+    except (TypeError, ValueError):
         return jsonify({'success': False, 'message': 'Cantidad inválida'}), 400
 
     # 1. Validar rangos de cantidad
@@ -1824,7 +1882,7 @@ def api_eliminar():
     """
     Elimina un ítem específico (por item_key) del carrito y devuelve JSON.
     """
-    data = request.get_json()
+    data = request.get_json(silent=True) or {}
     item_key = data.get('item_key')
     
     if not item_key:
