@@ -79,6 +79,104 @@ dual_productos = [
      "precio": 8990, "descuento": None, "precio_original": None, "es_novedad": False,
      "color_media": "#e0a8a0", "talles": ["XS", "S", "M"], "colores_nombre": ["Rosa"],
      "descripcion": "Crop top básico de algodón, calce ajustado."},
+    {"id": 111, "nombre": "Vestido Negro", "seccion": "mujer", "subcategoria": "Vestidos",
+     "precio": 28990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#1a1a1a", "talles": ["XS", "S", "M", "L"], "colores_nombre": ["Negro"],
+     "color_fijo": True, "descripcion": "Vestido en color negro."},
+    {"id": 109, "nombre": "Vestido Rojo", "seccion": "mujer", "subcategoria": "Vestidos",
+     "precio": 28990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#a02040", "talles": ["XS", "S", "M", "L"], "colores_nombre": ["Rojo"],
+     "color_fijo": True, "descripcion": "Vestido en color rojo."},
+    {"id": 113, "nombre": "Vestido Azul", "seccion": "mujer", "subcategoria": "Vestidos",
+     "precio": 28990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#202080", "talles": ["XS", "S", "M", "L"], "colores_nombre": ["Azul"],
+     "color_fijo": True, "descripcion": "Vestido en color azul."},
+    {"id": 115, "nombre": "Vestido Rosa", "seccion": "mujer", "subcategoria": "Vestidos",
+     "precio": 28990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#c0a0a0", "talles": ["XS", "S", "M", "L"], "colores_nombre": ["Rosa"],
+     "color_fijo": True, "descripcion": "Vestido en color rosa."},
+    {"id": 112, "nombre": "Vestido Negro", "seccion": "mujer", "subcategoria": "Vestidos",
+     "precio": 28990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#1a1a1a", "talles": ["XS", "S", "M", "L"], "colores_nombre": ["Negro"],
+     "color_fijo": True, "descripcion": "Vestido en color negro."},
+    {"id": 110, "nombre": "Vestido Rojo", "seccion": "mujer", "subcategoria": "Vestidos",
+     "precio": 28990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#a02040", "talles": ["XS", "S", "M", "L"], "colores_nombre": ["Rojo"],
+     "color_fijo": True, "descripcion": "Vestido en color rojo."},
+    {"id": 114, "nombre": "Vestido Azul", "seccion": "mujer", "subcategoria": "Vestidos",
+     "precio": 28990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#202080", "talles": ["XS", "S", "M", "L"], "colores_nombre": ["Azul"],
+     "color_fijo": True, "descripcion": "Vestido en color azul."},
+    {"id": 116, "nombre": "Vestido Rosa", "seccion": "mujer", "subcategoria": "Vestidos",
+     "precio": 28990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#c0a0a0", "talles": ["XS", "S", "M", "L"], "colores_nombre": ["Rosa"],
+     "color_fijo": True, "descripcion": "Vestido en color rosa."},
+
+    {"id": 117, "nombre": "Top Negro", "seccion": "mujer", "subcategoria": "Tops",
+     "precio": 9990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#1a1a1a", "talles": ["XS", "S", "M", "L"], "colores_nombre": ["Negro"],
+     "color_fijo": True, "descripcion": "Top en color negro."},
+    {"id": 119, "nombre": "Top Rojo", "seccion": "mujer", "subcategoria": "Tops",
+     "precio": 9990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#a02040", "talles": ["XS", "S", "M", "L"], "colores_nombre": ["Rojo"],
+     "color_fijo": True, "descripcion": "Top en color rojo."},
+    {"id": 121, "nombre": "Top Blanco", "seccion": "mujer", "subcategoria": "Tops",
+     "precio": 9990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#e8e4de", "talles": ["XS", "S", "M", "L"], "colores_nombre": ["Blanco"],
+     "color_fijo": True, "descripcion": "Top en color blanco."},
+    {"id": 123, "nombre": "Top Rosa", "seccion": "mujer", "subcategoria": "Tops",
+     "precio": 9990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#c0a0a0", "talles": ["XS", "S", "M", "L"], "colores_nombre": ["Rosa"],
+     "color_fijo": True, "descripcion": "Top en color rosa."},
+    {"id": 118, "nombre": "Top Negro", "seccion": "mujer", "subcategoria": "Tops",
+     "precio": 9990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#1a1a1a", "talles": ["XS", "S", "M", "L"], "colores_nombre": ["Negro"],
+     "color_fijo": True, "descripcion": "Top en color negro."},
+    {"id": 120, "nombre": "Top Rojo", "seccion": "mujer", "subcategoria": "Tops",
+     "precio": 9990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#a02040", "talles": ["XS", "S", "M", "L"], "colores_nombre": ["Rojo"],
+     "color_fijo": True, "descripcion": "Top en color rojo."},
+    {"id": 122, "nombre": "Top Blanco", "seccion": "mujer", "subcategoria": "Tops",
+     "precio": 9990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#e8e4de", "talles": ["XS", "S", "M", "L"], "colores_nombre": ["Blanco"],
+     "color_fijo": True, "descripcion": "Top en color blanco."},
+    {"id": 124, "nombre": "Top Rosa", "seccion": "mujer", "subcategoria": "Tops",
+     "precio": 9990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#c0a0a0", "talles": ["XS", "S", "M", "L"], "colores_nombre": ["Rosa"],
+     "color_fijo": True, "descripcion": "Top en color rosa."},
+
+    {"id": 125, "nombre": "Jean Negro", "seccion": "mujer", "subcategoria": "Jeans",
+     "precio": 25990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#1a1a1a", "talles": ["36", "38", "40", "42"], "colores_nombre": ["Negro"],
+     "color_fijo": True, "descripcion": "Jean en color negro."},
+    {"id": 127, "nombre": "Jean Azul", "seccion": "mujer", "subcategoria": "Jeans",
+     "precio": 25990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#3f5b8c", "talles": ["36", "38", "40", "42"], "colores_nombre": ["Azul"],
+     "color_fijo": True, "descripcion": "Jean en color azul."},
+    {"id": 129, "nombre": "Jean Celeste", "seccion": "mujer", "subcategoria": "Jeans",
+     "precio": 25990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#9db6d3", "talles": ["36", "38", "40", "42"], "colores_nombre": ["Celeste"],
+     "color_fijo": True, "descripcion": "Jean en color celeste."},
+    {"id": 131, "nombre": "Jean Gris", "seccion": "mujer", "subcategoria": "Jeans",
+     "precio": 25990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#8a8d93", "talles": ["36", "38", "40", "42"], "colores_nombre": ["Gris"],
+     "color_fijo": True, "descripcion": "Jean en color gris."},
+    {"id": 126, "nombre": "Jean Negro", "seccion": "mujer", "subcategoria": "Jeans",
+     "precio": 25990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#1a1a1a", "talles": ["36", "38", "40", "42"], "colores_nombre": ["Negro"],
+     "color_fijo": True, "descripcion": "Jean en color negro."},
+    {"id": 128, "nombre": "Jean Azul", "seccion": "mujer", "subcategoria": "Jeans",
+     "precio": 25990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#3f5b8c", "talles": ["36", "38", "40", "42"], "colores_nombre": ["Azul"],
+     "color_fijo": True, "descripcion": "Jean en color azul."},
+    {"id": 130, "nombre": "Jean Celeste", "seccion": "mujer", "subcategoria": "Jeans",
+     "precio": 25990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#9db6d3", "talles": ["36", "38", "40", "42"], "colores_nombre": ["Celeste"],
+     "color_fijo": True, "descripcion": "Jean en color celeste."},
+    {"id": 132, "nombre": "Jean Gris", "seccion": "mujer", "subcategoria": "Jeans",
+     "precio": 25990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#8a8d93", "talles": ["36", "38", "40", "42"], "colores_nombre": ["Gris"],
+     "color_fijo": True, "descripcion": "Jean en color gris."},
 
     # ---- DEPORTIVO ----
     {"id": 201, "nombre": "Top Deportivo", "seccion": "deportivo", "subcategoria": "Tops",
@@ -113,29 +211,138 @@ dual_productos = [
      "precio": 18990, "descuento": None, "precio_original": None, "es_novedad": True,
      "color_media": "#4a5670", "talles": ["Único"], "colores_nombre": ["Negro"],
      "descripcion": "Mochila deportiva con compartimento para calzado."},
+    {"id": 133, "nombre": "Conjunto Training Negro", "seccion": "deportivo", "subcategoria": "Conjuntos",
+     "precio": 34990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#1a1a1a", "talles": ["S", "M", "L"], "colores_nombre": ["Negro"],
+     "color_fijo": True, "descripcion": "Conjunto Training en color negro."},
+    {"id": 135, "nombre": "Conjunto Training Gris", "seccion": "deportivo", "subcategoria": "Conjuntos",
+     "precio": 34990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#8a8d93", "talles": ["S", "M", "L"], "colores_nombre": ["Gris"],
+     "color_fijo": True, "descripcion": "Conjunto Training en color gris."},
+    {"id": 137, "nombre": "Conjunto Training Azul", "seccion": "deportivo", "subcategoria": "Conjuntos",
+     "precio": 34990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#3f5b8c", "talles": ["S", "M", "L"], "colores_nombre": ["Azul"],
+     "color_fijo": True, "descripcion": "Conjunto Training en color azul."},
+    {"id": 139, "nombre": "Conjunto Training Rosa", "seccion": "deportivo", "subcategoria": "Conjuntos",
+     "precio": 34990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#c0a0a0", "talles": ["S", "M", "L"], "colores_nombre": ["Rosa"],
+     "color_fijo": True, "descripcion": "Conjunto Training en color rosa."},
+    {"id": 134, "nombre": "Conjunto Training Negro", "seccion": "deportivo", "subcategoria": "Conjuntos",
+     "precio": 34990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#1a1a1a", "talles": ["S", "M", "L"], "colores_nombre": ["Negro"],
+     "color_fijo": True, "descripcion": "Conjunto Training en color negro."},
+    {"id": 136, "nombre": "Conjunto Training Gris", "seccion": "deportivo", "subcategoria": "Conjuntos",
+     "precio": 34990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#8a8d93", "talles": ["S", "M", "L"], "colores_nombre": ["Gris"],
+     "color_fijo": True, "descripcion": "Conjunto Training en color gris."},
+    {"id": 138, "nombre": "Conjunto Training Azul", "seccion": "deportivo", "subcategoria": "Conjuntos",
+     "precio": 34990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#3f5b8c", "talles": ["S", "M", "L"], "colores_nombre": ["Azul"],
+     "color_fijo": True, "descripcion": "Conjunto Training en color azul."},
+    {"id": 140, "nombre": "Conjunto Training Rosa", "seccion": "deportivo", "subcategoria": "Conjuntos",
+     "precio": 34990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#c0a0a0", "talles": ["S", "M", "L"], "colores_nombre": ["Rosa"],
+     "color_fijo": True, "descripcion": "Conjunto Training en color rosa."},
+    {"id": 141, "nombre": "Short Running Negro", "seccion": "deportivo", "subcategoria": "Shorts",
+     "precio": 14990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#1a1a1a", "talles": ["S", "M", "L"], "colores_nombre": ["Negro"],
+     "color_fijo": True, "descripcion": "Short Running en color negro."},
+    {"id": 143, "nombre": "Short Running Gris", "seccion": "deportivo", "subcategoria": "Shorts",
+     "precio": 14990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#8a8d93", "talles": ["S", "M", "L"], "colores_nombre": ["Gris"],
+     "color_fijo": True, "descripcion": "Short Running en color gris."},
+    {"id": 145, "nombre": "Short Running Azul", "seccion": "deportivo", "subcategoria": "Shorts",
+     "precio": 14990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#3f5b8c", "talles": ["S", "M", "L"], "colores_nombre": ["Azul"],
+     "color_fijo": True, "descripcion": "Short Running en color azul."},
+    {"id": 147, "nombre": "Short Running Rojo", "seccion": "deportivo", "subcategoria": "Shorts",
+     "precio": 14990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#a02040", "talles": ["S", "M", "L"], "colores_nombre": ["Rojo"],
+     "color_fijo": True, "descripcion": "Short Running en color rojo."},
+    {"id": 142, "nombre": "Short Running Negro", "seccion": "deportivo", "subcategoria": "Shorts",
+     "precio": 14990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#1a1a1a", "talles": ["S", "M", "L"], "colores_nombre": ["Negro"],
+     "color_fijo": True, "descripcion": "Short Running en color negro."},
+    {"id": 144, "nombre": "Short Running Gris", "seccion": "deportivo", "subcategoria": "Shorts",
+     "precio": 14990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#8a8d93", "talles": ["S", "M", "L"], "colores_nombre": ["Gris"],
+     "color_fijo": True, "descripcion": "Short Running en color gris."},
+    {"id": 146, "nombre": "Short Running Azul", "seccion": "deportivo", "subcategoria": "Shorts",
+     "precio": 14990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#3f5b8c", "talles": ["S", "M", "L"], "colores_nombre": ["Azul"],
+     "color_fijo": True, "descripcion": "Short Running en color azul."},
+    {"id": 148, "nombre": "Short Running Rojo", "seccion": "deportivo", "subcategoria": "Shorts",
+     "precio": 14990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#a02040", "talles": ["S", "M", "L"], "colores_nombre": ["Rojo"],
+     "color_fijo": True, "descripcion": "Short Running en color rojo."},
+    {"id": 149, "nombre": "Zapatillas Blanco", "seccion": "deportivo", "subcategoria": "Calzado",
+     "precio": 66990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#e8e4de", "talles": ["36", "37", "38", "39", "40"], "colores_nombre": ["Blanco"],
+     "color_fijo": True, "descripcion": "Zapatillas en color blanco."},
+    {"id": 151, "nombre": "Zapatillas Negro", "seccion": "deportivo", "subcategoria": "Calzado",
+     "precio": 66990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#1a1a1a", "talles": ["36", "37", "38", "39", "40"], "colores_nombre": ["Negro"],
+     "color_fijo": True, "descripcion": "Zapatillas en color negro."},
+    {"id": 153, "nombre": "Zapatillas Gris", "seccion": "deportivo", "subcategoria": "Calzado",
+     "precio": 66990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#8a8d93", "talles": ["36", "37", "38", "39", "40"], "colores_nombre": ["Gris"],
+     "color_fijo": True, "descripcion": "Zapatillas en color gris."},
+    {"id": 155, "nombre": "Zapatillas Rosa", "seccion": "deportivo", "subcategoria": "Calzado",
+     "precio": 66990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#c0a0a0", "talles": ["36", "37", "38", "39", "40"], "colores_nombre": ["Rosa"],
+     "color_fijo": True, "descripcion": "Zapatillas en color rosa."},
+    {"id": 150, "nombre": "Zapatillas Blanco", "seccion": "deportivo", "subcategoria": "Calzado",
+     "precio": 66990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#e8e4de", "talles": ["36", "37", "38", "39", "40"], "colores_nombre": ["Blanco"],
+     "color_fijo": True, "descripcion": "Zapatillas en color blanco."},
+    {"id": 152, "nombre": "Zapatillas Negro", "seccion": "deportivo", "subcategoria": "Calzado",
+     "precio": 66990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#1a1a1a", "talles": ["36", "37", "38", "39", "40"], "colores_nombre": ["Negro"],
+     "color_fijo": True, "descripcion": "Zapatillas en color negro."},
+    {"id": 154, "nombre": "Zapatillas Gris", "seccion": "deportivo", "subcategoria": "Calzado",
+     "precio": 66990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#8a8d93", "talles": ["36", "37", "38", "39", "40"], "colores_nombre": ["Gris"],
+     "color_fijo": True, "descripcion": "Zapatillas en color gris."},
+    {"id": 156, "nombre": "Zapatillas Rosa", "seccion": "deportivo", "subcategoria": "Calzado",
+     "precio": 66990, "descuento": None, "precio_original": None, "es_novedad": False,
+     "color_media": "#c0a0a0", "talles": ["36", "37", "38", "39", "40"], "colores_nombre": ["Rosa"],
+     "color_fijo": True, "descripcion": "Zapatillas en color rosa."},
 ]
 
 DUAL_IMAGENES = {
-    101: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=85",
-    102: "https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?auto=format&fit=crop&w=800&q=85",
-    103: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=800&q=85",
-    104: "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=800&q=85",
-    105: "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&q=85",
-    106: "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&q=85",
-    107: "https://images.unsplash.com/photo-1583496661160-fb5886a13d27?auto=format&fit=crop&w=800&q=85",
-    108: "https://images.unsplash.com/photo-1566206091558-7f218b696731?auto=format&fit=crop&w=800&q=85",
-    201: "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=800&q=85",
-    202: "https://images.unsplash.com/photo-1506629905607-d9c297d1a9e6?auto=format&fit=crop&w=800&q=85",
-    203: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=800&q=85",
-    204: "https://images.unsplash.com/photo-1552902865-b72c031ac5ea?auto=format&fit=crop&w=800&q=85",
-    205: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=800&q=85",
-    206: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=800&q=85",
-    207: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=85",
-    208: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=85",
+    101: "/static/img/dual/categorias/vestidos.jpg",
+    102: "/static/img/dual/Nueva%20carpeta/top.jpg",
+    103: "/static/img/dual/categorias/jeans.jpg",
+    104: "/static/img/dual/Nueva%20carpeta/conjunto.jpg",
+    105: "/static/img/dual/categorias/accesorios.jpg",
+    106: "/static/img/dual/Nueva%20carpeta/campera.jpg",
+    107: "/static/img/dual/categorias/deportivo.jpg",
+    108: "/static/img/dual/Nueva%20carpeta/top.jpg",
+    201: "/static/img/dual/Nueva%20carpeta/top.jpg",
+    202: "/static/img/dual/productos/202.jpg",
+    203: "/static/img/dual/productos/203.jpg",
+    204: "/static/img/dual/productos/204.jpg",
+    205: "/static/img/dual/productos/205.jpg",
+    206: "/static/img/dual/productos/206.jpg",
+    207: "/static/img/dual/productos/207.jpg",
+    208: "/static/img/dual/Nueva%20carpeta/mochila.jpg",
 }
 
+# Imágenes propias de los productos: static/img/dual/productos/<id>.jpg (o png/webp)
+# Si no existe el archivo, se usa el link de DUAL_IMAGENES como respaldo.
+DUAL_PROD_IMG_DIR = os.path.join(BASE_DIR, "static", "img", "dual", "productos")
+
+
+def dual_imagen_producto(pid):
+    for ext in ("jpg", "jpeg", "png", "webp", "avif"):
+        ruta = os.path.join(DUAL_PROD_IMG_DIR, f"{pid}.{ext}")
+        if os.path.isfile(ruta):
+            return f"/static/img/dual/productos/{pid}.{ext}?v={int(os.path.getmtime(ruta))}"
+    return DUAL_IMAGENES.get(pid)
+
+
 for producto in dual_productos:
-    producto["imagen"] = DUAL_IMAGENES.get(producto["id"])
+    producto["imagen"] = dual_imagen_producto(producto["id"])
 
 # Stock de demostración por color y talle. Cero significa "sin stock".
 DUAL_STOCK_AGOTADO = {
@@ -176,7 +383,7 @@ DUAL_CATEGORIA_CONFIG = {
     "deportivo": {
         "titulo": "Ropa Deportiva", "eyebrow": "ROPA",
         "copy": "Tecnología, confort y diseño para tu mejor rendimiento.",
-        "subcategorias": ["Calzas", "Tops", "Shorts", "Buzos", "Camperas", "Conjuntos", "Accesorios"],
+        "subcategorias": ["Calzas", "Tops", "Shorts", "Buzos", "Camperas", "Conjuntos", "Calzado", "Accesorios"],
     },
     "ofertas": {
         "titulo": "Ofertas", "eyebrow": "OFERTAS",
@@ -190,20 +397,77 @@ DUAL_CATEGORIA_CONFIG = {
     },
 }
 
+# Cada categoría destacada:
+#   slug          -> nombre del archivo de imagen (static/img/dual/categorias/<slug>.jpg|png|webp)
+#   seccion       -> sección a la que pertenece (mujer / deportivo)
+#   subcategorias -> qué productos muestra al hacer click
 DUAL_CATEGORIAS_DESTACADAS = [
-    {"nombre": "Vestidos", "seccion": "mujer"},
-    {"nombre": "Tops", "seccion": "mujer"},
-    {"nombre": "Jeans", "seccion": "mujer"},
-    {"nombre": "Training", "seccion": "deportivo"},
-    {"nombre": "Running", "seccion": "deportivo"},
-    {"nombre": "Calzado", "seccion": "deportivo"},
+    {"slug": "vestidos", "imagen": "vestidos.jpg", "nombre": "Vestidos", "seccion": "mujer",
+        "subcategorias": ["Vestidos"], "product_ids": [111, 109, 113, 115, 112, 110, 114, 116],
+     "copy": "Vestidos para todos los días y para las ocasiones especiales."},
+    {"slug": "tops", "imagen": "top.jpg", "nombre": "Tops", "seccion": "mujer",
+     "subcategorias": ["Tops"], "product_ids": [117, 119, 121, 123, 118, 120, 122, 124],
+     "copy": "Tops básicos y versátiles para combinar con todo."},
+    {"slug": "jeans", "imagen": "jeans.jpg", "nombre": "Jeans", "seccion": "mujer",
+     "subcategorias": ["Jeans"], "product_ids": [125, 127, 129, 131, 126, 128, 130, 132],
+     "copy": "Jeans en cortes y calces para cada estilo."},
+    {"slug": "training", "imagen": "training.jpf.jpg", "nombre": "Training", "seccion": "deportivo",
+     "subcategorias": ["Conjuntos", "Tops", "Calzas"], "product_ids": [133, 135, 137, 139, 134, 136, 138, 140],
+     "copy": "Todo lo que necesitás para entrenar con comodidad."},
+    {"slug": "running", "imagen": "runing.jpg", "nombre": "Running", "seccion": "deportivo",
+     "subcategorias": ["Shorts", "Camperas"], "product_ids": [141, 143, 145, 147, 142, 144, 146, 148],
+     "copy": "Prendas livianas y técnicas para salir a correr."},
+    {"slug": "calzado", "imagen": "calzado.jpg", "nombre": "Calzado", "seccion": "deportivo",
+     "subcategorias": ["Calzado"], "product_ids": [149, 151, 153, 155, 150, 152, 154, 156],
+     "copy": "Zapatillas con amortiguación para cada entrenamiento."},
 ]
+
+# Carpetas donde pueden estar las imágenes de los círculos.
+DUAL_CAT_IMG_DIRS = (
+    os.path.join(BASE_DIR, "static", "img", "dual", "categorias"),
+    os.path.join(BASE_DIR, "static", "img", "dual", "Nueva carpeta"),
+)
+DUAL_CAT_IMG_EXTS = ("jpg", "jpeg", "png", "webp", "avif")
+
+
+def dual_imagen_categoria(slug, archivo=None):
+    """Devuelve la URL de la imagen de categoría si existe, o None."""
+    archivos = [archivo] if archivo else []
+    archivos.extend(f"{slug}.{ext}" for ext in DUAL_CAT_IMG_EXTS)
+    for directorio in DUAL_CAT_IMG_DIRS:
+        try:
+            existentes = {nombre.lower(): nombre for nombre in os.listdir(directorio)}
+        except OSError:
+            continue
+        for candidato in archivos:
+            nombre_archivo = existentes.get(candidato.lower())
+            if nombre_archivo:
+                ruta = os.path.join(directorio, nombre_archivo)
+                archivo_static = os.path.relpath(ruta, os.path.join(BASE_DIR, "static")).replace(os.sep, "/")
+                # ?v=<fecha> hace que el navegador recargue la imagen si la reemplazás
+                return url_for("static", filename=archivo_static,
+                               v=int(os.path.getmtime(ruta)))
+    return None
+
+
+def dual_categorias_destacadas():
+    """Lista lista para el template: con imagen (si existe) y link a su contenido."""
+    return [
+        dict(
+            c,
+            imagen=dual_imagen_categoria(c["slug"], c.get("imagen")),
+            url=url_for("dual_categoria", categoria=c["seccion"],
+                        coleccion=c["slug"], _anchor="catalogo"),
+        )
+        for c in DUAL_CATEGORIAS_DESTACADAS
+    ]
 
 DUAL_TALLES = ["XS", "S", "M", "L", "XL"]
 DUAL_COLORES_HEX = ["#1a1a1a", "#c9a6a1", "#7c8ba3", "#e6c7ba", "#3d4a63"]
 DUAL_COLOR_HEX_BY_NAME = {
     "Negro": "#1a1a1a", "Blanco": "#f5f5f2", "Beige": "#e6c7ba",
-    "Terracota": "#b86f58", "Azul": "#7c8ba3", "Rosa viejo": "#c9a6a1",
+    "Terracota": "#b86f58", "Rojo": "#a02040", "Azul": "#202080", "Rosa": "#c0a0a0",
+    "Rosa viejo": "#c9a6a1",
     "Crudo": "#ded3c4", "Camel": "#b7a99c", "Ladrillo": "#a9764f",
     "Rosa": "#e0a8a0", "Gris": "#8b9099", "Blanco/Negro": "#d8d8d4",
 }
@@ -869,7 +1133,7 @@ def dual_home():
     destacados += [p for p in dual_productos if not p.get("es_novedad") and p["id"] != 101][:1]
     return render_template(
         "dual_index.html",
-        categorias_destacadas=DUAL_CATEGORIAS_DESTACADAS,
+        categorias_destacadas=dual_categorias_destacadas(),
         destacados=destacados,
         color_hex=DUAL_COLOR_HEX_BY_NAME,
         active_nav="inicio",
@@ -891,6 +1155,14 @@ def dual_categoria(categoria):
     if not config:
         return redirect(url_for("dual_home"))
 
+    # Si viene de un círculo de "Categorías destacadas" (?coleccion=vestidos)
+    slug_coleccion = (request.args.get("coleccion") or "").lower()
+    coleccion = next(
+        (c for c in DUAL_CATEGORIAS_DESTACADAS
+         if c["slug"] == slug_coleccion and c["seccion"] == categoria),
+        None,
+    )
+
     if categoria == "mujer":
         productos_filtrados = [p for p in dual_productos if p["seccion"] == "mujer"]
     elif categoria == "deportivo":
@@ -904,9 +1176,17 @@ def dual_categoria(categoria):
     colores_seleccionados = request.args.getlist("color")
     precio_maximo = request.args.get("precio_max", type=int)
 
+    # La colección preselecciona sus subcategorías (y se ven tildadas en el filtro)
+    if coleccion and not subcategorias_seleccionadas:
+        subcategorias_seleccionadas = list(coleccion["subcategorias"])
+
     if subcategorias_seleccionadas:
         productos_filtrados = [
             p for p in productos_filtrados if p["subcategoria"] in subcategorias_seleccionadas
+        ]
+    if coleccion and coleccion.get("product_ids"):
+        productos_filtrados = [
+            p for p in productos_filtrados if p["id"] in coleccion["product_ids"]
         ]
     if talles_seleccionados:
         productos_filtrados = [
@@ -926,9 +1206,11 @@ def dual_categoria(categoria):
     return render_template(
         "dual_categoria.html",
         categoria=categoria,
-        titulo=config["titulo"],
-        eyebrow=config["eyebrow"],
-        copy=config["copy"],
+        titulo=coleccion["nombre"] if coleccion else config["titulo"],
+        eyebrow=config["titulo"] if coleccion else config["eyebrow"],
+        copy=coleccion["copy"] if coleccion else config["copy"],
+        coleccion=coleccion,
+        seccion_titulo=config["titulo"],
         subcategorias=config["subcategorias"],
         talles=DUAL_TALLES,
         colores=colores_disponibles,

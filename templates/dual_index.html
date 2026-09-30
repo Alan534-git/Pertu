@@ -1,6 +1,143 @@
 {% extends "dual_base.html" %}
 {% block title %}DUAL — Indumentaria femenina y deportiva{% endblock %}
 
+{% block extra_head %}
+<style>
+  /* ===== Títulos de sección: centrado con una línea a cada lado ===== */
+  .dual-titulo-lineas {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    margin: 0 0 28px;
+    text-align: center;
+  }
+  .dual-titulo-lineas::before,
+  .dual-titulo-lineas::after {
+    content: "";
+    flex: 1;
+    height: 2px;
+    background: #1e2a3a;
+  }
+  .dual-titulo-lineas span {
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: #1e2a3a;
+    white-space: nowrap;
+  }
+
+  /* ===== Categorías destacadas (círculos con imagen) ===== */
+  .dual-cat-row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 24px;
+  }
+  .dual-cat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--dual-black);
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .dual-cat-circle {
+    width: 100%;
+    max-width: 190px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    background: #f3efeb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .dual-cat-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .dual-cat-item:hover .dual-cat-circle {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, .10);
+  }
+
+  /* ===== Cuadros: 10% OFF + Calculá tu envío ===== */
+  .dual-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: stretch;
+  }
+  .dual-info-box {
+    box-sizing: border-box;
+    min-height: 130px;
+    padding: 24px 28px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+  }
+  .dual-info-box--dark { background: #1e2a3a; color: #fff; }
+  .dual-info-box--light { background: #f6f4f1; border: 1px solid #e6e2dc; color: #1e2a3a; }
+  .dual-info-icon { flex: 0 0 auto; width: 54px; height: 54px; }
+  .dual-info-divider {
+    flex: 0 0 auto;
+    width: 1px;
+    align-self: stretch;
+    background: currentColor;
+    opacity: .35;
+  }
+  .dual-info-text { flex: 0 0 auto; }
+  .dual-info-title { font-size: 28px; font-weight: 800; line-height: 1.1; }
+  .dual-info-sub { font-size: 15px; margin-top: 4px; }
+  .dual-info-content { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+  .dual-info-content .dual-info-title { font-size: 22px; }
+  .dual-info-form { display: flex; gap: 10px; flex: 1; min-width: 0; }
+  .dual-info-form input {
+    flex: 1;
+    min-width: 0;
+    border: 1px solid #e0dcd6;
+    background: #fff;
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+  .dual-info-form button {
+    white-space: nowrap;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: .04em;
+    cursor: pointer;
+  }
+  .dual-btn-claro { background: #fff; color: #1e2a3a; }
+  .dual-btn-oscuro { background: #1e2a3a; color: #fff; }
+
+  /* ===== Botón VER TODO centrado bajo los productos ===== */
+  .dual-vertodo-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 28px;
+  }
+
+  @media (max-width: 1000px) {
+    .dual-cat-row { grid-template-columns: repeat(3, 1fr); }
+    .dual-info-grid { grid-template-columns: 1fr; }
+    .dual-info-box { flex-wrap: wrap; }
+  }
+  @media (max-width: 560px) {
+    .dual-cat-row { grid-template-columns: repeat(2, 1fr); }
+    .dual-titulo-lineas span { font-size: 20px; white-space: normal; }
+  }
+</style>
+{% endblock %}
+
 {% block content %}
 
 <div class="dual-hero">
@@ -27,54 +164,76 @@
   <div class="dual-benefit">💳 <div><strong>3 cuotas sin interés</strong>Con todas las tarjetas</div></div>
 </div>
 
-<div class="dual-section">
-  <h2 class="dual-section-title">Categorías destacadas</h2>
-  <div class="dual-cat-grid">
+{# Imágenes de los círculos: guardalas en static/img/dual/categorias/ como
+   vestidos.jpg, tops.jpg, jeans.jpg, training.jpg, running.jpg, calzado.jpg
+   (también .png / .webp). Se detectan solas, no hace falta tocar nada acá. #}
+
+<div class="dual-section" style="padding-top:8px;">
+  <h2 class="dual-titulo-lineas" style="margin-bottom:20px;"><span>Categorías destacadas</span></h2>
+  <div class="dual-cat-row">
     {% for cat in categorias_destacadas %}
-    <a href="{{ url_for('dual_categoria', categoria=cat.seccion) }}" class="dual-cat-card">{{ cat.nombre }}</a>
+    <a href="{{ cat.url }}" class="dual-cat-item">
+      <div class="dual-cat-circle">
+        {% if cat.imagen %}<img src="{{ cat.imagen }}" alt="{{ cat.nombre }}" loading="lazy">{% endif %}
+      </div>
+      <span>{{ cat.nombre }}</span>
+    </a>
     {% endfor %}
   </div>
 </div>
 
 <div class="dual-section" style="padding-top:0;">
-  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px;">
-    <div style="background:var(--dual-black); color:#fff; border-radius:2px; padding:26px;">
-      <div style="font-size:20px; font-weight:800; margin-bottom:6px;">10% OFF</div>
-      <div style="font-size:12.5px; opacity:0.8; margin-bottom:14px;">En tu primera compra</div>
-      <div style="display:flex; gap:8px;">
-        <input placeholder="Ingresá tu email" style="flex:1; border:none; border-radius:2px; padding:9px 10px; font-size:12.5px;">
-        <button class="dual-hero-cta light" style="padding:9px 16px;">SUSCRIBIRME</button>
+  <div class="dual-info-grid">
+
+    <div class="dual-info-box dual-info-box--dark">
+      <svg class="dual-info-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="6" y="14" width="44" height="32" rx="4"/>
+        <path d="M6 18l22 16 22-16"/>
+        <circle cx="50" cy="46" r="10" fill="#fff" stroke="none"/>
+        <text x="50" y="51" text-anchor="middle" font-size="14" font-weight="800" fill="#1e2a3a" stroke="none" font-family="Inter, sans-serif">%</text>
+      </svg>
+      <div class="dual-info-divider"></div>
+      <div class="dual-info-text">
+        <div class="dual-info-title">10% OFF</div>
+        <div class="dual-info-sub">en tu primera compra</div>
+      </div>
+      <div class="dual-info-form">
+        <input type="email" placeholder="Ingresá tu email">
+        <button class="dual-btn-claro">SUSCRIBIRME</button>
       </div>
     </div>
-    <div style="border:1px solid var(--dual-line); border-radius:2px; padding:26px;">
-      <div style="font-weight:700; margin-bottom:6px;">Recibí novedades y promociones</div>
-      <div style="font-size:12.5px; color:var(--dual-muted);">Enterate primero de los lanzamientos DUAL.</div>
+
+    <div class="dual-info-box dual-info-box--light">
+      <svg class="dual-info-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 16h26v26H20z"/>
+        <path d="M46 24h9l6 8v10H46"/>
+        <circle cx="29" cy="46" r="5" fill="#f6f4f1"/>
+        <circle cx="52" cy="46" r="5" fill="#f6f4f1"/>
+        <path d="M4 22h10M8 30h12M4 38h10"/>
+      </svg>
+      <div class="dual-info-divider"></div>
+      <div class="dual-info-content">
+        <div class="dual-info-title">Calculá tu envío</div>
+        <div class="dual-info-form">
+          <input placeholder="Ingresá tu código postal">
+          <button class="dual-btn-oscuro">CALCULAR</button>
+        </div>
+      </div>
     </div>
-    <div class="dual-shipping-box">
-      <div style="font-weight:700; margin-bottom:10px;">Calculá tu envío</div>
-      <form id="dual-shipping-form" style="display:flex; gap:8px;">
-        <input id="dual-shipping-postal" inputmode="numeric" pattern="[0-9]{4,8}" required placeholder="Ingresá tu código postal" aria-label="Código postal" style="flex:1; border:1px solid var(--dual-line); border-radius:2px; padding:9px 10px; font-size:12.5px;">
-        <button type="submit" class="dual-outline-btn">CALCULAR</button>
-      </form>
-      <div id="dual-shipping-result" class="dual-shipping-result" aria-live="polite"></div>
-    </div>
+
   </div>
 </div>
 
 <div class="dual-section" style="border-top:1px solid var(--dual-line);">
-  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:22px;">
-    <h2 class="dual-section-title" style="margin:0;">Lo nuevo en DUAL</h2>
-    <a href="{{ url_for('dual_categoria', categoria='novedades') }}" class="dual-outline-btn">VER TODO</a>
-  </div>
+  <h2 class="dual-titulo-lineas"><span>Lo nuevo en DUAL</span></h2>
   <div class="dual-grid">
     {% for p in destacados %}
     {% include "dual_product_card.html" %}
     {% endfor %}
   </div>
+  <div class="dual-vertodo-wrap">
+    <a href="{{ url_for('dual_categoria', categoria='novedades') }}" class="dual-outline-btn">VER TODO</a>
+  </div>
 </div>
 
-{% endblock %}
-
-{% block extra_scripts %}
-<script src="{{ url_for('static', filename='js/dual-shipping.js') }}"></script>
 {% endblock %}

@@ -3,14 +3,103 @@
 
 {% block content %}
 
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,500&display=swap');
+
+  /* ===== Banner de categoría: a todo el ancho, centrado, compacto ===== */
+  html { overflow-x: clip; }
+  .dual-hero {
+    width: 100vw;
+    max-width: none;
+    margin: 0 0 0 calc(50% - 50vw);
+    padding: 0;
+  }
+  .dual-hero .dual-hero-banner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    padding: 40px 24px 44px;
+    border-radius: 0;
+    text-align: center;
+    background: linear-gradient(115deg, #ebe3de 0%, #ddd0c8 38%, #e9e0db 62%, #f1ebe7 100%);
+  }
+  .dual-hero .dual-hero-eyebrow {
+    margin: 0 0 12px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .26em;
+    text-transform: uppercase;
+    color: rgba(24, 24, 27, .62);
+  }
+  .dual-hero .dual-hero-title {
+    margin: 0;
+    font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(2.5rem, 4.6vw, 3.5rem);
+    line-height: 1.15;
+    letter-spacing: 0;
+    text-transform: none;
+    text-align: center;
+    color: #1a1a1a;
+  }
+  .dual-hero .dual-hero-copy {
+    max-width: 560px;
+    margin: 12px auto 0;
+    font-size: 16px;
+    line-height: 1.5;
+    text-align: center;
+    color: rgba(24, 24, 27, .72);
+  }
+
+  /* Fondos por sección (si no hay colección) */
+  .dual-hero .dual-hero-banner.dual-hero--mujer     { background: linear-gradient(115deg, #ecdfd8 0%, #e3c8bf 38%, #ecddd6 62%, #f2e7e2 100%); }
+  .dual-hero .dual-hero-banner.dual-hero--deportivo { background: linear-gradient(115deg, #c9cacf 0%, #a4a5af 38%, #c0c1c6 62%, #dedede 100%); }
+  .dual-hero .dual-hero-banner.dual-hero--ofertas   { background: linear-gradient(115deg, #ecdfd8 0%, #e3c8bf 38%, #ecddd6 62%, #f2e7e2 100%); }
+  .dual-hero .dual-hero-banner.dual-hero--novedades { background: linear-gradient(115deg, #dedacf 0%, #cdc3b1 38%, #ddd7cb 62%, #e9e5de 100%); }
+
+  /* Fondos por colección (van después, así le ganan a la sección) */
+  .dual-hero .dual-hero-banner.dual-hero--col-vestidos { background: linear-gradient(115deg, #ebddd6 0%, #e4c9c0 38%, #ead9d2 62%, #f0e5e0 100%); }
+  .dual-hero .dual-hero-banner.dual-hero--col-tops     { background: linear-gradient(115deg, #e4cfc1 0%, #d5b09c 38%, #e0c6b6 62%, #ebdcd1 100%); }
+  .dual-hero .dual-hero-banner.dual-hero--col-jeans    { background: linear-gradient(115deg, #c9d0dc 0%, #a7b6cc 38%, #bcc6d6 62%, #dcdfe7 100%); }
+  .dual-hero .dual-hero-banner.dual-hero--col-training { background: linear-gradient(115deg, #c4c5c9 0%, #9a9ba6 38%, #b5b6bc 62%, #dcdcdc 100%); }
+  .dual-hero .dual-hero-banner.dual-hero--col-running  { background: linear-gradient(115deg, #d3d3c9 0%, #b0b3a2 38%, #c8c9bc 62%, #e4e3dc 100%); }
+  .dual-hero .dual-hero-banner.dual-hero--col-calzado  { background: linear-gradient(115deg, #dedacf 0%, #cdc3b1 38%, #ddd7cb 62%, #e9e5de 100%); }
+
+  /* ===== Productos: 4 por fila (8 = 2 filas), tarjetas compactas ===== */
+  .dual-layout .dual-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 20px 16px !important;
+  }
+  .dual-grid .dual-card-media {
+    aspect-ratio: 1 / 1.05;
+    height: auto;
+  }
+  .dual-grid .dual-card-name  { font-size: 13.5px; }
+  .dual-grid .dual-card-price { font-size: 14px; }
+  .dual-grid .dual-card .dual-card-btn {
+    padding: 8px 6px;
+    font-size: 11px;
+    letter-spacing: .06em;
+  }
+  @media (max-width: 1100px) {
+    .dual-layout .dual-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+  }
+  @media (max-width: 720px) {
+    .dual-hero .dual-hero-banner { padding: 30px 18px 34px; }
+    .dual-hero .dual-hero-eyebrow { font-size: 12px; letter-spacing: .2em; }
+    .dual-layout .dual-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  }
+</style>
+
 <div class="dual-hero">
-  <div class="dual-hero-banner dual-hero--{{ categoria }}">
+  <div class="dual-hero-banner dual-hero--{{ categoria }}{% if coleccion %} dual-hero--col-{{ coleccion.slug }}{% endif %}">
     <div class="dual-hero-eyebrow">{{ eyebrow }}</div>
-    <h1 class="dual-hero-title">{{ titulo|upper }}</h1>
+    <h1 class="dual-hero-title">{{ titulo }}</h1>
     <p class="dual-hero-copy">{{ copy }}</p>
-    {% if categoria in ("mujer", "deportivo") %}
-    <a href="#catalogo" class="dual-hero-cta {{ 'light' if categoria == 'deportivo' else '' }}">VER COLECCIONES</a>
-    {% endif %}
   </div>
 </div>
 
@@ -19,18 +108,18 @@
 </nav>
 
 <div class="dual-layout" id="catalogo">
-  <form class="dual-filters" method="get">
+  <aside class="dual-filters">
     <div class="dual-filter-block">
       <div class="dual-filter-title">FILTRAR POR</div>
       {% for sub in subcategorias %}
-      <label class="dual-filter-option"><input type="checkbox" name="subcategoria" value="{{ sub }}" {% if sub in filtros.subcategoria %}checked{% endif %}> {{ sub }}</label>
+      <label class="dual-filter-option"><input type="checkbox"> {{ sub }}</label>
       {% endfor %}
     </div>
 
     <div class="dual-filter-block">
       <div class="dual-filter-title">TALLES</div>
       {% for t in talles %}
-      <label class="dual-filter-option"><input type="checkbox" name="talle" value="{{ t }}" {% if t in filtros.talle %}checked{% endif %}> {{ t }}</label>
+      <label class="dual-filter-option"><input type="checkbox"> {{ t }}</label>
       {% endfor %}
     </div>
 
@@ -38,21 +127,19 @@
       <div class="dual-filter-title">COLORES</div>
       <div class="dual-swatches">
         {% for c in colores %}
-        <label class="dual-swatch-option" title="{{ c }}"><input type="checkbox" name="color" value="{{ c }}" {% if c in filtros.color %}checked{% endif %}><span class="dual-swatch" style="background:{{ color_hex.get(c, '#ccc') }};"></span></label>
+        <span class="dual-swatch" style="background:{{ c }};"></span>
         {% endfor %}
       </div>
     </div>
 
     <div class="dual-filter-block">
       <div class="dual-filter-title">PRECIO</div>
-      <input type="range" name="precio_max" min="0" max="100000" step="1000" value="{{ filtros.precio_max }}" style="width:100%;">
+      <input type="range" style="width:100%;">
       <div style="display:flex; justify-content:space-between; font-size:11.5px; color:var(--dual-muted);">
-        <span>$0</span><span id="dual-price-value">Hasta ${{ "{:,.0f}".format(filtros.precio_max).replace(",", ".") }}</span>
+        <span>$0</span><span>$100.000</span>
       </div>
     </div>
-    <button type="submit" class="dual-filter-submit">APLICAR FILTROS</button>
-    <a class="dual-filter-clear" href="{{ url_for('dual_categoria', categoria=categoria) }}">LIMPIAR</a>
-  </form>
+  </aside>
 
   <div>
     <div class="dual-toolbar">

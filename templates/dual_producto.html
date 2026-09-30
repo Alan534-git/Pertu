@@ -12,7 +12,7 @@
   <div class="dual-card-media dual-product-image" style="background:{{ producto.color_media }}; border-radius:2px; aspect-ratio:4/5; font-size:22px;">
     {% if producto.descuento %}<span class="dual-card-badge">-{{ producto.descuento }}%</span>{% endif %}
     {% if producto.imagen %}<img src="{{ producto.imagen }}" alt="{{ producto.nombre }}" id="dual-product-image-source">{% endif %}
-    <span class="dual-card-media-label">{{ producto.nombre }}</span>
+    {% if not producto.color_fijo %}<span class="dual-card-media-label">{{ producto.nombre }}</span>{% endif %}
   </div>
 
   <div>
@@ -33,6 +33,9 @@
         </select>
         <div id="dual-stock-status" class="dual-stock-status" aria-live="polite"></div>
       </div>
+      {% if producto.color_fijo %}
+      <input type="hidden" name="color" id="dual-color-select" value="{{ producto.colores_nombre[0] }}">
+      {% else %}
       <div class="dual-field">
         <label>COLOR</label>
         <select name="color" id="dual-color-select" required>
@@ -42,6 +45,7 @@
       <div class="dual-product-swatches" aria-label="Elegí un color">
         {% for c in producto.colores_nombre %}<button type="button" class="dual-product-swatch{% if loop.first %} active{% endif %}" data-color="{{ c }}" data-color-media="{{ color_hex.get(c, producto.color_media) }}" style="background:{{ color_hex.get(c, producto.color_media) }};" title="{{ c }}"></button>{% endfor %}
       </div>
+      {% endif %}
       <div class="dual-field" style="max-width:120px;">
         <label>CANTIDAD</label>
         <input type="number" name="cantidad" value="1" min="1" max="10">

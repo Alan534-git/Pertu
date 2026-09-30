@@ -214,6 +214,78 @@
       "transportista": "Andreani",
       "codigo_seguimiento": "ARDF76472D3-",
       "created_at": "2026-09-16T00:25:27.184410Z"
+    },
+    {
+      "id": "23338bbe-e8e9-47b5-83ba-94b5afde1e0a",
+      "numero": "DUAL-23338B",
+      "username": "cliente_dual",
+      "display_name": "Cliente DUAL",
+      "item": {
+        "product_id": 153,
+        "nombre": "Zapatillas Gris",
+        "color_media": "#8a8d93",
+        "imagen": "/static/img/dual/productos/153.jpg?v=1790806521",
+        "talla": "36",
+        "color": "Gris",
+        "cantidad": 1,
+        "precio_unitario": 66990,
+        "subtotal": 66990
+      },
+      "envio_costo": 1990,
+      "total": 68980,
+      "envio": {
+        "nombre": "IJJI",
+        "email": "beltamburrino@gmail.com",
+        "telefono": "2544",
+        "codigo_postal": "256",
+        "provincia": "BS.AS",
+        "localidad": "SS",
+        "calle": "SS",
+        "numero": "94",
+        "piso": "515"
+      },
+      "metodo_pago": "efectivo",
+      "estado": "en_camino",
+      "paso_actual": 1,
+      "transportista": "Andreani",
+      "codigo_seguimiento": "ARD23338BBE-",
+      "created_at": "2026-09-30T22:43:45.867392Z"
+    },
+    {
+      "id": "43760542-cd6a-4229-ab12-cb37d5df7fdd",
+      "numero": "DUAL-437605",
+      "username": "cliente_dual",
+      "display_name": "Cliente DUAL",
+      "item": {
+        "product_id": 130,
+        "nombre": "Jean Celeste",
+        "color_media": "#9db6d3",
+        "imagen": "/static/img/dual/productos/130.jpg?v=1790803421",
+        "talla": "36",
+        "color": "Celeste",
+        "cantidad": 1,
+        "precio_unitario": 25990,
+        "subtotal": 25990
+      },
+      "envio_costo": 1990,
+      "total": 27980,
+      "envio": {
+        "nombre": "IJJI",
+        "email": "beltamburrino@gmail.com",
+        "telefono": "2544",
+        "codigo_postal": "256",
+        "provincia": "BS.AS",
+        "localidad": "SS",
+        "calle": "SS",
+        "numero": "94",
+        "piso": "515"
+      },
+      "metodo_pago": "transferencia",
+      "estado": "en_camino",
+      "paso_actual": 1,
+      "transportista": "Andreani",
+      "codigo_seguimiento": "ARD43760542-",
+      "created_at": "2026-09-30T22:44:40.261568Z"
     }
   ],
   "inmo_contacts": [

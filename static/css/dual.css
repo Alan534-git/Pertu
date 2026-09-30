@@ -369,6 +369,10 @@
   overflow: hidden;
 }
 
+.dual-card-media--dress {
+  aspect-ratio: 5/7;
+}
+
 .dual-card-media img,
 .dual-confirm-thumb img {
   width: 100%;
@@ -376,6 +380,10 @@
   object-fit: cover;
   position: absolute;
   inset: 0;
+}
+
+.dual-card-media--dress img {
+  object-fit: contain;
 }
 
 .dual-card-media-label,
