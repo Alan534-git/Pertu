@@ -6,6 +6,7 @@
   <title>{% block title %}InmoControl{% endblock %}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/design-system.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/inmo.css') }}">
   <link rel="icon" type="image/svg+xml" href="{{ url_for('favicon') }}">
@@ -37,7 +38,7 @@
         <span class="inmo-logo-text">InmoControl<small>Tu lugar. Tu inversión.</small></span>
       </a>
 
-      <nav class="inmo-nav">
+      <nav id="inmo-navigation" class="inmo-nav">
         <a href="{{ url_for('inmo_listado', operacion='comprar') }}" class="{{ 'active' if active_nav == 'comprar' else '' }}">Comprar</a>
         <a href="{{ url_for('inmo_listado', operacion='alquilar') }}" class="{{ 'active' if active_nav == 'alquilar' else '' }}">Alquilar</a>
         <a href="{{ url_for('inmo_emprendimientos') }}" class="{{ 'active' if active_nav == 'emprendimientos' else '' }}">Emprendimientos</a>
@@ -45,6 +46,9 @@
         <a href="{{ url_for('inmo_servicios_view') }}">Servicios</a>
         <a href="{{ url_for('inmo_novedades_view') }}">Novedades</a>
       </nav>
+      <button class="inmo-menu-toggle" type="button" aria-expanded="false" aria-controls="inmo-navigation" aria-label="Abrir menú">
+        <i class="fas fa-bars" aria-hidden="true"></i>
+      </button>
 
       <div class="inmo-header-icons">
         <a class="inmo-icon-btn inmo-icon-fav" href="{{ url_for('inmo_cuenta') }}" title="Favoritos">
@@ -135,5 +139,18 @@
   </footer>
 
   {% block extra_scripts %}{% endblock %}
+  <script>
+    (() => {
+      const toggle = document.querySelector('.inmo-menu-toggle');
+      const nav = document.querySelector('.inmo-nav');
+      if (!toggle || !nav) return;
+      toggle.addEventListener('click', () => {
+        const open = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!open));
+        nav.classList.toggle('is-open', !open);
+        toggle.setAttribute('aria-label', open ? 'Abrir menú' : 'Cerrar menú');
+      });
+    })();
+  </script>
 </body>
 </html>

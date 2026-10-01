@@ -51,6 +51,7 @@
 /* ---- Header ---- */
 .inmo-header { background: #fff; border-bottom: 1px solid var(--inmo-line); position: sticky; top: 0; z-index: 50; }
 .inmo-header-inner { max-width: 1240px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; gap: 28px; }
+.inmo-menu-toggle { display: none; border: 1px solid var(--inmo-line); background: #fff; color: var(--inmo-navy); border-radius: 8px; width: 38px; height: 38px; font-size: 15px; }
 .inmo-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 17px; color: var(--inmo-navy); flex-shrink: 0; }
 .inmo-logo-mark { width: 34px; height: 34px; border-radius: 8px; background: var(--inmo-navy); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 15px; }
 .inmo-logo-text { display: flex; flex-direction: column; line-height: 1.15; }
@@ -408,7 +409,12 @@
 
 /* ---- Responsive ---- */
 @media (max-width: 980px) {
-  .inmo-nav { display: none; }
+  .inmo-menu-toggle { display: inline-flex; align-items: center; justify-content: center; order: 2; }
+  .inmo-nav { display: none; order: 4; flex-basis: 100%; flex-direction: column; gap: 0; padding-top: 8px; border-top: 1px solid var(--inmo-line); }
+  .inmo-nav.is-open { display: flex; }
+  .inmo-nav a { padding: 11px 4px; border-bottom: 1px solid var(--inmo-line); }
+  .inmo-header-inner { flex-wrap: wrap; gap: 10px 14px; padding: 10px 16px; }
+  .inmo-header-icons { margin-left: auto; }
   .inmo-topbar-hide-sm { display: none; }
   .inmo-grid, .inmo-servicios-grid, .inmo-novedades-grid, .inmo-why-grid, .inmo-emprendimientos-grid, .inmo-zonas-grid { grid-template-columns: repeat(2, 1fr); }
   .inmo-layout, .inmo-detalle-layout, .inmo-contacto-layout, .inmo-cuenta-layout, .inmo-footer-inner { grid-template-columns: 1fr; }
@@ -418,4 +424,19 @@
   .inmo-auth-layout { grid-template-columns: 1fr; }
   .inmo-auth-visual { display: none; }
   .inmo-tasacion-teaser { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 560px) {
+  .inmo-section-inner, .inmo-breadcrumb { padding-left: 16px; padding-right: 16px; }
+  .inmo-grid, .inmo-servicios-grid, .inmo-novedades-grid, .inmo-why-grid, .inmo-emprendimientos-grid, .inmo-zonas-grid, .inmo-benefits-strip, .inmo-footer-benefits { grid-template-columns: 1fr; }
+  .inmo-hero { padding: 34px 0 62px; }
+  .inmo-hero-inner { padding: 0 16px; grid-template-columns: 1fr; }
+  .inmo-hero-copy h1 { font-size: 34px; }
+  .inmo-hero-visual { min-height: 220px; }
+  .inmo-hero-image { height: 220px; border-radius: 16px; }
+  .inmo-account-btn { max-width: 38px; overflow: hidden; white-space: nowrap; padding: 8px; }
+  .inmo-account-btn i:first-child { margin: 0; }
+  .inmo-account-btn i:last-child, .inmo-account-btn { font-size: 0; }
+  .inmo-account-btn i:first-child { font-size: 15px; }
+  .inmo-logout-link span { display: none; }
 }

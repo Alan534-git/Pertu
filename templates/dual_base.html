@@ -6,6 +6,7 @@
   <title>{% block title %}DUAL{% endblock %}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/design-system.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/dual.css') }}">
   {% block extra_head %}{% endblock %}
 </head>
@@ -21,13 +22,16 @@
         <span class="dual-logo-mark">D</span> DUAL
       </a>
 
-      <nav class="dual-nav">
+      <nav id="dual-navigation" class="dual-nav">
         <a href="{{ url_for('dual_home') }}" class="{{ 'active' if active_nav == 'inicio' else '' }}">Inicio</a>
         <a href="{{ url_for('dual_categoria', categoria='mujer') }}" class="{{ 'active' if active_nav == 'mujer' else '' }}">Mujer</a>
         <a href="{{ url_for('dual_categoria', categoria='deportivo') }}" class="{{ 'active' if active_nav == 'deportivo' else '' }}">Deportivo</a>
         <a href="{{ url_for('dual_categoria', categoria='ofertas') }}" class="{{ 'active' if active_nav == 'ofertas' else '' }}">Ofertas</a>
         <a href="{{ url_for('dual_categoria', categoria='novedades') }}" class="{{ 'active' if active_nav == 'novedades' else '' }}">Novedades</a>
       </nav>
+      <button class="dual-menu-toggle" type="button" aria-expanded="false" aria-controls="dual-navigation" aria-label="Abrir menú">
+        <i class="fas fa-bars" aria-hidden="true"></i>
+      </button>
 
       <div class="dual-search">
         🔍 <span>Buscar productos...</span>
@@ -82,5 +86,18 @@
   </footer>
 
   {% block extra_scripts %}{% endblock %}
+  <script>
+    (() => {
+      const toggle = document.querySelector('.dual-menu-toggle');
+      const nav = document.querySelector('.dual-nav');
+      if (!toggle || !nav) return;
+      toggle.addEventListener('click', () => {
+        const open = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!open));
+        nav.classList.toggle('is-open', !open);
+        toggle.setAttribute('aria-label', open ? 'Abrir menú' : 'Cerrar menú');
+      });
+    })();
+  </script>
 </body>
 </html>

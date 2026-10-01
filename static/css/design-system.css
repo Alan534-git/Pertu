@@ -1,0 +1,34 @@
+/* Shared interaction and layout primitives for every Pertu surface. */
+:root {
+  --ui-focus: #2f6fed;
+  --ui-radius-sm: 8px;
+  --ui-radius-md: 14px;
+  --ui-shadow-sm: 0 4px 16px rgba(15, 32, 68, .08);
+  --ui-shadow-md: 0 16px 40px rgba(15, 32, 68, .12);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+a, button, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+
+:where(a, button, input, select, textarea):focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--ui-focus) 35%, transparent);
+  outline-offset: 3px;
+}
+
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+  cursor: not-allowed;
+  opacity: .6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
