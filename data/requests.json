@@ -286,6 +286,78 @@
       "transportista": "Andreani",
       "codigo_seguimiento": "ARD43760542-",
       "created_at": "2026-09-30T22:44:40.261568Z"
+    },
+    {
+      "id": "d40f20bb-ab80-4766-bcdc-a86e83b6dedc",
+      "numero": "DUAL-D40F20",
+      "username": "cliente_dual",
+      "display_name": "Cliente DUAL",
+      "item": {
+        "product_id": 109,
+        "nombre": "Vestido Rojo",
+        "color_media": "#a02040",
+        "imagen": "/static/img/dual/productos/109.jpg?v=1790813980",
+        "talla": "XS",
+        "color": "Rojo",
+        "cantidad": 1,
+        "precio_unitario": 28990,
+        "subtotal": 28990
+      },
+      "envio_costo": 1990,
+      "total": 30980,
+      "envio": {
+        "nombre": "juan",
+        "email": "bel@gmail.com",
+        "telefono": "8995492395",
+        "codigo_postal": "524835432",
+        "provincia": "buenos aires",
+        "localidad": "mar de l tuyu",
+        "calle": "4",
+        "numero": "3838",
+        "piso": "3498493"
+      },
+      "metodo_pago": "mercadopago",
+      "estado": "en_camino",
+      "paso_actual": 1,
+      "transportista": "Andreani",
+      "codigo_seguimiento": "ARDD40F20BB-",
+      "created_at": "2026-10-01T00:33:19.672972Z"
+    },
+    {
+      "id": "94c72dbe-291a-40b3-9815-ad0f3ef8788c",
+      "numero": "DUAL-94C72D",
+      "username": "cliente_dual",
+      "display_name": "Cliente DUAL",
+      "item": {
+        "product_id": 125,
+        "nombre": "Jean Negro",
+        "color_media": "#1a1a1a",
+        "imagen": "/static/img/dual/productos/125.jpg?v=1790813980",
+        "talla": "36",
+        "color": "Negro",
+        "cantidad": 1,
+        "precio_unitario": 25990,
+        "subtotal": 25990
+      },
+      "envio_costo": 1990,
+      "total": 27980,
+      "envio": {
+        "nombre": "juan",
+        "email": "bel@gmail.com",
+        "telefono": "8995492395",
+        "codigo_postal": "4243",
+        "provincia": "buenos aires",
+        "localidad": "mar de l tuyu",
+        "calle": "4",
+        "numero": "3838",
+        "piso": "3498493"
+      },
+      "metodo_pago": "transferencia",
+      "estado": "en_camino",
+      "paso_actual": 1,
+      "transportista": "Andreani",
+      "codigo_seguimiento": "ARD94C72DBE-",
+      "created_at": "2026-10-01T00:35:20.935737Z"
     }
   ],
   "inmo_contacts": [
